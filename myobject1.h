@@ -4,6 +4,7 @@
 #include <QObject>
 //#include <QBluetoothSocket>
 #include <QLowEnergyController>
+#include <QAbstractItemModel>
 #include "myappgui.h"
 
 
@@ -11,6 +12,8 @@
 class MyObject1 : public QObject
 {
     Q_OBJECT
+
+    //Q_PROPERTY(QAbstractItemModel *myModel READ model NOTIFY modelChanged)
 
     //Song
     Q_PROPERTY(QString SongName READ getSongName NOTIFY SongChanged)
@@ -88,6 +91,7 @@ signals:
     void recdBLEdata(QByteArray);
     void SongChanged(void);
     void ConfigChanged(void);
+    void modelChanged(void);
 
 public slots:
     void addService(QBluetoothUuid);
@@ -96,6 +100,8 @@ public slots:
     void writeData(QByteArray);
     void bleConnected();
     void bleServiceChanged(QLowEnergyService::ServiceState);
+
+    //QAbstractItemModel* model(void) const;
 
     //Song Data
     QString getSongName(void) const;

@@ -42,6 +42,7 @@
 #include <QtQuick/QQuickView>
 #include <QtQml/QQmlEngine>
 #include <QtCore/QLoggingCategory>
+#include <QtQml/QQmlContext>
 #include "myobject1.h"
 
 int main(int argc, char *argv[])
@@ -49,11 +50,13 @@ int main(int argc, char *argv[])
     //QLoggingCategory::setFilterRules(QStringLiteral("qt.bluetooth* = true"));
     QGuiApplication application(argc, argv);
 
-    //SJR
-    qmlRegisterType<MyObject1>("com.myself", 1, 0, "MyObject1");
-
     const QString mainQmlApp(QStringLiteral("qrc:/scanner.qml"));
     QQuickView view;
+
+    //SJR - expose MY STUFF to the QML files
+    MyObject1 myObject;
+    view.engine()->rootContext()->setContextProperty("theObject", &myObject);
+
     view.setSource(QUrl(mainQmlApp));
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     // Qt.quit() called in embedded .qml by default only emits

@@ -3,7 +3,7 @@ SOURCES += qmlscanner.cpp \
     myobject1.cpp \
     myappgui.cpp
 
-TARGET = qml_scanner
+TARGET = ControlFreek
 TEMPLATE = app
 
 RESOURCES += \

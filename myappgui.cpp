@@ -7,24 +7,6 @@
 MyAppGui::MyAppGui()
 {
 
-    //bleComm = this->parent();
-
-    //bleComm->getReadData(m_bleRecvData);
-
-    //qDebug() << m_bleRecvData;
-    //QString packet(m_bleRecvData);
-    //qDebug() << packet;
-
-    //Open a Window from C++ code in QT?!?!?  HAHAHAHAHAHAHAHAHAHAHA
-    //Why would anyone want their program to be able to DO anything useful??  Goddamn software engineers.. first ones against the wall when the revolution comes!
-    //only if first you initiate an event which can signal into the proper slot and run a function in the goddamn GUI .xml file! We wouldn't want to run code in the .cpp file - that's actually the biggest problem with C++: running code with it.
-    //WTF Qt??  Try to make it MORE complicated.  I need MORE steps for something so simple like displaying a new window.
-    //C++ is DEAD!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  Let it rest.
-    //Qt is like programming a fucking zombie.
-
-    //so we'll use the console for now
-    //connect(bleComm, SIGNAL(recdBLEdata(QByteArray)), this, SLOT(parseInData()) );
-
     lastSong = -1; //force loading the first song # read in Status
 
     m_mode = MODE_IDLE;

@@ -41,7 +41,6 @@
 
 import QtQuick 2.0
 import QtBluetooth 5.2
-import com.myself 1.0
 
 
 Item
@@ -75,14 +74,6 @@ Item
                 }
         }
    }
-
-
-    //SJR
-    MyObject1
-    {
-       id: myobject1
-
-    }
 
 
     Rectangle {
@@ -216,7 +207,7 @@ Item
                             onClicked:
                             {
                                 btDelegate.expended = !btDelegate.expended
-                                myobject1.foo(remoteAddress, deviceName);
+                                theObject.foo(remoteAddress, deviceName);
                                 songview.visible=true;
                                 //mainList.visible=false;
                                 //buttonGroup.visible = false;
@@ -304,7 +295,7 @@ Item
                     TextInput
                     {
                         id: textBacklightMain
-                        text: myobject1.BacklightMain
+                        text: theObject.BacklightMain
                         anchors.left: text1.right
                         y:text1.y
                         width: 150
@@ -316,7 +307,7 @@ Item
                         wrapMode: TextInput.NoWrap
                         onTextChanged:
                         {
-                            myobject1.onMainBacklightChanged(textBacklightMain.text);
+                            theObject.onMainBacklightChanged(textBacklightMain.text);
                         }
                     }
                     Text
@@ -330,7 +321,7 @@ Item
                     TextInput
                     {
                         id: textCurrentSong
-                        text: myobject1.currentSong
+                        text: theObject.currentSong
                         anchors.left: text2.right
                         y:text2.y
                         width: 150
@@ -342,7 +333,7 @@ Item
                         wrapMode: TextInput.NoWrap
                         onTextChanged:
                         {
-                            myobject1.onCurrentSongChanged(textCurrentSong.text);
+                            theObject.onCurrentSongChanged(textCurrentSong.text);
                         }
                     }
                     Text
@@ -356,7 +347,7 @@ Item
                     TextInput
                     {
                         id: textLoop1Name
-                        text: myobject1.LoopName1
+                        text: theObject.LoopName1
                         anchors.left: textLabelLoop1.right
                         y:textLabelLoop1.y
                         width: 150
@@ -368,7 +359,7 @@ Item
                         wrapMode: TextInput.NoWrap
                         onTextChanged:
                         {
-                            myobject1.onLoopName1Changed(textLoop1Name.text);
+                            theObject.onLoopName1Changed(textLoop1Name.text);
                         }
                     }
                     Text
@@ -382,7 +373,7 @@ Item
                     TextInput
                     {
                         id: textLoop2Name
-                        text: myobject1.LoopName2
+                        text: theObject.LoopName2
                         anchors.left: textLabelLoop2.right
                         y:textLabelLoop2.y
                         width: 150
@@ -394,7 +385,7 @@ Item
                         wrapMode: TextInput.NoWrap
                         onTextChanged:
                         {
-                            myobject1.onLoopName2Changed(textLoop2Name.text);
+                            theObject.onLoopName2Changed(textLoop2Name.text);
                         }
                     }
                     Text
@@ -408,7 +399,7 @@ Item
                     TextInput
                     {
                         id: textLoop3Name
-                        text: myobject1.LoopName3
+                        text: theObject.LoopName3
                         anchors.left: textLabelLoop3.right
                         y:textLabelLoop3.y
                         width: 150
@@ -420,7 +411,7 @@ Item
                         wrapMode: TextInput.NoWrap
                         onTextChanged:
                         {
-                            myobject1.onLoopName3Changed(textLoop3Name.text);
+                            theObject.onLoopName3Changed(textLoop3Name.text);
                         }
                     }
                     Text
@@ -434,7 +425,7 @@ Item
                     TextInput
                     {
                         id: textLoop4Name
-                        text: myobject1.LoopName4
+                        text: theObject.LoopName4
                         anchors.left: textLabelLoop4.right
                         y:textLabelLoop4.y
                         width: 150
@@ -446,7 +437,7 @@ Item
                         wrapMode: TextInput.NoWrap
                         onTextChanged:
                         {
-                            myobject1.onLoopName4Changed(textLoop4Name.text);
+                            theObject.onLoopName4Changed(textLoop4Name.text);
                         }
                     }
                     Text
@@ -460,7 +451,7 @@ Item
                     TextInput
                     {
                         id: textLoop5Name
-                        text: myobject1.LoopName5
+                        text: theObject.LoopName5
                         anchors.left: textLabelLoop5.right
                         y:textLabelLoop5.y
                         width: 150
@@ -472,7 +463,7 @@ Item
                         wrapMode: TextInput.NoWrap
                         onTextChanged:
                         {
-                            myobject1.onLoopName5Changed(textLoop5Name.text);
+                            theObject.onLoopName5Changed(textLoop5Name.text);
                         }
                     }
                     Text
@@ -486,7 +477,7 @@ Item
                     TextInput
                     {
                         id: textLoop6Name
-                        text: myobject1.LoopName6
+                        text: theObject.LoopName6
                         anchors.left: textLabelLoop6.right
                         y:textLabelLoop6.y
                         width: 150
@@ -498,7 +489,7 @@ Item
                         wrapMode: TextInput.NoWrap
                         onTextChanged:
                         {
-                            myobject1.onLoopName6Changed(textLoop6Name.text);
+                            theObject.onLoopName6Changed(textLoop6Name.text);
                         }
                     }
                     Text
@@ -512,7 +503,7 @@ Item
                     TextInput
                     {
                         id: textLoop7Name
-                        text: myobject1.LoopName7
+                        text: theObject.LoopName7
                         anchors.left: textLabelLoop7.right
                         y:textLabelLoop7.y
                         width: 150
@@ -524,7 +515,7 @@ Item
                         wrapMode: TextInput.NoWrap
                         onTextChanged:
                         {
-                            myobject1.onLoopName7Changed(textLoop7Name.text);
+                            theObject.onLoopName7Changed(textLoop7Name.text);
                         }
                     }
 
@@ -539,7 +530,7 @@ Item
                     TextInput
                     {
                         id: textNameFsw1
-                        text: myobject1.FswName1
+                        text: theObject.FswName1
                         anchors.left: textLabelFsw1.right
                         y:textLabelFsw1.y
                         width: 150
@@ -551,7 +542,7 @@ Item
                         wrapMode: TextInput.NoWrap
                         onTextChanged:
                         {
-                            myobject1.onFswName1Changed(textNameFsw1.text);
+                            theObject.onFswName1Changed(textNameFsw1.text);
                         }
                     }
                     Text
@@ -565,7 +556,7 @@ Item
                     TextInput
                     {
                         id: textNameFsw2
-                        text: myobject1.FswName2
+                        text: theObject.FswName2
                         anchors.left: textLabelFsw2.right
                         y:textLabelFsw2.y
                         width: 150
@@ -577,7 +568,7 @@ Item
                         wrapMode: TextInput.NoWrap
                         onTextChanged:
                         {
-                            myobject1.onFswName2Changed(textNameFsw2.text);
+                            theObject.onFswName2Changed(textNameFsw2.text);
                         }
                     }
                     Text
@@ -591,7 +582,7 @@ Item
                     TextInput
                     {
                         id: textNameFsw3
-                        text: myobject1.FswName3
+                        text: theObject.FswName3
                         anchors.left: textLabelFsw3.right
                         y:textLabelFsw3.y
                         width: 150
@@ -603,7 +594,7 @@ Item
                         wrapMode: TextInput.NoWrap
                         onTextChanged:
                         {
-                            myobject1.onFswName3Changed(textNameFsw3.text);
+                            theObject.onFswName3Changed(textNameFsw3.text);
                         }
                     }
                     Text
@@ -617,7 +608,7 @@ Item
                     TextInput
                     {
                         id: textNameFsw4
-                        text: myobject1.FswName4
+                        text: theObject.FswName4
                         anchors.left: textLabelFsw4.right
                         y:textLabelFsw4.y
                         width: 150
@@ -629,7 +620,7 @@ Item
                         wrapMode: TextInput.NoWrap
                         onTextChanged:
                         {
-                            myobject1.onFswName4Changed(textNameFsw4.text);
+                            theObject.onFswName4Changed(textNameFsw4.text);
                         }
                     }
                     Text
@@ -643,7 +634,7 @@ Item
                     TextInput
                     {
                         id: textNameFsw5
-                        text: myobject1.FswName5
+                        text: theObject.FswName5
                         anchors.left: textLabelFsw5.right
                         y:textLabelFsw5.y
                         width: 150
@@ -655,7 +646,7 @@ Item
                         wrapMode: TextInput.NoWrap
                         onTextChanged:
                         {
-                            myobject1.onFswName5Changed(textNameFsw5.text);
+                            theObject.onFswName5Changed(textNameFsw5.text);
                         }
 
 
@@ -671,7 +662,7 @@ Item
                     TextInput
                     {
                         id: textNameFsw6
-                        text: myobject1.FswName6
+                        text: theObject.FswName6
                         anchors.left: textLabelFsw6.right
                         y:textLabelFsw6.y
                         width: 150
@@ -683,7 +674,7 @@ Item
                         wrapMode: TextInput.NoWrap
                         onTextChanged:
                         {
-                            myobject1.onFswName6Changed(textNameFsw6.text);
+                            theObject.onFswName6Changed(textNameFsw6.text);
                         }
                     }
 
@@ -698,7 +689,7 @@ Item
                     TextInput
                     {
                         id: textNameAux1
-                        text: myobject1.AuxName1
+                        text: theObject.AuxName1
                         anchors.left: textLabelAux1.right
                         y:textLabelAux1.y
                         width: 150
@@ -710,7 +701,7 @@ Item
                         wrapMode: TextInput.NoWrap
                         onTextChanged:
                         {
-                            myobject1.onAuxName1Changed(textNameAux1.text);
+                            theObject.onAuxName1Changed(textNameAux1.text);
                         }
                     }
                     Text
@@ -724,7 +715,7 @@ Item
                     TextInput
                     {
                         id: textNameAux2
-                        text: myobject1.AuxName2
+                        text: theObject.AuxName2
                         anchors.left: textLabelAux2.right
                         y:textLabelAux2.y
                         width: 150
@@ -736,7 +727,7 @@ Item
                         wrapMode: TextInput.NoWrap
                         onTextChanged:
                         {
-                            myobject1.onAuxName2Changed(textNameAux2.text);
+                            theObject.onAuxName2Changed(textNameAux2.text);
                         }
                     }
                     Text
@@ -750,7 +741,7 @@ Item
                     TextInput
                     {
                         id: textNameAux3
-                        text: myobject1.AuxName3
+                        text: theObject.AuxName3
                         anchors.left: textLabelAux3.right
                         y:textLabelAux3.y
                         width: 150
@@ -762,7 +753,7 @@ Item
                         wrapMode: TextInput.NoWrap
                         onTextChanged:
                         {
-                            myobject1.onAuxName3Changed(textNameAux3.text);
+                            theObject.onAuxName3Changed(textNameAux3.text);
                         }
                     }
                     Text
@@ -776,7 +767,7 @@ Item
                     TextInput
                     {
                         id: textNameAux4
-                        text: myobject1.AuxName4
+                        text: theObject.AuxName4
                         anchors.left: textLabelAux4.right
                         y:textLabelAux4.y
                         width: 150
@@ -788,7 +779,7 @@ Item
                         wrapMode: TextInput.NoWrap
                         onTextChanged:
                         {
-                            myobject1.onAuxName4Changed(textNameAux4.text);
+                            theObject.onAuxName4Changed(textNameAux4.text);
                         }
                     }
 
@@ -802,7 +793,7 @@ Item
                         height: 80
                         text: "Update Settings"
                         visible: true
-                        onClicked: myobject1.updateConfigDevice()
+                        onClicked: theObject.updateConfigDevice()
                     }
                 }
 
@@ -831,7 +822,7 @@ Item
                             id: textLabelSongTitle
                             x:20
                             y:0
-                            text: qsTr("SONG INFO for #") +  qsTr(myobject1.currentSong)
+                            text: qsTr("SONG INFO for #") +  qsTr(theObject.currentSong)
                             font.pixelSize: 20
                             font.bold: true
                             font.underline: true
@@ -847,7 +838,7 @@ Item
                         TextInput
                         {
                             id: textSongName
-                            text: myobject1.SongName
+                            text: theObject.SongName
                             y:textLabelSongName.y+20
                             x:5
                             width: songview.width-10
@@ -861,7 +852,7 @@ Item
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
                             {
-                                myobject1.onSongNameChanged(textSongName.text);
+                                theObject.onSongNameChanged(textSongName.text);
                             }
                         }
                         Text
@@ -875,7 +866,7 @@ Item
                         TextInput
                         {
                             id: textPartName
-                            text: myobject1.PartName
+                            text: theObject.PartName
                             y:textLabelPartName.y+20
                             x:13
                             width: top.width-10
@@ -886,7 +877,7 @@ Item
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
                             {
-                                myobject1.onSongPartNameChanged(textPartName.text);
+                                theObject.onSongPartNameChanged(textPartName.text);
                             }
                         }
 
@@ -901,7 +892,7 @@ Item
                         TextInput
                         {
                             id: textMidiMsg1
-                            text: myobject1.MidiMsg1
+                            text: theObject.MidiMsg1
                             y:textLabelMidiMsg1.y
                             anchors.left: textLabelMidiMsg1.right
                             width: top.width-10
@@ -912,7 +903,7 @@ Item
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
                             {
-                                myobject1.onMidiMsg1Changed(textMidiMsg1.text);
+                                theObject.onMidiMsg1Changed(textMidiMsg1.text);
                             }
                         }
 
@@ -927,7 +918,7 @@ Item
                         TextInput
                         {
                             id: textMidiMsg2
-                            text: myobject1.MidiMsg2
+                            text: theObject.MidiMsg2
                             y:textLabelMidiMsg2.y
                             anchors.left: textLabelMidiMsg2.right
                             width: top.width-10
@@ -938,7 +929,7 @@ Item
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
                             {
-                                myobject1.onMidiMsg2Changed(textMidiMsg2.text);
+                                theObject.onMidiMsg2Changed(textMidiMsg2.text);
                             }
                         }
 
@@ -953,7 +944,7 @@ Item
                         TextInput
                         {
                             id: textMidiMsg3
-                            text: myobject1.MidiMsg3
+                            text: theObject.MidiMsg3
                             y:textLabelMidiMsg3.y
                             anchors.left: textLabelMidiMsg3.right
                             width: top.width-10
@@ -964,7 +955,7 @@ Item
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
                             {
-                                myobject1.onMidiMsg3Changed(textMidiMsg3.text);
+                                theObject.onMidiMsg3Changed(textMidiMsg3.text);
                             }
                         }
 
@@ -979,7 +970,7 @@ Item
                         TextInput
                         {
                             id: textMidiMsg4
-                            text: myobject1.MidiMsg4
+                            text: theObject.MidiMsg4
                             y:textLabelMidiMsg4.y
                             anchors.left: textLabelMidiMsg4.right
                             width: top.width-10
@@ -990,7 +981,7 @@ Item
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
                             {
-                                myobject1.onMidiMsg4Changed(textMidiMsg4.text);
+                                theObject.onMidiMsg4Changed(textMidiMsg4.text);
                             }
                         }
 
@@ -1005,7 +996,7 @@ Item
                         TextInput
                         {
                             id: textMidiMode
-                            text: myobject1.MidiMode
+                            text: theObject.MidiMode
                             y:textLabelMidiMode.y
                             anchors.left: textLabelMidiMode.right
                             width: top.width-10
@@ -1016,7 +1007,7 @@ Item
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
                             {
-                                myobject1.onMidiModeChanged(textMidiMode.text);
+                                theObject.onMidiModeChanged(textMidiMode.text);
                             }
                         }
                         Text
@@ -1030,7 +1021,7 @@ Item
                         TextInput
                         {
                             id: textSongFsw
-                            text: myobject1.FswSongConfig
+                            text: theObject.FswSongConfig
                             y:textLabelSongFsw.y
                             anchors.left: textLabelSongFsw.right
                             width: top.width-10
@@ -1041,7 +1032,7 @@ Item
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
                             {
-                                myobject1.onSongFswChanged(textSongFsw.text);
+                                theObject.onSongFswChanged(textSongFsw.text);
                             }
                         }
                         Text
@@ -1055,7 +1046,7 @@ Item
                         TextInput
                         {
                             id: textSongBacklight
-                            text: myobject1.SongBacklight
+                            text: theObject.SongBacklight
                             y:textLabelSongBacklight.y
                             anchors.left: textLabelSongBacklight.right
                             width: top.width-10
@@ -1066,7 +1057,7 @@ Item
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
                             {
-                                myobject1.onSongBacklightChanged(textSongBacklight.text);
+                                theObject.onSongBacklightChanged(textSongBacklight.text);
                             }
                         }
 
@@ -1081,7 +1072,7 @@ Item
                         TextInput
                         {
                             id: textTrickMode
-                            text: myobject1.TrickMode
+                            text: theObject.TrickMode
                             y:textLabelTrickMode.y
                             anchors.left: textLabelTrickMode.right
                             width: top.width-10
@@ -1092,7 +1083,7 @@ Item
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
                             {
-                                myobject1.onTrickModeChanged(textTrickMode.text);
+                                theObject.onTrickModeChanged(textTrickMode.text);
                             }
                         }
 
@@ -1107,7 +1098,7 @@ Item
                         TextInput
                         {
                             id: textTrickData
-                            text: myobject1.TrickData
+                            text: theObject.TrickData
                             y:textLabelTrickData.y
                             anchors.left: textLabelTrickData.right
                             width: top.width-10
@@ -1118,7 +1109,7 @@ Item
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
                             {
-                                myobject1.onTrickDataChanged(textTrickData.text);
+                                theObject.onTrickDataChanged(textTrickData.text);
                             }
                         }
 
@@ -1133,7 +1124,7 @@ Item
                         TextInput
                         {
                             id: textMatrix0
-                            text: myobject1.Matrix0
+                            text: theObject.Matrix0
                             y:textLabelMatrix0.y
                             anchors.left: textLabelMatrix0.right
                             width: top.width-10
@@ -1144,7 +1135,7 @@ Item
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
                             {
-                                myobject1.onMatrix0Changed(textMatrix0.text);
+                                theObject.onMatrix0Changed(textMatrix0.text);
                             }
                         }
                         Text
@@ -1158,7 +1149,7 @@ Item
                         TextInput
                         {
                             id: textMatrix1
-                            text: myobject1.Matrix1
+                            text: theObject.Matrix1
                             y:textLabelMatrix1.y
                             anchors.left: textLabelMatrix1.right
                             width: top.width-10
@@ -1169,7 +1160,7 @@ Item
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
                             {
-                                myobject1.onMatrix1Changed(textMatrix1.text);
+                                theObject.onMatrix1Changed(textMatrix1.text);
                             }
                         }
                         Text
@@ -1183,7 +1174,7 @@ Item
                         TextInput
                         {
                             id: textMatrix2
-                            text: myobject1.Matrix2
+                            text: theObject.Matrix2
                             y:textLabelMatrix2.y
                             anchors.left: textLabelMatrix2.right
                             width: top.width-10
@@ -1194,7 +1185,7 @@ Item
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
                             {
-                                myobject1.onMatrix2Changed(textMatrix2.text);
+                                theObject.onMatrix2Changed(textMatrix2.text);
                             }
                         }
                         Text
@@ -1208,7 +1199,7 @@ Item
                         TextInput
                         {
                             id: textMatrix3
-                            text: myobject1.Matrix3
+                            text: theObject.Matrix3
                             y:textLabelMatrix3.y
                             anchors.left: textLabelMatrix3.right
                             width: top.width-10
@@ -1219,7 +1210,7 @@ Item
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
                             {
-                                myobject1.onMatrix3Changed(textMatrix3.text);
+                                theObject.onMatrix3Changed(textMatrix3.text);
                             }
                         }
                         Text
@@ -1233,7 +1224,7 @@ Item
                         TextInput
                         {
                             id: textMatrix4
-                            text: myobject1.Matrix4
+                            text: theObject.Matrix4
                             y:textLabelMatrix4.y
                             anchors.left: textLabelMatrix4.right
                             width: top.width-10
@@ -1244,7 +1235,7 @@ Item
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
                             {
-                                myobject1.onMatrix4Changed(textMatrix4.text);
+                                theObject.onMatrix4Changed(textMatrix4.text);
                             }
                         }
                         Text
@@ -1258,7 +1249,7 @@ Item
                         TextInput
                         {
                             id: textMatrix5
-                            text: myobject1.Matrix5
+                            text: theObject.Matrix5
                             y:textLabelMatrix5.y
                             anchors.left: textLabelMatrix5.right
                             width: top.width-10
@@ -1269,7 +1260,7 @@ Item
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
                             {
-                                myobject1.onMatrix5Changed(textMatrix5.text);
+                                theObject.onMatrix5Changed(textMatrix5.text);
                             }
                         }
                         Text
@@ -1283,7 +1274,7 @@ Item
                         TextInput
                         {
                             id: textMatrix6
-                            text: myobject1.Matrix6
+                            text: theObject.Matrix6
                             y:textLabelMatrix6.y
                             anchors.left: textLabelMatrix6.right
                             width: top.width-10
@@ -1294,7 +1285,7 @@ Item
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
                             {
-                                myobject1.onMatrix6Changed(textMatrix6.text);
+                                theObject.onMatrix6Changed(textMatrix6.text);
                             }
                         }
                         Text
@@ -1308,7 +1299,7 @@ Item
                         TextInput
                         {
                             id: textMatrix7
-                            text: myobject1.Matrix7
+                            text: theObject.Matrix7
                             y:textLabelMatrix7.y
                             anchors.left: textLabelMatrix7.right
                             width: top.width-10
@@ -1319,7 +1310,7 @@ Item
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
                             {
-                                myobject1.onMatrix7Changed(textMatrix7.text);
+                                theObject.onMatrix7Changed(textMatrix7.text);
                             }
                         }
                         Text
@@ -1333,7 +1324,7 @@ Item
                         TextInput
                         {
                             id: textMatrix8
-                            text: myobject1.Matrix8
+                            text: theObject.Matrix8
                             y:textLabelMatrix8.y
                             anchors.left: textLabelMatrix8.right
                             width: top.width-10
@@ -1344,7 +1335,7 @@ Item
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
                             {
-                                myobject1.onMatrix8Changed(textMatrix8.text);
+                                theObject.onMatrix8Changed(textMatrix8.text);
                             }
                         }
                         Text
@@ -1358,7 +1349,7 @@ Item
                         TextInput
                         {
                             id: textMatrix9
-                            text: myobject1.Matrix9
+                            text: theObject.Matrix9
                             y:textLabelMatrix9.y
                             anchors.left: textLabelMatrix9.right
                             width: top.width-10
@@ -1369,7 +1360,7 @@ Item
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
                             {
-                                myobject1.onMatrix9Changed(textMatrix9.text);
+                                theObject.onMatrix9Changed(textMatrix9.text);
                             }
                         }
                         Text
@@ -1383,7 +1374,7 @@ Item
                         TextInput
                         {
                             id: textMatrix10
-                            text: myobject1.Matrix10
+                            text: theObject.Matrix10
                             y:textLabelMatrix10.y
                             anchors.left: textLabelMatrix10.right
                             width: top.width-10
@@ -1394,7 +1385,7 @@ Item
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
                             {
-                                myobject1.onMatrix10Changed(textMatrix10.text);
+                                theObject.onMatrix10Changed(textMatrix10.text);
                             }
                         }
                         Text
@@ -1408,7 +1399,7 @@ Item
                         TextInput
                         {
                             id: textMatrix11
-                            text: myobject1.Matrix11
+                            text: theObject.Matrix11
                             y:textLabelMatrix11.y
                             anchors.left: textLabelMatrix11.right
                             width: top.width-10
@@ -1419,7 +1410,7 @@ Item
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
                             {
-                                myobject1.onMatrix11Changed(textMatrix11.text);
+                                theObject.onMatrix11Changed(textMatrix11.text);
                             }
                         }
 
@@ -1433,7 +1424,7 @@ Item
                             height: 80
                             text: "Previous Song"
                             visible: true
-                            onClicked: myobject1.selectPreviousSong()
+                            onClicked: theObject.selectPreviousSong()
                         }
                         Button
                         {
@@ -1446,7 +1437,7 @@ Item
                             height: 80
                             text: "Update Song"
                             visible: true
-                            onClicked: myobject1.updateSongDevice()
+                            onClicked: theObject.updateSongDevice()
                         }
                         Button
                         {
@@ -1458,7 +1449,7 @@ Item
                             height: 80
                             text: "Next Song"
                             visible: true
-                            onClicked: myobject1.selectNextSong()
+                            onClicked: theObject.selectNextSong()
                         }
                     }
                 }

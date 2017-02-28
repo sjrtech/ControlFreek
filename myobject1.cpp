@@ -13,6 +13,7 @@ void MyObject1::foo(QString MAC, QString name)
     QBluetoothAddress macAddr = QBluetoothAddress(MAC);
     QBluetoothDeviceInfo remoteDevice(macAddr, name, 0);
 
+
     // new QLowEnergyController(this);
     bleCentral = QLowEnergyController::createCentral(remoteDevice, this);//->connectToDevice();
     bleCentral->connectToDevice();
