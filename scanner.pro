@@ -23,4 +23,5 @@ HEADERS += \
     myobject1.h \
     myappgui.h
 
-DISTFILES +=
+DISTFILES += \
+    ../../../../media/scuba/A002BED402BEAEA2/Documents and Settings/scuba/My Documents/sjrtech/PedalController/pics/ads/ad_whiteboard.jpg
