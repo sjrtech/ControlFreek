@@ -261,7 +261,7 @@ Item
             Rectangle
             {
                 // ////////////////////////////////////////////////////////////////////////
-                // Breakout box config SCREEN
+                // Breakout box SCREENS
                 border.width: 1
                 width: 320
                 height: 640
@@ -1118,7 +1118,7 @@ Item
                             id: textLabelMatrix0
                             x:10
                             y:textTrickData.y+20
-                            text: qsTr("Matrix 0: ")
+                            text: qsTr("Main out:")//"trix 0: ")
                             font.pixelSize: 12
                         }
                         TextInput
@@ -1143,7 +1143,7 @@ Item
                             id: textLabelMatrix1
                             x:10
                             y:textMatrix0.y+18
-                            text: qsTr("Matrix 1: ")
+                            text: textLoop1Name.text//qsTr("Matrix 1: ")
                             font.pixelSize: 12
                         }
                         TextInput
