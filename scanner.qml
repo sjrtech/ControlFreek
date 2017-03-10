@@ -279,7 +279,7 @@ Item
                         id: textLabelSettingsTitle
                         x:40
                         y:0
-                        text: qsTr("SYSTEM INFO ")
+                        text: qsTr("SYSTEM INFO v0.1")
                         font.pixelSize: 20
                         font.bold: true
                         font.underline: true
