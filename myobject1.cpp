@@ -192,14 +192,13 @@ void MyObject1::selectPreviousSong(void)
 
 QString MyObject1::getSongName(void) const
 {
-    QString str = "not this!!";
+    QString str = "Loading..";
     if(myApp)
     {
-        str = QString(QByteArray((char*)myApp->ramSong.name));
-    }
-    else
-    {
-        str = "Loading...";
+        if(myApp->isInitialized == 1)
+        {
+            str = QString(QByteArray((char*)myApp->ramSong.name));
+        }
     }
     return str;
 }
@@ -207,23 +206,25 @@ void MyObject1::onSongNameChanged(QString str)
 {
     if(myApp)
     {
-        QByteArray array = str.toLocal8Bit();
-        char* buffer = array.data();
-        buffer[str.length()] = 0;   //ensure it ends with NULL
-        strcpy((char*)myApp->ramSong.name, buffer );
+        if(myApp->isInitialized == 1)
+        {
+            QByteArray array = str.toLocal8Bit();
+            char* buffer = array.data();
+            buffer[str.length()] = 0;   //ensure it ends with NULL
+            strcpy((char*)myApp->ramSong.name, buffer );
+        }
     }
 }
 
 QString MyObject1::getPartName(void) const
 {
-    QString str = "not this!!";
+    QString str = "";
     if(myApp)
     {
-        str = QString(QByteArray((char*)myApp->ramSong.partname));
-    }
-    else
-    {
-        str = "";
+        if(myApp->isInitialized == 1)
+        {
+            str = QString(QByteArray((char*)myApp->ramSong.partname));
+        }
     }
     return str;
 }
@@ -231,24 +232,26 @@ void MyObject1::onSongPartNameChanged(QString str)
 {
     if(myApp)
     {
-        QByteArray array = str.toLocal8Bit();
-        char* buffer = array.data();
-        buffer[str.length()] = 0;   //ensure it ends with NULL
-        strcpy((char*)myApp->ramSong.partname, buffer );
+        if(myApp->isInitialized == 1)
+        {
+            QByteArray array = str.toLocal8Bit();
+            char* buffer = array.data();
+            buffer[str.length()] = 0;   //ensure it ends with NULL
+            strcpy((char*)myApp->ramSong.partname, buffer );
+        }
     }
 }
 
 QString MyObject1::getMidiMsg1(void) const
 {
-    QString str = "not this!!";
+    QString str = "";
     if(myApp)
     {
-        QString temp = QString(QByteArray((char*)myApp->ramSong.midiMessage1));
-        str = temp.mid(0, 2);
-    }
-    else
-    {
-        str = "";
+        if(myApp->isInitialized == 1)
+        {
+            QString temp = QString(QByteArray((char*)myApp->ramSong.midiMessage1));
+            str = temp.mid(0, 2);
+        }
     }
     return str;
 }
@@ -256,23 +259,25 @@ void MyObject1::onMidiMsg1Changed(QString str)
 {
     if(myApp)
     {
-        QByteArray array = str.toLocal8Bit();
-        char* buffer = array.data();
-        buffer[SIZE_OF_MIDI_MSG] = 0; //force to size of MIDI msg
-        strcpy((char*)myApp->ramSong.midiMessage1, buffer );
+        if(myApp->isInitialized == 1)
+        {
+            QByteArray array = str.toLocal8Bit();
+            char* buffer = array.data();
+            buffer[SIZE_OF_MIDI_MSG] = 0; //force to size of MIDI msg
+            strcpy((char*)myApp->ramSong.midiMessage1, buffer );
+        }
     }
 }
 QString MyObject1::getMidiMsg2(void) const
 {
-    QString str = "not this!!";
+    QString str = "";
     if(myApp)
     {
-        QString temp = QString(QByteArray((char*)myApp->ramSong.midiMessage2));
-        str = temp.mid(0, 2);
-    }
-    else
-    {
-        str = "";
+        if(myApp->isInitialized == 1)
+        {
+            QString temp = QString(QByteArray((char*)myApp->ramSong.midiMessage2));
+            str = temp.mid(0, 2);
+        }
     }
     return str;
 }
@@ -280,47 +285,52 @@ void MyObject1::onMidiMsg2Changed(QString str)
 {
     if(myApp)
     {
-        QByteArray array = str.toLocal8Bit();
-        char* buffer = array.data();
-        buffer[SIZE_OF_MIDI_MSG] = 0; //force to size of MIDI msg
-        strcpy((char*)myApp->ramSong.midiMessage2, buffer );
+        if(myApp->isInitialized == 1)
+        {
+            QByteArray array = str.toLocal8Bit();
+            char* buffer = array.data();
+            buffer[SIZE_OF_MIDI_MSG] = 0; //force to size of MIDI msg
+            strcpy((char*)myApp->ramSong.midiMessage2, buffer );
+        }
     }
 }
 QString MyObject1::getMidiMsg3(void) const
 {
-    QString str = "not this!!";
+    QString str = "";
     if(myApp)
     {
-        QString temp = QString(QByteArray((char*)myApp->ramSong.midiMessage3));
-        str = temp.mid(0, 2);
-    }
-    else
-    {
-        str = "";
+        if(myApp->isInitialized == 1)
+        {
+            QString temp = QString(QByteArray((char*)myApp->ramSong.midiMessage3));
+            str = temp.mid(0, 2);
+        }
     }
     return str;
+
 }
 void MyObject1::onMidiMsg3Changed(QString str)
 {
     if(myApp)
     {
-        QByteArray array = str.toLocal8Bit();
-        char* buffer = array.data();
-        buffer[SIZE_OF_MIDI_MSG] = 0; //force to size of MIDI msg
-        strcpy((char*)myApp->ramSong.midiMessage3, buffer );
+        if(myApp->isInitialized == 1)
+        {
+            QByteArray array = str.toLocal8Bit();
+            char* buffer = array.data();
+            buffer[SIZE_OF_MIDI_MSG] = 0; //force to size of MIDI msg
+            strcpy((char*)myApp->ramSong.midiMessage3, buffer );
+        }
     }
 }
 QString MyObject1::getMidiMsg4(void) const
 {
-    QString str = "not this!!";
+    QString str = "";
     if(myApp)
     {
-        QString temp = QString(QByteArray((char*)myApp->ramSong.midiMessage4));
-        str = temp.mid(0, 2);
-    }
-    else
-    {
-        str = "";
+        if(myApp->isInitialized == 1)
+        {
+            QString temp = QString(QByteArray((char*)myApp->ramSong.midiMessage4));
+            str = temp.mid(0, 2);
+        }
     }
     return str;
 }
@@ -328,10 +338,13 @@ void MyObject1::onMidiMsg4Changed(QString str)
 {
     if(myApp)
     {
-        QByteArray array = str.toLocal8Bit();
-        char* buffer = array.data();
-        buffer[SIZE_OF_MIDI_MSG] = 0; //force to size of MIDI msg
-        strcpy((char*)myApp->ramSong.midiMessage4, buffer );
+        if(myApp->isInitialized == 1)
+        {
+            QByteArray array = str.toLocal8Bit();
+            char* buffer = array.data();
+            buffer[SIZE_OF_MIDI_MSG] = 0; //force to size of MIDI msg
+            strcpy((char*)myApp->ramSong.midiMessage4, buffer );
+        }
     }
 }
 
@@ -340,9 +353,12 @@ QString MyObject1::getMidiMode(void) const
     QString str = "";
     if(myApp)
     {
-        char c[10];
-        sprintf(c,"%d", myApp->ramSong.midiMsgMode);
-        str = QString(c);
+        if(myApp->isInitialized == 1)
+        {
+            char c[10];
+            sprintf(c,"%d", myApp->ramSong.midiMsgMode);
+            str = QString(c);
+        }
     }
     return str;
 }
@@ -350,8 +366,11 @@ void MyObject1::onMidiModeChanged(QString str)
 {
     if(myApp)
     {
-        int val = str.toInt();
-        myApp->ramSong.midiMsgMode = val;
+        if(myApp->isInitialized == 1)
+        {
+            int val = str.toInt();
+            myApp->ramSong.midiMsgMode = val;
+        }
     }
 }
 QString MyObject1::getFswSongConfig(void) const
@@ -359,9 +378,12 @@ QString MyObject1::getFswSongConfig(void) const
     QString str = "";
     if(myApp)
     {
-        char c[10];
-        sprintf(c,"%d", myApp->ramSong.footswitch);
-        str = QString(c);
+        if(myApp->isInitialized == 1)
+        {
+            char c[10];
+            sprintf(c,"%d", myApp->ramSong.footswitch);
+            str = QString(c);
+        }
     }
     return str;
 }
@@ -369,8 +391,11 @@ void MyObject1::onSongFswChanged(QString str)
 {
     if(myApp)
     {
-        int val = str.toInt();
-        myApp->ramSong.footswitch = val;
+        if(myApp->isInitialized == 1)
+        {
+            int val = str.toInt();
+            myApp->ramSong.footswitch = val;
+        }
     }
 }
 QString MyObject1::getTrickMode(void) const
@@ -378,9 +403,12 @@ QString MyObject1::getTrickMode(void) const
     QString str = "";
     if(myApp)
     {
-        char c[10];
-        sprintf(c,"%d", myApp->ramSong.trickMode[0]);
-        str = QString(c);
+        if(myApp->isInitialized == 1)
+        {
+            char c[10];
+            sprintf(c,"%d", myApp->ramSong.trickMode[0]);
+            str = QString(c);
+        }
     }
     return str;
 }
@@ -388,8 +416,11 @@ void MyObject1::onTrickModeChanged(QString str)
 {
     if(myApp)
     {
-        int val = str.toInt();
-        myApp->ramSong.trickMode[0] = val;
+        if(myApp->isInitialized == 1)
+        {
+            int val = str.toInt();
+            myApp->ramSong.trickMode[0] = val;
+        }
     }
 }
 QString MyObject1::getTrickData(void) const
@@ -397,9 +428,12 @@ QString MyObject1::getTrickData(void) const
     QString str = "";
     if(myApp)
     {
-        char c[10];
-        sprintf(c,"%d", myApp->ramSong.trickData[0]);
-        str = QString(c);
+        if(myApp->isInitialized == 1)
+        {
+            char c[10];
+            sprintf(c,"%d", myApp->ramSong.trickData[0]);
+            str = QString(c);
+        }
     }
     return str;
 }
@@ -407,8 +441,11 @@ void MyObject1::onTrickDataChanged(QString str)
 {
     if(myApp)
     {
-        int val = str.toInt();
-        myApp->ramSong.trickData[0] = val;
+        if(myApp->isInitialized == 1)
+        {
+            int val = str.toInt();
+            myApp->ramSong.trickData[0] = val;
+        }
     }
 }
 QString MyObject1::getSongBacklight(void) const
@@ -416,9 +453,12 @@ QString MyObject1::getSongBacklight(void) const
     QString str = "";
     if(myApp)
     {
-        char c[10];
-        sprintf(c,"%d", myApp->ramSong.lcdBacklight);
-        str = QString(c);
+        if(myApp->isInitialized == 1)
+        {
+            char c[10];
+            sprintf(c,"%d", myApp->ramSong.lcdBacklight);
+            str = QString(c);
+        }
     }
     return str;
 }
@@ -426,8 +466,11 @@ void MyObject1::onSongBacklightChanged(QString str)
 {
     if(myApp)
     {
-        int val = str.toInt();
-        myApp->ramSong.lcdBacklight = val;
+        if(myApp->isInitialized == 1)
+        {
+            int val = str.toInt();
+            myApp->ramSong.lcdBacklight = val;
+        }
     }
 }
 
@@ -436,9 +479,12 @@ QString MyObject1::getMatrix0(void) const
     QString str = "";
     if(myApp)
     {
-        char c[10];
-        sprintf(c,"%d", myApp->ramSong.matrix[0]);
-        str = QString(c);
+        if(myApp->isInitialized == 1)
+        {
+            char c[10];
+            sprintf(c,"%d", myApp->ramSong.matrix[0]);
+            str = QString(c);
+        }
     }
     return str;
 }
@@ -446,18 +492,25 @@ void MyObject1::onMatrix0Changed(QString str)
 {
     if(myApp)
     {
-        int val = str.toInt();
-        myApp->ramSong.matrix[0] = val;
+        if(myApp->isInitialized == 1)
+        {
+            int val = str.toInt();
+            myApp->ramSong.matrix[0] = val;
+        }
     }
+
 }
 QString MyObject1::getMatrix1(void) const
 {
     QString str = "";
     if(myApp)
     {
-        char c[10];
-        sprintf(c,"%d", myApp->ramSong.matrix[1]);
-        str = QString(c);
+        if(myApp->isInitialized == 1)
+        {
+            char c[10];
+            sprintf(c,"%d", myApp->ramSong.matrix[1]);
+            str = QString(c);
+        }
     }
     return str;
 }
@@ -465,18 +518,25 @@ void MyObject1::onMatrix1Changed(QString str)
 {
     if(myApp)
     {
-        int val = str.toInt();
-        myApp->ramSong.matrix[1] = val;
+        if(myApp->isInitialized == 1)
+        {
+            int val = str.toInt();
+            myApp->ramSong.matrix[1] = val;
+        }
     }
+
 }
 QString MyObject1::getMatrix2(void) const
 {
     QString str = "";
     if(myApp)
     {
-        char c[10];
-        sprintf(c,"%d", myApp->ramSong.matrix[2]);
-        str = QString(c);
+        if(myApp->isInitialized == 1)
+        {
+            char c[10];
+            sprintf(c,"%d", myApp->ramSong.matrix[2]);
+            str = QString(c);
+        }
     }
     return str;
 }
@@ -484,18 +544,25 @@ void MyObject1::onMatrix2Changed(QString str)
 {
     if(myApp)
     {
-        int val = str.toInt();
-        myApp->ramSong.matrix[2] = val;
+        if(myApp->isInitialized == 1)
+        {
+            int val = str.toInt();
+            myApp->ramSong.matrix[2] = val;
+        }
     }
+
 }
 QString MyObject1::getMatrix3(void) const
 {
     QString str = "";
     if(myApp)
     {
-        char c[10];
-        sprintf(c,"%d", myApp->ramSong.matrix[3]);
-        str = QString(c);
+        if(myApp->isInitialized == 1)
+        {
+            char c[10];
+            sprintf(c,"%d", myApp->ramSong.matrix[3]);
+            str = QString(c);
+        }
     }
     return str;
 }
@@ -503,18 +570,25 @@ void MyObject1::onMatrix3Changed(QString str)
 {
     if(myApp)
     {
-        int val = str.toInt();
-        myApp->ramSong.matrix[3] = val;
+        if(myApp->isInitialized == 1)
+        {
+            int val = str.toInt();
+            myApp->ramSong.matrix[3] = val;
+        }
     }
+
 }
 QString MyObject1::getMatrix4(void) const
 {
     QString str = "";
     if(myApp)
     {
-        char c[10];
-        sprintf(c,"%d", myApp->ramSong.matrix[4]);
-        str = QString(c);
+        if(myApp->isInitialized == 1)
+        {
+            char c[10];
+            sprintf(c,"%d", myApp->ramSong.matrix[4]);
+            str = QString(c);
+        }
     }
     return str;
 }
@@ -522,18 +596,25 @@ void MyObject1::onMatrix4Changed(QString str)
 {
     if(myApp)
     {
-        int val = str.toInt();
-        myApp->ramSong.matrix[4] = val;
+        if(myApp->isInitialized == 1)
+        {
+            int val = str.toInt();
+            myApp->ramSong.matrix[4] = val;
+        }
     }
+
 }
 QString MyObject1::getMatrix5(void) const
 {
     QString str = "";
     if(myApp)
     {
-        char c[10];
-        sprintf(c,"%d", myApp->ramSong.matrix[5]);
-        str = QString(c);
+        if(myApp->isInitialized == 1)
+        {
+            char c[10];
+            sprintf(c,"%d", myApp->ramSong.matrix[5]);
+            str = QString(c);
+        }
     }
     return str;
 }
@@ -541,18 +622,25 @@ void MyObject1::onMatrix5Changed(QString str)
 {
     if(myApp)
     {
-        int val = str.toInt();
-        myApp->ramSong.matrix[5] = val;
+        if(myApp->isInitialized == 1)
+        {
+            int val = str.toInt();
+            myApp->ramSong.matrix[5] = val;
+        }
     }
+
 }
 QString MyObject1::getMatrix6(void) const
 {
     QString str = "";
     if(myApp)
     {
-        char c[10];
-        sprintf(c,"%d", myApp->ramSong.matrix[6]);
-        str = QString(c);
+        if(myApp->isInitialized == 1)
+        {
+            char c[10];
+            sprintf(c,"%d", myApp->ramSong.matrix[6]);
+            str = QString(c);
+        }
     }
     return str;
 }
@@ -560,18 +648,26 @@ void MyObject1::onMatrix6Changed(QString str)
 {
     if(myApp)
     {
-        int val = str.toInt();
-        myApp->ramSong.matrix[6] = val;
+        if(myApp->isInitialized == 1)
+        {
+            int val = str.toInt();
+            myApp->ramSong.matrix[6] = val;
+        }
     }
+
 }
 QString MyObject1::getMatrix7(void) const
 {
     QString str = "";
     if(myApp)
     {
-        char c[10];
-        sprintf(c,"%d", myApp->ramSong.matrix[7]);
-        str = QString(c);
+        if(myApp->isInitialized == 1)
+        {
+            char c[10];
+            sprintf(c,"%d", myApp->ramSong.matrix[7]);
+            str = QString(c);
+        }
+
     }
     return str;
 }
@@ -579,18 +675,25 @@ void MyObject1::onMatrix7Changed(QString str)
 {
     if(myApp)
     {
-        int val = str.toInt();
-        myApp->ramSong.matrix[7] = val;
+        if(myApp->isInitialized == 1)
+        {
+            int val = str.toInt();
+            myApp->ramSong.matrix[7] = val;
+        }
     }
+
 }
 QString MyObject1::getMatrix8(void) const
 {
     QString str = "";
     if(myApp)
     {
-        char c[10];
-        sprintf(c,"%d", myApp->ramSong.matrix[8]);
-        str = QString(c);
+        if(myApp->isInitialized == 1)
+        {
+            char c[10];
+            sprintf(c,"%d", myApp->ramSong.matrix[8]);
+            str = QString(c);
+        }
     }
     return str;
 }
@@ -598,18 +701,25 @@ void MyObject1::onMatrix8Changed(QString str)
 {
     if(myApp)
     {
-        int val = str.toInt();
-        myApp->ramSong.matrix[8] = val;
+        if(myApp->isInitialized == 1)
+        {
+            int val = str.toInt();
+            myApp->ramSong.matrix[8] = val;
+        }
     }
+
 }
 QString MyObject1::getMatrix9(void) const
 {
     QString str = "";
     if(myApp)
     {
-        char c[10];
-        sprintf(c,"%d", myApp->ramSong.matrix[9]);
-        str = QString(c);
+        if(myApp->isInitialized == 1)
+        {
+            char c[10];
+            sprintf(c,"%d", myApp->ramSong.matrix[9]);
+            str = QString(c);
+        }
     }
     return str;
 }
@@ -617,8 +727,11 @@ void MyObject1::onMatrix9Changed(QString str)
 {
     if(myApp)
     {
-        int val = str.toInt();
-        myApp->ramSong.matrix[9] = val;
+        if(myApp->isInitialized == 1)
+        {
+            int val = str.toInt();
+            myApp->ramSong.matrix[9] = val;
+        }
     }
 }
 QString MyObject1::getMatrix10(void) const
@@ -626,9 +739,12 @@ QString MyObject1::getMatrix10(void) const
     QString str = "";
     if(myApp)
     {
-        char c[10];
-        sprintf(c,"%d", myApp->ramSong.matrix[10]);
-        str = QString(c);
+        if(myApp->isInitialized == 1)
+        {
+            char c[10];
+            sprintf(c,"%d", myApp->ramSong.matrix[10]);
+            str = QString(c);
+        }
     }
     return str;
 }
@@ -636,8 +752,11 @@ void MyObject1::onMatrix10Changed(QString str)
 {
     if(myApp)
     {
-        int val = str.toInt();
-        myApp->ramSong.matrix[10] = val;
+        if(myApp->isInitialized == 1)
+        {
+            int val = str.toInt();
+            myApp->ramSong.matrix[10] = val;
+        }
     }
 }
 QString MyObject1::getMatrix11(void) const
@@ -645,9 +764,13 @@ QString MyObject1::getMatrix11(void) const
     QString str = "";
     if(myApp)
     {
-        char c[10];
-        sprintf(c,"%d", myApp->ramSong.matrix[11]);
-        str = QString(c);
+        if(myApp->isInitialized == 1)
+        {
+            char c[10];
+            sprintf(c,"%d", myApp->ramSong.matrix[11]);
+            str = QString(c);
+        }
+
     }
     return str;
 }
@@ -655,10 +778,14 @@ void MyObject1::onMatrix11Changed(QString str)
 {
     if(myApp)
     {
-        int val = str.toInt();
-        myApp->ramSong.matrix[11] = val;
+        if(myApp->isInitialized == 1)
+        {
+            int val = str.toInt();
+            myApp->ramSong.matrix[11] = val;
+        }
     }
 }
+
 
 // //////////////////////////////////////////////////////////////////////////////////////////////////
 //   CONFIG SCREEN OBJECTS
@@ -678,9 +805,12 @@ QString MyObject1::getBacklightMain(void) const
     QString str = "";
     if(myApp)
     {
-        char c[10];
-        sprintf(c,"%d", myApp->ramSettings.lcdBacklight);
-        str = QString(c);
+        if(myApp->isInitialized == 1)
+        {
+            char c[10];
+            sprintf(c,"%d", myApp->ramSettings.lcdBacklight);
+            str = QString(c);
+        }
     }
     return str;
 }
@@ -688,8 +818,11 @@ void MyObject1::onMainBacklightChanged(QString str)
 {
     if(myApp)
     {
-        int val = str.toInt();
-        myApp->ramSettings.lcdBacklight = val;
+        if(myApp->isInitialized == 1)
+        {
+            int val = str.toInt();
+            myApp->ramSettings.lcdBacklight = val;
+        }
     }
 }
 QString MyObject1::getcurrentSong(void) const
@@ -697,11 +830,14 @@ QString MyObject1::getcurrentSong(void) const
     QString str = "";
     if(myApp)
     {
-        char c[10];
-        sprintf(c,"%d", myApp->ramSettings.currentSong);
-        //sprintf(c,"%d", myApp->activeSong);
-        //sprintf(c,"%d", myApp->getCurrentSong());
-        str = QString(c);
+        if(myApp->isInitialized == 1)
+        {
+            char c[10];
+            sprintf(c,"%d", myApp->ramSettings.currentSong);
+            //sprintf(c,"%d", myApp->activeSong);
+            //sprintf(c,"%d", myApp->getCurrentSong());
+            str = QString(c);
+        }
     }
     return str;
 }
@@ -709,8 +845,11 @@ void MyObject1::onCurrentSongChanged(QString str)
 {
     if(myApp)
     {
-        int val = str.toInt();
-        myApp->ramSettings.currentSong = val;
+        if(myApp->isInitialized == 1)
+        {
+            int val = str.toInt();
+            myApp->ramSettings.currentSong = val;
+        }
     }
 }
 QString MyObject1::getLoopName1(void) const
@@ -718,7 +857,10 @@ QString MyObject1::getLoopName1(void) const
     QString str = "";
     if(myApp)
     {
-        str = QString(QByteArray((char*)myApp->ramSettings.loopName[0]));
+        if(myApp->isInitialized == 1)
+        {
+            str = QString(QByteArray((char*)myApp->ramSettings.loopName[0]));
+        }
     }
     return str;
 }
@@ -726,10 +868,13 @@ void MyObject1::onLoopName1Changed(QString str)
 {
     if(myApp)
     {
-        QByteArray array = str.toLocal8Bit();
-        char* buffer = array.data();
-        buffer[str.length()] = 0;   //ensure it ends with NULL
-        strcpy((char*)myApp->ramSettings.loopName[0], buffer );
+        if(myApp->isInitialized == 1)
+        {
+            QByteArray array = str.toLocal8Bit();
+            char* buffer = array.data();
+            buffer[str.length()] = 0;   //ensure it ends with NULL
+            strcpy((char*)myApp->ramSettings.loopName[0], buffer );
+        }
     }
 }
 QString MyObject1::getLoopName2(void) const
@@ -737,7 +882,10 @@ QString MyObject1::getLoopName2(void) const
     QString str = "";
     if(myApp)
     {
-        str = QString(QByteArray((char*)myApp->ramSettings.loopName[1]));
+        if(myApp->isInitialized == 1)
+        {
+            str = QString(QByteArray((char*)myApp->ramSettings.loopName[1]));
+        }
     }
     return str;
 }
@@ -745,10 +893,13 @@ void MyObject1::onLoopName2Changed(QString str)
 {
     if(myApp)
     {
-        QByteArray array = str.toLocal8Bit();
-        char* buffer = array.data();
-        buffer[str.length()] = 0;   //ensure it ends with NULL
-        strcpy((char*)myApp->ramSettings.loopName[1], buffer );
+        if(myApp->isInitialized == 1)
+        {
+            QByteArray array = str.toLocal8Bit();
+            char* buffer = array.data();
+            buffer[str.length()] = 0;   //ensure it ends with NULL
+            strcpy((char*)myApp->ramSettings.loopName[1], buffer );
+        }
     }
 }
 QString MyObject1::getLoopName3(void) const
@@ -756,7 +907,10 @@ QString MyObject1::getLoopName3(void) const
     QString str = "";
     if(myApp)
     {
-        str = QString(QByteArray((char*)myApp->ramSettings.loopName[2]));
+        if(myApp->isInitialized == 1)
+        {
+            str = QString(QByteArray((char*)myApp->ramSettings.loopName[2]));
+        }
     }
     return str;
 }
@@ -764,17 +918,24 @@ void MyObject1::onLoopName3Changed(QString str)
 {
     if(myApp)
     {
-        QByteArray array = str.toLocal8Bit();
-        char* buffer = array.data();
-        buffer[str.length()] = 0;   //ensure it ends with NULL
-        strcpy((char*)myApp->ramSettings.loopName[2], buffer );
+        if(myApp->isInitialized == 1)
+        {
+            QByteArray array = str.toLocal8Bit();
+            char* buffer = array.data();
+            buffer[str.length()] = 0;   //ensure it ends with NULL
+            strcpy((char*)myApp->ramSettings.loopName[2], buffer );
+        }
     }
-}QString MyObject1::getLoopName4(void) const
+}
+QString MyObject1::getLoopName4(void) const
 {
     QString str = "";
     if(myApp)
     {
-        str = QString(QByteArray((char*)myApp->ramSettings.loopName[3]));
+        if(myApp->isInitialized == 1)
+        {
+            str = QString(QByteArray((char*)myApp->ramSettings.loopName[3]));
+        }
     }
     return str;
 }
@@ -782,10 +943,13 @@ void MyObject1::onLoopName4Changed(QString str)
 {
     if(myApp)
     {
-        QByteArray array = str.toLocal8Bit();
-        char* buffer = array.data();
-        buffer[str.length()] = 0;   //ensure it ends with NULL
-        strcpy((char*)myApp->ramSettings.loopName[3], buffer );
+        if(myApp->isInitialized == 1)
+        {
+            QByteArray array = str.toLocal8Bit();
+            char* buffer = array.data();
+            buffer[str.length()] = 0;   //ensure it ends with NULL
+            strcpy((char*)myApp->ramSettings.loopName[3], buffer );
+        }
     }
 }
 QString MyObject1::getLoopName5(void) const
@@ -793,7 +957,10 @@ QString MyObject1::getLoopName5(void) const
     QString str = "";
     if(myApp)
     {
-        str = QString(QByteArray((char*)myApp->ramSettings.loopName[4]));
+        if(myApp->isInitialized == 1)
+        {
+            str = QString(QByteArray((char*)myApp->ramSettings.loopName[4]));
+        }
     }
     return str;
 }
@@ -801,10 +968,13 @@ void MyObject1::onLoopName5Changed(QString str)
 {
     if(myApp)
     {
-        QByteArray array = str.toLocal8Bit();
-        char* buffer = array.data();
-        buffer[str.length()] = 0;   //ensure it ends with NULL
-        strcpy((char*)myApp->ramSettings.loopName[4], buffer );
+        if(myApp->isInitialized == 1)
+        {
+            QByteArray array = str.toLocal8Bit();
+            char* buffer = array.data();
+            buffer[str.length()] = 0;   //ensure it ends with NULL
+            strcpy((char*)myApp->ramSettings.loopName[4], buffer );
+        }
     }
 }
 QString MyObject1::getLoopName6(void) const
@@ -812,7 +982,10 @@ QString MyObject1::getLoopName6(void) const
     QString str = "";
     if(myApp)
     {
-        str = QString(QByteArray((char*)myApp->ramSettings.loopName[5]));
+        if(myApp->isInitialized == 1)
+        {
+            str = QString(QByteArray((char*)myApp->ramSettings.loopName[5]));
+        }
     }
     return str;
 }
@@ -820,10 +993,13 @@ void MyObject1::onLoopName6Changed(QString str)
 {
     if(myApp)
     {
-        QByteArray array = str.toLocal8Bit();
-        char* buffer = array.data();
-        buffer[str.length()] = 0;   //ensure it ends with NULL
-        strcpy((char*)myApp->ramSettings.loopName[5], buffer );
+        if(myApp->isInitialized == 1)
+        {
+            QByteArray array = str.toLocal8Bit();
+            char* buffer = array.data();
+            buffer[str.length()] = 0;   //ensure it ends with NULL
+            strcpy((char*)myApp->ramSettings.loopName[5], buffer );
+        }
     }
 }
 QString MyObject1::getLoopName7(void) const
@@ -831,7 +1007,10 @@ QString MyObject1::getLoopName7(void) const
     QString str = "";
     if(myApp)
     {
-        str = QString(QByteArray((char*)myApp->ramSettings.loopName[6]));
+        if(myApp->isInitialized == 1)
+        {
+            str = QString(QByteArray((char*)myApp->ramSettings.loopName[6]));
+        }
     }
     return str;
 }
@@ -839,10 +1018,13 @@ void MyObject1::onLoopName7Changed(QString str)
 {
     if(myApp)
     {
-        QByteArray array = str.toLocal8Bit();
-        char* buffer = array.data();
-        buffer[str.length()] = 0;   //ensure it ends with NULL
-        strcpy((char*)myApp->ramSettings.loopName[6], buffer );
+        if(myApp->isInitialized == 1)
+        {
+            QByteArray array = str.toLocal8Bit();
+            char* buffer = array.data();
+            buffer[str.length()] = 0;   //ensure it ends with NULL
+            strcpy((char*)myApp->ramSettings.loopName[6], buffer );
+        }
     }
 }
 QString MyObject1::getFswName1(void) const
@@ -850,7 +1032,10 @@ QString MyObject1::getFswName1(void) const
     QString str = "";
     if(myApp)
     {
-        str = QString(QByteArray((char*)myApp->ramSettings.fswName[0]));
+        if(myApp->isInitialized == 1)
+        {
+            str = QString(QByteArray((char*)myApp->ramSettings.fswName[0]));
+        }
     }
     return str;
 }
@@ -858,11 +1043,14 @@ void MyObject1::onFswName1Changed(QString str)
 {
     if(myApp)
     {
-        //strcpy((char*)myApp->ramSettings.loopName[0], (char*)str.data() );
-        QByteArray array = str.toLocal8Bit();
-        char* buffer = array.data();
-        buffer[str.length()] = 0;   //ensure it ends with NULL
-        strcpy((char*)myApp->ramSettings.fswName[0], buffer );
+        if(myApp->isInitialized == 1)
+        {
+            //strcpy((char*)myApp->ramSettings.loopName[0], (char*)str.data() );
+            QByteArray array = str.toLocal8Bit();
+            char* buffer = array.data();
+            buffer[str.length()] = 0;   //ensure it ends with NULL
+            strcpy((char*)myApp->ramSettings.fswName[0], buffer );
+        }
     }
 }
 QString MyObject1::getFswName2(void) const
@@ -870,7 +1058,10 @@ QString MyObject1::getFswName2(void) const
     QString str = "";
     if(myApp)
     {
-        str = QString(QByteArray((char*)myApp->ramSettings.fswName[1]));
+        if(myApp->isInitialized == 1)
+        {
+            str = QString(QByteArray((char*)myApp->ramSettings.fswName[1]));
+        }
     }
     return str;
 }
@@ -878,10 +1069,13 @@ void MyObject1::onFswName2Changed(QString str)
 {
     if(myApp)
     {
-        QByteArray array = str.toLocal8Bit();
-        char* buffer = array.data();
-        buffer[str.length()] = 0;   //ensure it ends with NULL
-        strcpy((char*)myApp->ramSettings.fswName[1], buffer );
+        if(myApp->isInitialized == 1)
+        {
+            QByteArray array = str.toLocal8Bit();
+            char* buffer = array.data();
+            buffer[str.length()] = 0;   //ensure it ends with NULL
+            strcpy((char*)myApp->ramSettings.fswName[1], buffer );
+        }
     }
 }
 QString MyObject1::getFswName3(void) const
@@ -889,7 +1083,10 @@ QString MyObject1::getFswName3(void) const
     QString str = "";
     if(myApp)
     {
-        str = QString(QByteArray((char*)myApp->ramSettings.fswName[2]));
+        if(myApp->isInitialized == 1)
+        {
+            str = QString(QByteArray((char*)myApp->ramSettings.fswName[2]));
+        }
     }
     return str;
 }
@@ -897,10 +1094,13 @@ void MyObject1::onFswName3Changed(QString str)
 {
     if(myApp)
     {
-        QByteArray array = str.toLocal8Bit();
-        char* buffer = array.data();
-        buffer[str.length()] = 0;   //ensure it ends with NULL
-        strcpy((char*)myApp->ramSettings.fswName[2], buffer );
+        if(myApp->isInitialized == 1)
+        {
+            QByteArray array = str.toLocal8Bit();
+            char* buffer = array.data();
+            buffer[str.length()] = 0;   //ensure it ends with NULL
+            strcpy((char*)myApp->ramSettings.fswName[2], buffer );
+        }
     }
 }
 QString MyObject1::getFswName4(void) const
@@ -908,7 +1108,10 @@ QString MyObject1::getFswName4(void) const
     QString str = "";
     if(myApp)
     {
-        str = QString(QByteArray((char*)myApp->ramSettings.fswName[3]));
+        if(myApp->isInitialized == 1)
+        {
+            str = QString(QByteArray((char*)myApp->ramSettings.fswName[3]));
+        }
     }
     return str;
 }
@@ -916,10 +1119,13 @@ void MyObject1::onFswName4Changed(QString str)
 {
     if(myApp)
     {
-        QByteArray array = str.toLocal8Bit();
-        char* buffer = array.data();
-        buffer[str.length()] = 0;   //ensure it ends with NULL
-        strcpy((char*)myApp->ramSettings.fswName[3], buffer );
+        if(myApp->isInitialized == 1)
+        {
+            QByteArray array = str.toLocal8Bit();
+            char* buffer = array.data();
+            buffer[str.length()] = 0;   //ensure it ends with NULL
+            strcpy((char*)myApp->ramSettings.fswName[3], buffer );
+        }
     }
 }
 QString MyObject1::getFswName5(void) const
@@ -927,7 +1133,10 @@ QString MyObject1::getFswName5(void) const
     QString str = "";
     if(myApp)
     {
-        str = QString(QByteArray((char*)myApp->ramSettings.fswName[4]));
+        if(myApp->isInitialized == 1)
+        {
+            str = QString(QByteArray((char*)myApp->ramSettings.fswName[4]));
+        }
     }
     return str;
 }
@@ -935,10 +1144,13 @@ void MyObject1::onFswName5Changed(QString str)
 {
     if(myApp)
     {
-        QByteArray array = str.toLocal8Bit();
-        char* buffer = array.data();
-        buffer[str.length()] = 0;   //ensure it ends with NULL
-        strcpy((char*)myApp->ramSettings.fswName[4], buffer );
+        if(myApp->isInitialized == 1)
+        {
+            QByteArray array = str.toLocal8Bit();
+            char* buffer = array.data();
+            buffer[str.length()] = 0;   //ensure it ends with NULL
+            strcpy((char*)myApp->ramSettings.fswName[4], buffer );
+        }
     }
 }
 QString MyObject1::getFswName6(void) const
@@ -965,7 +1177,10 @@ QString MyObject1::getAuxName1(void) const
     QString str = "";
     if(myApp)
     {
-        str = QString(QByteArray((char*)myApp->ramSettings.auxOutName[0]));
+        if(myApp->isInitialized == 1)
+        {
+            str = QString(QByteArray((char*)myApp->ramSettings.auxOutName[0]));
+        }
     }
     return str;
 }
@@ -973,10 +1188,13 @@ void MyObject1::onAuxName1Changed(QString str)
 {
     if(myApp)
     {
-        QByteArray array = str.toLocal8Bit();
-        char* buffer = array.data();
-        buffer[str.length()] = 0;   //ensure it ends with NULL
-        strcpy((char*)myApp->ramSettings.auxOutName[0], buffer );
+        if(myApp->isInitialized == 1)
+        {
+            QByteArray array = str.toLocal8Bit();
+            char* buffer = array.data();
+            buffer[str.length()] = 0;   //ensure it ends with NULL
+           strcpy((char*)myApp->ramSettings.auxOutName[0], buffer );
+        }
     }
 }
 QString MyObject1::getAuxName2(void) const
@@ -984,7 +1202,10 @@ QString MyObject1::getAuxName2(void) const
     QString str = "";
     if(myApp)
     {
-        str = QString(QByteArray((char*)myApp->ramSettings.auxOutName[1]));
+        if(myApp->isInitialized == 1)
+        {
+            str = QString(QByteArray((char*)myApp->ramSettings.auxOutName[1]));
+        }
     }
     return str;
 }
@@ -992,11 +1213,14 @@ void MyObject1::onAuxName2Changed(QString str)
 {
     if(myApp)
     {
-        //strcpy((char*)myApp->ramSettings.loopName[0], (char*)str.data() );
-        QByteArray array = str.toLocal8Bit();
-        char* buffer = array.data();
-        buffer[str.length()] = 0;   //ensure it ends with NULL
-        strcpy((char*)myApp->ramSettings.auxOutName[1], buffer );
+        if(myApp->isInitialized == 1)
+        {
+            //strcpy((char*)myApp->ramSettings.loopName[0], (char*)str.data() );
+            QByteArray array = str.toLocal8Bit();
+            char* buffer = array.data();
+            buffer[str.length()] = 0;   //ensure it ends with NULL
+            strcpy((char*)myApp->ramSettings.auxOutName[1], buffer );
+        }
     }
 }
 QString MyObject1::getAuxName3(void) const
@@ -1004,7 +1228,10 @@ QString MyObject1::getAuxName3(void) const
     QString str = "";
     if(myApp)
     {
-        str = QString(QByteArray((char*)myApp->ramSettings.auxOutName[2]));
+        if(myApp->isInitialized == 1)
+        {
+            str = QString(QByteArray((char*)myApp->ramSettings.auxOutName[2]));
+        }
     }
     return str;
 }
@@ -1012,10 +1239,13 @@ void MyObject1::onAuxName3Changed(QString str)
 {
     if(myApp)
     {
-        QByteArray array = str.toLocal8Bit();
-        char* buffer = array.data();
-        buffer[str.length()] = 0;   //ensure it ends with NULL
-        strcpy((char*)myApp->ramSettings.auxOutName[2], buffer );
+        if(myApp->isInitialized == 1)
+        {
+            QByteArray array = str.toLocal8Bit();
+            char* buffer = array.data();
+            buffer[str.length()] = 0;   //ensure it ends with NULL
+            strcpy((char*)myApp->ramSettings.auxOutName[2], buffer );
+        }
     }
 }
 QString MyObject1::getAuxName4(void) const
@@ -1023,7 +1253,10 @@ QString MyObject1::getAuxName4(void) const
     QString str = "";
     if(myApp)
     {
-        str = QString(QByteArray((char*)myApp->ramSettings.auxOutName[3]));
+        if(myApp->isInitialized == 1)
+        {
+            str = QString(QByteArray((char*)myApp->ramSettings.auxOutName[3]));
+        }
     }
     return str;
 }
@@ -1031,9 +1264,68 @@ void MyObject1::onAuxName4Changed(QString str)
 {
     if(myApp)
     {
-        QByteArray array = str.toLocal8Bit();
-        char* buffer = array.data();
-        buffer[str.length()] = 0;   //ensure it ends with NULL
-        strcpy((char*)myApp->ramSettings.auxOutName[3], buffer );
+        if(myApp->isInitialized == 1)
+        {
+            QByteArray array = str.toLocal8Bit();
+            char* buffer = array.data();
+            buffer[str.length()] = 0;   //ensure it ends with NULL
+            strcpy((char*)myApp->ramSettings.auxOutName[3], buffer );
+        }
     }
 }
+
+
+const QStringList MyObject1::comboList()
+{
+    m_comboList.insert(0, "alpha");
+    m_comboList.insert(1, "bravo");
+    m_comboList.insert(2, "charley");
+
+    return m_comboList;
+}
+
+
+int MyObject1::count()
+{
+    return m_count;
+}
+
+/*
+void MyObject1::setCount(int cnt)
+{
+    if (cnt != m_count)
+    {
+        m_count = cnt;
+        emit countChanged();
+    }
+}
+
+void MyObject1::addElement(const QString &element)
+{
+    m_comboList.append(element);
+    emit comboListChanged();
+    setCount(m_comboList.count());
+    emit countChanged();
+
+    for (int i = 0; i<m_count; i++)
+    {
+        qDebug() << m_comboList.at(i);
+    }
+}
+
+void MyObject1::removeElement(int index)
+{
+    if (index < m_comboList.count())
+    {
+        m_comboList.removeAt(index);
+        emit comboListChanged();
+        setCount(m_comboList.count());
+        emit countChanged();
+    }
+
+    for (int i = 0; i<m_count; i++)
+    {
+        qDebug() << m_comboList.at(i);
+    }
+}
+*/

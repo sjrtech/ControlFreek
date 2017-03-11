@@ -41,7 +41,7 @@
 
 import QtQuick 2.0
 import QtBluetooth 5.2
-
+import QtQuick.Controls 1.5
 
 Item
 {
@@ -1118,7 +1118,7 @@ Item
                             id: textLabelMatrix0
                             x:10
                             y:textTrickData.y+20
-                            text: qsTr("Main out:")//"trix 0: ")
+                            text: qsTr("Main out<---")//"trix 0: ")
                             font.pixelSize: 12
                         }
                         TextInput
@@ -1143,9 +1143,11 @@ Item
                             id: textLabelMatrix1
                             x:10
                             y:textMatrix0.y+18
-                            text: textLoop1Name.text//qsTr("Matrix 1: ")
+                            //text: qsTr("Matrix 1: ")
+                            text: textLoop1Name.text + qsTr("<---");
                             font.pixelSize: 12
                         }
+                        /*
                         TextInput
                         {
                             id: textMatrix1
@@ -1163,14 +1165,28 @@ Item
                                 theObject.onMatrix1Changed(textMatrix1.text);
                             }
                         }
+                        */
+                        ComboBox {
+                            id: comboBox1
+                            //y:textLabelMatrix0.y
+                            anchors.left: textLabelMatrix0.right
+                            anchors.bottom: textLabelMatrix0.bottom
+                            width: 150
+                            model: theObject.comboList
+                            editable: false
+                            onCurrentIndexChanged: theObject.onMatrix1Changed(currentText)
+                        }
                         Text
                         {
                             id: textLabelMatrix2
                             x:10
-                            y:textMatrix1.y+18
-                            text: qsTr("Matrix 2: ")
+                            //y:textMatrix1.y+18
+                            y:textLabelMatrix1.y+18
+                            //text: qsTr("Matrix 2: ")
+                            text: textLoop2Name.text + qsTr("<---");
                             font.pixelSize: 12
                         }
+                        /*
                         TextInput
                         {
                             id: textMatrix2
@@ -1188,12 +1204,24 @@ Item
                                 theObject.onMatrix2Changed(textMatrix2.text);
                             }
                         }
+                        */
+                        ComboBox {
+                            id: comboBox2
+                            //y:textLabelMatrix0.y
+                            anchors.left: textLabelMatrix1.right
+                            anchors.bottom: textLabelMatrix1.bottom
+                            width: 150
+                            model: theObject.comboList
+                            editable: false
+                            onCurrentIndexChanged: theObject.onMatrix2Changed(currentText)
+                        }
                         Text
                         {
                             id: textLabelMatrix3
                             x:10
-                            y:textMatrix2.y+18
-                            text: qsTr("Matrix 3: ")
+                            y:textLabelMatrix2.y+18
+                            //text: qsTr("Matrix 3: ")
+                            text: textLoop3Name.text + qsTr("<---");
                             font.pixelSize: 12
                         }
                         TextInput
@@ -1218,7 +1246,8 @@ Item
                             id: textLabelMatrix4
                             x:10
                             y:textMatrix3.y+18
-                            text: qsTr("Matrix 4: ")
+                            //text: qsTr("Matrix 4: ")
+                            text: textLoop4Name.text + qsTr("<---");
                             font.pixelSize: 12
                         }
                         TextInput
@@ -1243,7 +1272,8 @@ Item
                             id: textLabelMatrix5
                             x:10
                             y:textMatrix4.y+18
-                            text: qsTr("Matrix 5: ")
+                            //text: qsTr("Matrix 5: ")
+                            text: textLoop5Name.text + qsTr("<---");
                             font.pixelSize: 12
                         }
                         TextInput
@@ -1268,7 +1298,8 @@ Item
                             id: textLabelMatrix6
                             x:10
                             y:textMatrix5.y+18
-                            text: qsTr("Matrix 6: ")
+                            //text: qsTr("Matrix 6: ")
+                            text: textLoop6Name.text + qsTr("<---");
                             font.pixelSize: 12
                         }
                         TextInput
@@ -1293,7 +1324,8 @@ Item
                             id: textLabelMatrix7
                             x:10
                             y:textMatrix6.y+18
-                            text: qsTr("Matrix 7: ")
+                            //text: qsTr("Matrix 7: ")
+                            text: textLoop7Name.text + qsTr("<---");
                             font.pixelSize: 12
                         }
                         TextInput
@@ -1318,7 +1350,8 @@ Item
                             id: textLabelMatrix8
                             x:10
                             y:textMatrix7.y+18
-                            text: qsTr("Matrix 8: ")
+                            //text: qsTr("Matrix 8: ")
+                            text: textNameAux1.text + qsTr("<---");
                             font.pixelSize: 12
                         }
                         TextInput
@@ -1343,7 +1376,8 @@ Item
                             id: textLabelMatrix9
                             x:10
                             y:textMatrix8.y+18
-                            text: qsTr("Matrix 9: ")
+                            //text: qsTr("Matrix 9: ")
+                            text: textNameAux2.text + qsTr("<---");
                             font.pixelSize: 12
                         }
                         TextInput
@@ -1368,7 +1402,8 @@ Item
                             id: textLabelMatrix10
                             x:10
                             y:textMatrix9.y+18
-                            text: qsTr("Matrix 10: ")
+                            //text: qsTr("Matrix 10: ")
+                            text: textNameAux3.text + qsTr("<---");
                             font.pixelSize: 12
                         }
                         TextInput
@@ -1393,7 +1428,8 @@ Item
                             id: textLabelMatrix11
                             x:10
                             y:textMatrix10.y+18
-                            text: qsTr("Matrix 11: ")
+                            //text: qsTr("Matrix 11: ")
+                            text: textNameAux4.text + qsTr("<---");
                             font.pixelSize: 12
                         }
                         TextInput

@@ -4,8 +4,9 @@
 #include <QObject>
 //#include <QBluetoothSocket>
 #include <QLowEnergyController>
-#include <QAbstractItemModel>
+//#include <QAbstractItemModel>
 #include "myappgui.h"
+#include <QStringListModel>
 
 
 
@@ -13,7 +14,10 @@ class MyObject1 : public QObject
 {
     Q_OBJECT
 
-    //Q_PROPERTY(QAbstractItemModel *myModel READ model NOTIFY modelChanged)
+    //Q_PROPERTY(QStringList comboList READ comboList WRITE setComboList NOTIFY comboListChanged)
+    Q_PROPERTY(QStringList comboList READ comboList NOTIFY comboListChanged)
+    Q_PROPERTY(int count READ count NOTIFY countChanged)
+
 
     //Song
     Q_PROPERTY(QString SongName READ getSongName NOTIFY SongChanged)
@@ -42,7 +46,6 @@ class MyObject1 : public QObject
     Q_PROPERTY(QString Matrix9 READ getMatrix9 NOTIFY SongChanged)
     Q_PROPERTY(QString Matrix10 READ getMatrix10 NOTIFY SongChanged)
     Q_PROPERTY(QString Matrix11 READ getMatrix11 NOTIFY SongChanged)
-
 
     //Settings
     Q_PROPERTY(QString BacklightMain READ getBacklightMain NOTIFY ConfigChanged)
@@ -84,14 +87,25 @@ public:
 
     QByteArray m_RecvData;
 
+    const QStringList comboList();
+    //void setComboList(const QStringList &comboList);
+    int count();
+
+
 private:
     MyAppGui* myApp;
+
+    QStringList m_comboList;
+    int         m_count;
 
 signals:
     void recdBLEdata(QByteArray);
     void SongChanged(void);
     void ConfigChanged(void);
     void modelChanged(void);
+
+    void comboListChanged();
+    void countChanged();
 
 public slots:
     void addService(QBluetoothUuid);

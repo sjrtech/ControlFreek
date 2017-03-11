@@ -90,6 +90,7 @@ public:
 
     //unsigned char activeSong = 1;   //1-120 only
     qint8 test1 = 1;
+    unsigned char isInitialized = 1;
 
 private:
     QByteArray m_bleRecvData;
@@ -99,8 +100,6 @@ private:
     unsigned char* pData;
     unsigned char chksum;
     unsigned short scratch16;
-
-    unsigned char buttonLatch = 0;
 
     unsigned char lastSong = 1;
 

@@ -39,6 +39,9 @@
 ****************************************************************************/
 
 import QtQuick 2.0
+import QtBluetooth 5.2
+import QtQuick.Controls 2.0
+
 
 Rectangle {
     id: button
