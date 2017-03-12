@@ -5,6 +5,29 @@
 
 MyObject1::MyObject1(QObject *parent) : QObject(parent)
 {
+    myApp = new MyAppGui();
+
+    //Initialize combo boxes
+    m_comboList0.clear();
+    m_comboList0.insert(0, "Main In");
+    m_comboList0.insert(1, "loop 1");
+    m_comboList0.insert(2, "loop 2");
+
+    m_comboList1.clear();
+    m_comboList1.insert(0, "Main In");
+    m_comboList1.insert(1, "loop 2");
+    m_comboList1.insert(2, "loop 3");
+
+    m_comboList2.clear();
+    m_comboList2.insert(0, "Main In");
+    m_comboList2.insert(1, "loop 1");
+    m_comboList2.insert(2, "loop 3");
+
+    m_comboList3.clear();
+    m_comboList3.insert(0, "Main In");
+    m_comboList3.insert(1, "loop 1");
+    m_comboList3.insert(2, "loop 2");
+
 
 }
 
@@ -12,7 +35,6 @@ void MyObject1::foo(QString MAC, QString name)
 {
     QBluetoothAddress macAddr = QBluetoothAddress(MAC);
     QBluetoothDeviceInfo remoteDevice(macAddr, name, 0);
-
 
     // new QLowEnergyController(this);
     bleCentral = QLowEnergyController::createCentral(remoteDevice, this);//->connectToDevice();
@@ -121,7 +143,6 @@ void MyObject1::bleServiceChanged(QLowEnergyService::ServiceState a)
     //connect(bleComm, SIGNAL(recdBLEdata(QByteArray packetArray)), this, SLOT(parseInData(QByteArray packetArray)) );
     //connect(this, SIGNAL(recdBLEdata(QByteArray packetArray)), myApp, SLOT(parseInData(QByteArray packetArray)) );
 
-    myApp = new MyAppGui();
     connect(this, SIGNAL(recdBLEdata(QByteArray)), myApp, SLOT(parseInData(QByteArray)) );
     connect(myApp, SIGNAL(writeBLEdata(QByteArray)), this, SLOT(writeData(QByteArray)) );
     connect(myApp, SIGNAL(SongComplete()), this, SLOT(updateSongDisplay()) );
@@ -186,6 +207,8 @@ void MyObject1::selectNextSong(void)
 void MyObject1::selectPreviousSong(void)
 {
     myApp->gotoPreviousSong();
+    updateComboBoxes();
+    emit comboListChanged();
     emit ConfigChanged();     //temp?? Where should I put this round about way of updating data Qt?
 }
 
@@ -1158,7 +1181,10 @@ QString MyObject1::getFswName6(void) const
     QString str = "";
     if(myApp)
     {
-        str = QString(QByteArray((char*)myApp->ramSettings.fswName[5]));
+        if(myApp->isInitialized == 1)
+        {
+            str = QString(QByteArray((char*)myApp->ramSettings.fswName[5]));
+        }
     }
     return str;
 }
@@ -1166,10 +1192,13 @@ void MyObject1::onFswName6Changed(QString str)
 {
     if(myApp)
     {
-        QByteArray array = str.toLocal8Bit();
-        char* buffer = array.data();
-        buffer[str.length()] = 0;   //ensure it ends with NULL
-        strcpy((char*)myApp->ramSettings.fswName[5], buffer );
+        if(myApp->isInitialized == 1)
+        {
+            QByteArray array = str.toLocal8Bit();
+            char* buffer = array.data();
+            buffer[str.length()] = 0;   //ensure it ends with NULL
+            strcpy((char*)myApp->ramSettings.fswName[5], buffer );
+        }
     }
 }
 QString MyObject1::getAuxName1(void) const
@@ -1275,22 +1304,207 @@ void MyObject1::onAuxName4Changed(QString str)
 }
 
 
-const QStringList MyObject1::comboList()
+const QStringList MyObject1::comboList0()
 {
-    m_comboList.insert(0, "alpha");
-    m_comboList.insert(1, "bravo");
-    m_comboList.insert(2, "charley");
-
-    return m_comboList;
+    return m_comboList0;
+}
+const QStringList MyObject1::comboList1()
+{
+    return m_comboList1;
+}
+const QStringList MyObject1::comboList2()
+{
+    return m_comboList2;
+}
+const QStringList MyObject1::comboList3()
+{
+    return m_comboList3;
+}
+const QStringList MyObject1::comboList4()
+{
+    return m_comboList4;
+}
+const QStringList MyObject1::comboList5()
+{
+    return m_comboList5;
+}
+const QStringList MyObject1::comboList6()
+{
+    return m_comboList6;
+}
+const QStringList MyObject1::comboList7()
+{
+    return m_comboList7;
+}
+const QStringList MyObject1::comboList8()
+{
+    return m_comboList8;
+}
+const QStringList MyObject1::comboList9()
+{
+    return m_comboList9;
+}
+const QStringList MyObject1::comboList10()
+{
+    return m_comboList10;
+}
+const QStringList MyObject1::comboList11()
+{
+    return m_comboList11;
 }
 
+void MyObject1::updateComboBoxes(void)
+{
+    //update all the QStringLists with the correct values for each specific combobox:
+    // - do not list a loop in itself, iow, Loop: BigMuff should not have BigMuff listed in its combobox
 
+    //TEMP
+    m_comboList0.clear();
+    m_comboList0.insert(0, "Main In" );
+    if(getLoopName1().length() > 0) m_comboList0.insert(1, getLoopName1() );
+    if(getLoopName2().length() > 0) m_comboList0.insert(2, getLoopName2() );
+    if(getLoopName3().length() > 0) m_comboList0.insert(3, getLoopName3() );
+    if(getLoopName4().length() > 0) m_comboList0.insert(4, getLoopName4() );
+    if(getLoopName5().length() > 0) m_comboList0.insert(5, getLoopName5() );
+    if(getLoopName6().length() > 0) m_comboList0.insert(6, getLoopName6() );
+    if(getLoopName7().length() > 0) m_comboList0.insert(7, getLoopName7() );
+    m_comboList0.insert(7, "not used");
+
+    //do not include this number loop in the list
+    m_comboList1.clear();
+    m_comboList1.insert(0, "Main In" );
+    if(getLoopName2().length() > 0) m_comboList1.insert(1, getLoopName2() );
+    if(getLoopName3().length() > 0) m_comboList1.insert(2, getLoopName3() );
+    if(getLoopName4().length() > 0) m_comboList1.insert(3, getLoopName4() );
+    if(getLoopName5().length() > 0) m_comboList1.insert(4, getLoopName5() );
+    if(getLoopName6().length() > 0) m_comboList1.insert(5, getLoopName6() );
+    if(getLoopName7().length() > 0) m_comboList1.insert(6, getLoopName7() );
+    m_comboList1.insert(7, "not used" );
+
+    //do not include this number loop in the list
+    m_comboList2.clear();
+    m_comboList2.insert(0, "Main In" );
+    if(getLoopName1().length() > 0) m_comboList2.insert(1, getLoopName1() );
+    if(getLoopName3().length() > 0) m_comboList2.insert(2, getLoopName3() );
+    if(getLoopName4().length() > 0) m_comboList2.insert(3, getLoopName4() );
+    if(getLoopName5().length() > 0) m_comboList2.insert(4, getLoopName5() );
+    if(getLoopName6().length() > 0) m_comboList2.insert(5, getLoopName6() );
+    if(getLoopName7().length() > 0) m_comboList2.insert(6, getLoopName7() );
+    m_comboList2.insert(7, "not used" );
+
+    //do not include this number loop in the list
+    m_comboList3.clear();
+    m_comboList3.insert(0, "Main In" );
+    if(getLoopName1().length() > 0) m_comboList3.insert(1, getLoopName1() );
+    if(getLoopName2().length() > 0) m_comboList3.insert(2, getLoopName2() );
+    if(getLoopName4().length() > 0) m_comboList3.insert(3, getLoopName4() );
+    if(getLoopName5().length() > 0) m_comboList3.insert(4, getLoopName5() );
+    if(getLoopName6().length() > 0) m_comboList3.insert(5, getLoopName6() );
+    if(getLoopName7().length() > 0) m_comboList3.insert(6, getLoopName7() );
+    m_comboList3.insert(7, "not used" );
+
+    //do not include this number loop in the list
+    m_comboList4.clear();
+    m_comboList4.insert(0, "Main In" );
+    if(getLoopName1().length() > 0) m_comboList4.insert(1, getLoopName1() );
+    if(getLoopName2().length() > 0) m_comboList4.insert(2, getLoopName2() );
+    if(getLoopName3().length() > 0) m_comboList4.insert(3, getLoopName3() );
+    if(getLoopName5().length() > 0) m_comboList4.insert(4, getLoopName5() );
+    if(getLoopName6().length() > 0) m_comboList4.insert(5, getLoopName6() );
+    if(getLoopName7().length() > 0) m_comboList4.insert(6, getLoopName7() );
+    m_comboList4.insert(7, "not used" );
+
+    //do not include this number loop in the list
+    m_comboList5.clear();
+    m_comboList5.insert(0, "Main In" );
+    if(getLoopName1().length() > 0) m_comboList5.insert(1, getLoopName1() );
+    if(getLoopName2().length() > 0) m_comboList5.insert(2, getLoopName2() );
+    if(getLoopName3().length() > 0) m_comboList5.insert(3, getLoopName3() );
+    if(getLoopName4().length() > 0) m_comboList5.insert(4, getLoopName4() );
+    if(getLoopName6().length() > 0) m_comboList5.insert(5, getLoopName6() );
+    if(getLoopName7().length() > 0) m_comboList5.insert(6, getLoopName7() );
+    m_comboList5.insert(7, "not used" );
+
+    //do not include this number loop in the list
+    m_comboList6.clear();
+    m_comboList6.insert(0, "Main In" );
+    if(getLoopName1().length() > 0) m_comboList6.insert(1, getLoopName1() );
+    if(getLoopName2().length() > 0) m_comboList6.insert(2, getLoopName2() );
+    if(getLoopName3().length() > 0) m_comboList6.insert(3, getLoopName3() );
+    if(getLoopName4().length() > 0) m_comboList6.insert(4, getLoopName4() );
+    if(getLoopName5().length() > 0) m_comboList6.insert(5, getLoopName5() );
+    if(getLoopName7().length() > 0) m_comboList6.insert(6, getLoopName7() );
+    m_comboList6.insert(7, "not used" );
+
+    //do not include this number loop in the list
+    m_comboList7.clear();
+    m_comboList7.insert(0, "Main In" );
+    if(getLoopName1().length() > 0) m_comboList7.insert(1, getLoopName1() );
+    if(getLoopName2().length() > 0) m_comboList7.insert(2, getLoopName2() );
+    if(getLoopName3().length() > 0) m_comboList7.insert(3, getLoopName3() );
+    if(getLoopName4().length() > 0) m_comboList7.insert(4, getLoopName4() );
+    if(getLoopName5().length() > 0) m_comboList7.insert(5, getLoopName5() );
+    if(getLoopName6().length() > 0) m_comboList7.insert(6, getLoopName6() );
+    m_comboList7.insert(7, "not used" );
+
+    //Aux out - can get anything (like Main)
+    m_comboList8.clear();
+    m_comboList8.insert(0, "Main In" );
+    if(getLoopName1().length() > 0) m_comboList8.insert(1, getLoopName1() );
+    if(getLoopName2().length() > 0) m_comboList8.insert(2, getLoopName2() );
+    if(getLoopName3().length() > 0) m_comboList8.insert(3, getLoopName3() );
+    if(getLoopName4().length() > 0) m_comboList8.insert(4, getLoopName4() );
+    if(getLoopName5().length() > 0) m_comboList8.insert(5, getLoopName5() );
+    if(getLoopName6().length() > 0) m_comboList8.insert(6, getLoopName6() );
+    if(getLoopName7().length() > 0) m_comboList8.insert(7, getLoopName7() );
+    m_comboList8.insert(8, "not used" );
+
+    //Aux out - can get anything (like Main)
+    m_comboList9.clear();
+    m_comboList9.insert(0, "Main In" );
+    if(getLoopName1().length() > 0) m_comboList9.insert(1, getLoopName1() );
+    if(getLoopName2().length() > 0) m_comboList9.insert(2, getLoopName2() );
+    if(getLoopName3().length() > 0) m_comboList9.insert(3, getLoopName3() );
+    if(getLoopName4().length() > 0) m_comboList9.insert(4, getLoopName4() );
+    if(getLoopName5().length() > 0) m_comboList9.insert(5, getLoopName5() );
+    if(getLoopName6().length() > 0) m_comboList9.insert(6, getLoopName6() );
+    if(getLoopName7().length() > 0) m_comboList9.insert(7, getLoopName7() );
+    m_comboList9.insert(8, "not used" );
+
+    //Aux out - can get anything (like Main)
+    m_comboList10.clear();
+    m_comboList10.insert(0, "Main In" );
+    if(getLoopName1().length() > 0) m_comboList10.insert(1, getLoopName1() );
+    if(getLoopName2().length() > 0) m_comboList10.insert(2, getLoopName2() );
+    if(getLoopName3().length() > 0) m_comboList10.insert(3, getLoopName3() );
+    if(getLoopName4().length() > 0) m_comboList10.insert(4, getLoopName4() );
+    if(getLoopName5().length() > 0) m_comboList10.insert(5, getLoopName5() );
+    if(getLoopName6().length() > 0) m_comboList10.insert(6, getLoopName6() );
+    if(getLoopName7().length() > 0) m_comboList10.insert(7, getLoopName7() );
+    m_comboList10.insert(8, "not used" );
+
+    //Aux out - can get anything (like Main)
+    m_comboList11.clear();
+    m_comboList11.insert(0, "Main In" );
+    if(getLoopName1().length() > 0) m_comboList11.insert(1, getLoopName1() );
+    if(getLoopName2().length() > 0) m_comboList11.insert(2, getLoopName2() );
+    if(getLoopName3().length() > 0) m_comboList11.insert(3, getLoopName3() );
+    if(getLoopName4().length() > 0) m_comboList11.insert(4, getLoopName4() );
+    if(getLoopName5().length() > 0) m_comboList11.insert(5, getLoopName5() );
+    if(getLoopName6().length() > 0) m_comboList11.insert(6, getLoopName6() );
+    if(getLoopName7().length() > 0) m_comboList11.insert(7, getLoopName7() );
+    m_comboList11.insert(8, "not used" );
+
+
+}
+
+/*
 int MyObject1::count()
 {
     return m_count;
 }
 
-/*
+
 void MyObject1::setCount(int cnt)
 {
     if (cnt != m_count)

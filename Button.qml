@@ -46,7 +46,7 @@ import QtQuick.Controls 2.0
 Rectangle {
     id: button
 
-    property bool active: buttonGroup.activeButton == button
+    property bool active: buttonGroup.activeButton === button
     property bool fullDiscovery: false
     property alias text: label.text
 

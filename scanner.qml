@@ -269,6 +269,14 @@ Item
                 anchors.top: connectscreen.top;
                 GridView
                 {
+                    // ////////////////////////////////////////////////////////////////////////
+                    // ////////////////////////////////////////////////////////////////////////
+                    // ////////////////////////////////////////////////////////////////////////
+                    // ////////////////////////////////////////////////////////////////////////
+                    // ////////////////////////////////////////////////////////////////////////
+                    //
+                    // CONFIG  SCREEN
+                    //
                     id: settingsview;
                     //visible: false;
                     y:0
@@ -804,7 +812,9 @@ Item
                     // ////////////////////////////////////////////////////////////////////////
                     // ////////////////////////////////////////////////////////////////////////
                     // ////////////////////////////////////////////////////////////////////////
-                    // Song SCREEN
+                    //
+                    //  SONG  SCREEN
+                    //
                     border.width: 1
                     width: 320
                     height: 640
@@ -832,7 +842,7 @@ Item
                             id: textLabelSongName
                             x:0
                             y:textLabelSongTitle.y+30
-                            text: qsTr("Song Name: ")
+                            text: qsTr("Name line 1: ")
                             font.pixelSize: 12
                         }
                         TextInput
@@ -848,7 +858,7 @@ Item
                             visible: true
                             font.pixelSize: 14
                             font.bold: true
-                            maximumLength: 31
+                            maximumLength: 9
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
                             {
@@ -858,9 +868,9 @@ Item
                         Text
                         {
                             id: textLabelPartName
-                            x:10
-                            y:textSongName.y+20
-                            text: qsTr("Part: ")
+                            x:100
+                            y:textLabelSongName.y//+20
+                            text: qsTr("Name line 2: ")
                             font.pixelSize: 12
                         }
                         TextInput
@@ -868,24 +878,304 @@ Item
                             id: textPartName
                             text: theObject.PartName
                             y:textLabelPartName.y+20
-                            x:13
+                            x:105
+                            width: songview.width-10
+                            //anchors.left: songview.left+10
+                            anchors.top: textLabelPartName.bottom
+                            height: 25
+                            visible: true
+                            font.pixelSize: 14
+                            font.bold: true
+                            maximumLength: 9
+                            wrapMode: TextInput.NoWrap
+                            /*
                             width: top.width-10
                             height: 25
                             visible: true
                             font.pixelSize: 14
-                            maximumLength: 31
+                            maximumLength: 9
                             wrapMode: TextInput.NoWrap
+                            */
                             onTextChanged:
                             {
                                 theObject.onSongPartNameChanged(textPartName.text);
                             }
                         }
+                        // ///////////////////////////////////////////
+                        // THE MATRIX
+                        Text
+                        {
+                            id: textLabelMatrix0
+                            x:10
+                            //y:100
+                            anchors.top: textPartName.bottom
+                            anchors.topMargin: 3
+                            text: qsTr("Main out<---")
+                            font.pixelSize: 12
+                        }
+                        ComboBox {
+                            id: comboBox0
+                            anchors.left: textLabelMatrix0.right
+                            anchors.bottom: textLabelMatrix0.bottom
+                            anchors.bottomMargin: -3
+                            width: 150
+                            model: theObject.comboList0
+                            editable: false
+                            onCurrentIndexChanged:
+                            {
+                                theObject.onMatrix0Changed(currentText)
+                            }
+                        }
+                        Text
+                        {
+                            id: textLabelMatrix1
+                            x:10
+                            y:textLabelMatrix0.y+28
+                            text: textLoop1Name.text + qsTr(" <--- ");
+                            font.pixelSize: 12
+                        }
+                        ComboBox
+                        {
+                            id: comboBox1
+                            anchors.left: textLabelMatrix1.right
+                            anchors.bottom: textLabelMatrix1.bottom
+                            anchors.bottomMargin: -3
+                            width: 150
+                            model: theObject.comboList1
+                            editable: false
+                            onCurrentIndexChanged:
+                            {
+                                theObject.onMatrix1Changed(currentText)
+                            }
+                        }
+                        Text
+                        {
+                            id: textLabelMatrix2
+                            x:10
+                            y:textLabelMatrix1.y+28
+                            text: textLoop2Name.text + qsTr(" <--- ");
+                            font.pixelSize: 12
+                        }
+                        ComboBox
+                        {
+                            id: comboBox2
+                            anchors.left: textLabelMatrix2.right
+                            anchors.bottom: textLabelMatrix2.bottom
+                            anchors.bottomMargin: -3
+                            width: 150
+                            model: theObject.comboList2
+                            editable: false
+                            onCurrentIndexChanged:
+                            {
+                                theObject.onMatrix2Changed(currentText)
+                            }
+                        }
+                        Text
+                        {
+                            id: textLabelMatrix3
+                            x:10
+                            y:textLabelMatrix2.y+28
+                            text: textLoop3Name.text + qsTr(" <--- ");
+                            font.pixelSize: 12
+                        }
+                        ComboBox
+                        {
+                            id: comboBox3
+                            anchors.left: textLabelMatrix3.right
+                            anchors.bottom: textLabelMatrix3.bottom
+                            anchors.bottomMargin: -3
+                            width: 150
+                            model: theObject.comboList3
+                            editable: false
+                            onCurrentIndexChanged:
+                            {
+                                theObject.onMatrix3Changed(currentText)
+                            }
+                        }
+                        Text
+                        {
+                            id: textLabelMatrix4
+                            x:10
+                            y:textLabelMatrix3.y+28
+                            text: textLoop4Name.text + qsTr(" <--- ");
+                            font.pixelSize: 12
+                        }
+                        ComboBox
+                        {
+                            id: comboBox4
+                            anchors.left: textLabelMatrix4.right
+                            anchors.bottom: textLabelMatrix4.bottom
+                            anchors.bottomMargin: -3
+                            width: 150
+                            model: theObject.comboList4
+                            editable: false
+                            onCurrentIndexChanged:
+                            {
+                                theObject.onMatrix4Changed(currentText)
+                            }
+                        }
+                        Text
+                        {
+                            id: textLabelMatrix5
+                            x:10
+                            y:textLabelMatrix4.y+28
+                            text: textLoop5Name.text + qsTr(" <--- ");
+                            font.pixelSize: 12
+                        }
+                        ComboBox
+                        {
+                            id: comboBox5
+                            anchors.left: textLabelMatrix5.right
+                            anchors.bottom: textLabelMatrix5.bottom
+                            anchors.bottomMargin: -3
+                            width: 150
+                            model: theObject.comboList5
+                            editable: false
+                            onCurrentIndexChanged:
+                            {
+                                theObject.onMatrix5Changed(currentText)
+                            }
+                        }
+                        Text
+                        {
+                            id: textLabelMatrix6
+                            x:10
+                            y:textLabelMatrix5.y+28
+                            text: textLoop6Name.text + qsTr(" <--- ");
+                            font.pixelSize: 12
+                        }
+                        ComboBox
+                        {
+                            id: comboBox6
+                            anchors.left: textLabelMatrix6.right
+                            anchors.bottom: textLabelMatrix6.bottom
+                            anchors.bottomMargin: -3
+                            width: 150
+                            model: theObject.comboList6
+                            editable: false
+                            onCurrentIndexChanged:
+                            {
+                                theObject.onMatrix6Changed(currentText)
+                            }
+                        }
+                        Text
+                        {
+                            id: textLabelMatrix7
+                            x:10
+                            y:textLabelMatrix6.y+28
+                            text: textLoop7Name.text + qsTr(" <--- ");
+                            font.pixelSize: 12
+                        }
+                        ComboBox
+                        {
+                            id: comboBox7
+                            anchors.left: textLabelMatrix7.right
+                            anchors.bottom: textLabelMatrix7.bottom
+                            anchors.bottomMargin: -3
+                            width: 150
+                            model: theObject.comboList7
+                            editable: false
+                            onCurrentIndexChanged:
+                            {
+                                theObject.onMatrix7Changed(currentText)
+                            }
+                        }
+                        Text
+                        {
+                            id: textLabelMatrix8
+                            x:10
+                            y:textLabelMatrix7.y+28
+                            text: textNameAux1.text + qsTr(" <--- ");
+                            font.pixelSize: 12
+                        }
+                        ComboBox
+                        {
+                            id: comboBox8
+                            anchors.left: textLabelMatrix8.right
+                            anchors.bottom: textLabelMatrix8.bottom
+                            anchors.bottomMargin: -3
+                            width: 150
+                            model: theObject.comboList8
+                            editable: false
+                            onCurrentIndexChanged:
+                            {
+                                theObject.onMatrix8Changed(currentText)
+                            }
+                        }
 
+                        Text
+                        {
+                            id: textLabelMatrix9
+                            x:10
+                            y:textLabelMatrix8.y+28
+                            text: textNameAux2.text + qsTr(" <--- ");
+                            font.pixelSize: 12
+                        }
+                        ComboBox
+                        {
+                            id: comboBox9
+                            anchors.left: textLabelMatrix9.right
+                            anchors.bottom: textLabelMatrix9.bottom
+                            anchors.bottomMargin: -3
+                            width: 150
+                            model: theObject.comboList9
+                            editable: false
+                            onCurrentIndexChanged:
+                            {
+                                theObject.onMatrix9Changed(currentText)
+                            }
+                        }
+                        Text
+                        {
+                            id: textLabelMatrix10
+                            x:10
+                            y:textLabelMatrix9.y+28
+                            text: textNameAux3.text + qsTr(" <--- ");
+                            font.pixelSize: 12
+                        }
+                        ComboBox
+                        {
+                            id: comboBox10
+                            anchors.left: textLabelMatrix10.right
+                            anchors.bottom: textLabelMatrix10.bottom
+                            anchors.bottomMargin: -3
+                            width: 150
+                            model: theObject.comboList10
+                            editable: false
+                            onCurrentIndexChanged:
+                            {
+                                theObject.onMatrix10Changed(currentText)
+                            }
+                        }
+                        Text
+                        {
+                            id: textLabelMatrix11
+                            x:10
+                            y:textLabelMatrix10.y+28
+                            text: textNameAux4.text + qsTr(" <--- ");
+                            font.pixelSize: 12
+                        }
+                        ComboBox
+                        {
+                            id: comboBox11
+                            anchors.left: textLabelMatrix11.right
+                            anchors.bottom: textLabelMatrix11.bottom
+                            anchors.bottomMargin: -3
+                            width: 150
+                            model: theObject.comboList11
+                            editable: false
+                            onCurrentIndexChanged:
+                            {
+                                theObject.onMatrix11Changed(currentText)
+                            }
+                        }
+                        /////////////////////////////////////////////////////////////////////////////
+                        //MIDI
                         Text
                         {
                             id: textLabelMidiMsg1
                             x:10
-                            y:textPartName.y+25
+                            y:425
                             text: qsTr("MIDI Msg 1: ")
                             font.pixelSize: 12
                         }
@@ -907,6 +1197,7 @@ Item
                             }
                         }
 
+                        /*
                         Text
                         {
                             id: textLabelMidiMsg2
@@ -984,12 +1275,12 @@ Item
                                 theObject.onMidiMsg4Changed(textMidiMsg4.text);
                             }
                         }
-
+                        */
                         Text
                         {
                             id: textLabelMidiMode
                             x:10
-                            y:textMidiMsg4.y+24
+                            y:textMidiMsg1.y+18
                             text: qsTr("MIDI Mode: ")
                             font.pixelSize: 12
                         }
@@ -1014,7 +1305,7 @@ Item
                         {
                             id: textLabelSongFsw
                             x:10
-                            y:textMidiMode.y+24
+                            y:textMidiMode.y+18
                             text: qsTr("Footswitch Config: ")
                             font.pixelSize: 12
                         }
@@ -1039,7 +1330,7 @@ Item
                         {
                             id: textLabelSongBacklight
                             x:10
-                            y:textSongFsw.y+24
+                            y:textSongFsw.y+18
                             text: qsTr("Backlight(song): ")
                             font.pixelSize: 12
                         }
@@ -1065,7 +1356,7 @@ Item
                         {
                             id: textLabelTrickMode
                             x:10
-                            y:textLabelSongBacklight.y+24
+                            y:textLabelSongBacklight.y+18
                             text: qsTr("Trick Mode: ")
                             font.pixelSize: 12
                         }
@@ -1113,342 +1404,6 @@ Item
                             }
                         }
 
-                        Text
-                        {
-                            id: textLabelMatrix0
-                            x:10
-                            y:textTrickData.y+20
-                            text: qsTr("Main out<---")//"trix 0: ")
-                            font.pixelSize: 12
-                        }
-                        TextInput
-                        {
-                            id: textMatrix0
-                            text: theObject.Matrix0
-                            y:textLabelMatrix0.y
-                            anchors.left: textLabelMatrix0.right
-                            width: top.width-10
-                            height: 25
-                            visible: true
-                            font.pixelSize: 12
-                            maximumLength: 31
-                            wrapMode: TextInput.NoWrap
-                            onTextChanged:
-                            {
-                                theObject.onMatrix0Changed(textMatrix0.text);
-                            }
-                        }
-                        Text
-                        {
-                            id: textLabelMatrix1
-                            x:10
-                            y:textMatrix0.y+18
-                            //text: qsTr("Matrix 1: ")
-                            text: textLoop1Name.text + qsTr("<---");
-                            font.pixelSize: 12
-                        }
-                        /*
-                        TextInput
-                        {
-                            id: textMatrix1
-                            text: theObject.Matrix1
-                            y:textLabelMatrix1.y
-                            anchors.left: textLabelMatrix1.right
-                            width: top.width-10
-                            height: 25
-                            visible: true
-                            font.pixelSize: 12
-                            maximumLength: 31
-                            wrapMode: TextInput.NoWrap
-                            onTextChanged:
-                            {
-                                theObject.onMatrix1Changed(textMatrix1.text);
-                            }
-                        }
-                        */
-                        ComboBox {
-                            id: comboBox1
-                            //y:textLabelMatrix0.y
-                            anchors.left: textLabelMatrix0.right
-                            anchors.bottom: textLabelMatrix0.bottom
-                            width: 150
-                            model: theObject.comboList
-                            editable: false
-                            onCurrentIndexChanged: theObject.onMatrix1Changed(currentText)
-                        }
-                        Text
-                        {
-                            id: textLabelMatrix2
-                            x:10
-                            //y:textMatrix1.y+18
-                            y:textLabelMatrix1.y+18
-                            //text: qsTr("Matrix 2: ")
-                            text: textLoop2Name.text + qsTr("<---");
-                            font.pixelSize: 12
-                        }
-                        /*
-                        TextInput
-                        {
-                            id: textMatrix2
-                            text: theObject.Matrix2
-                            y:textLabelMatrix2.y
-                            anchors.left: textLabelMatrix2.right
-                            width: top.width-10
-                            height: 25
-                            visible: true
-                            font.pixelSize: 12
-                            maximumLength: 31
-                            wrapMode: TextInput.NoWrap
-                            onTextChanged:
-                            {
-                                theObject.onMatrix2Changed(textMatrix2.text);
-                            }
-                        }
-                        */
-                        ComboBox {
-                            id: comboBox2
-                            //y:textLabelMatrix0.y
-                            anchors.left: textLabelMatrix1.right
-                            anchors.bottom: textLabelMatrix1.bottom
-                            width: 150
-                            model: theObject.comboList
-                            editable: false
-                            onCurrentIndexChanged: theObject.onMatrix2Changed(currentText)
-                        }
-                        Text
-                        {
-                            id: textLabelMatrix3
-                            x:10
-                            y:textLabelMatrix2.y+18
-                            //text: qsTr("Matrix 3: ")
-                            text: textLoop3Name.text + qsTr("<---");
-                            font.pixelSize: 12
-                        }
-                        TextInput
-                        {
-                            id: textMatrix3
-                            text: theObject.Matrix3
-                            y:textLabelMatrix3.y
-                            anchors.left: textLabelMatrix3.right
-                            width: top.width-10
-                            height: 25
-                            visible: true
-                            font.pixelSize: 12
-                            maximumLength: 31
-                            wrapMode: TextInput.NoWrap
-                            onTextChanged:
-                            {
-                                theObject.onMatrix3Changed(textMatrix3.text);
-                            }
-                        }
-                        Text
-                        {
-                            id: textLabelMatrix4
-                            x:10
-                            y:textMatrix3.y+18
-                            //text: qsTr("Matrix 4: ")
-                            text: textLoop4Name.text + qsTr("<---");
-                            font.pixelSize: 12
-                        }
-                        TextInput
-                        {
-                            id: textMatrix4
-                            text: theObject.Matrix4
-                            y:textLabelMatrix4.y
-                            anchors.left: textLabelMatrix4.right
-                            width: top.width-10
-                            height: 25
-                            visible: true
-                            font.pixelSize: 12
-                            maximumLength: 31
-                            wrapMode: TextInput.NoWrap
-                            onTextChanged:
-                            {
-                                theObject.onMatrix4Changed(textMatrix4.text);
-                            }
-                        }
-                        Text
-                        {
-                            id: textLabelMatrix5
-                            x:10
-                            y:textMatrix4.y+18
-                            //text: qsTr("Matrix 5: ")
-                            text: textLoop5Name.text + qsTr("<---");
-                            font.pixelSize: 12
-                        }
-                        TextInput
-                        {
-                            id: textMatrix5
-                            text: theObject.Matrix5
-                            y:textLabelMatrix5.y
-                            anchors.left: textLabelMatrix5.right
-                            width: top.width-10
-                            height: 25
-                            visible: true
-                            font.pixelSize: 12
-                            maximumLength: 31
-                            wrapMode: TextInput.NoWrap
-                            onTextChanged:
-                            {
-                                theObject.onMatrix5Changed(textMatrix5.text);
-                            }
-                        }
-                        Text
-                        {
-                            id: textLabelMatrix6
-                            x:10
-                            y:textMatrix5.y+18
-                            //text: qsTr("Matrix 6: ")
-                            text: textLoop6Name.text + qsTr("<---");
-                            font.pixelSize: 12
-                        }
-                        TextInput
-                        {
-                            id: textMatrix6
-                            text: theObject.Matrix6
-                            y:textLabelMatrix6.y
-                            anchors.left: textLabelMatrix6.right
-                            width: top.width-10
-                            height: 25
-                            visible: true
-                            font.pixelSize: 12
-                            maximumLength: 31
-                            wrapMode: TextInput.NoWrap
-                            onTextChanged:
-                            {
-                                theObject.onMatrix6Changed(textMatrix6.text);
-                            }
-                        }
-                        Text
-                        {
-                            id: textLabelMatrix7
-                            x:10
-                            y:textMatrix6.y+18
-                            //text: qsTr("Matrix 7: ")
-                            text: textLoop7Name.text + qsTr("<---");
-                            font.pixelSize: 12
-                        }
-                        TextInput
-                        {
-                            id: textMatrix7
-                            text: theObject.Matrix7
-                            y:textLabelMatrix7.y
-                            anchors.left: textLabelMatrix7.right
-                            width: top.width-10
-                            height: 25
-                            visible: true
-                            font.pixelSize: 12
-                            maximumLength: 31
-                            wrapMode: TextInput.NoWrap
-                            onTextChanged:
-                            {
-                                theObject.onMatrix7Changed(textMatrix7.text);
-                            }
-                        }
-                        Text
-                        {
-                            id: textLabelMatrix8
-                            x:10
-                            y:textMatrix7.y+18
-                            //text: qsTr("Matrix 8: ")
-                            text: textNameAux1.text + qsTr("<---");
-                            font.pixelSize: 12
-                        }
-                        TextInput
-                        {
-                            id: textMatrix8
-                            text: theObject.Matrix8
-                            y:textLabelMatrix8.y
-                            anchors.left: textLabelMatrix8.right
-                            width: top.width-10
-                            height: 25
-                            visible: true
-                            font.pixelSize: 12
-                            maximumLength: 31
-                            wrapMode: TextInput.NoWrap
-                            onTextChanged:
-                            {
-                                theObject.onMatrix8Changed(textMatrix8.text);
-                            }
-                        }
-                        Text
-                        {
-                            id: textLabelMatrix9
-                            x:10
-                            y:textMatrix8.y+18
-                            //text: qsTr("Matrix 9: ")
-                            text: textNameAux2.text + qsTr("<---");
-                            font.pixelSize: 12
-                        }
-                        TextInput
-                        {
-                            id: textMatrix9
-                            text: theObject.Matrix9
-                            y:textLabelMatrix9.y
-                            anchors.left: textLabelMatrix9.right
-                            width: top.width-10
-                            height: 25
-                            visible: true
-                            font.pixelSize: 12
-                            maximumLength: 31
-                            wrapMode: TextInput.NoWrap
-                            onTextChanged:
-                            {
-                                theObject.onMatrix9Changed(textMatrix9.text);
-                            }
-                        }
-                        Text
-                        {
-                            id: textLabelMatrix10
-                            x:10
-                            y:textMatrix9.y+18
-                            //text: qsTr("Matrix 10: ")
-                            text: textNameAux3.text + qsTr("<---");
-                            font.pixelSize: 12
-                        }
-                        TextInput
-                        {
-                            id: textMatrix10
-                            text: theObject.Matrix10
-                            y:textLabelMatrix10.y
-                            anchors.left: textLabelMatrix10.right
-                            width: top.width-10
-                            height: 25
-                            visible: true
-                            font.pixelSize: 12
-                            maximumLength: 31
-                            wrapMode: TextInput.NoWrap
-                            onTextChanged:
-                            {
-                                theObject.onMatrix10Changed(textMatrix10.text);
-                            }
-                        }
-                        Text
-                        {
-                            id: textLabelMatrix11
-                            x:10
-                            y:textMatrix10.y+18
-                            //text: qsTr("Matrix 11: ")
-                            text: textNameAux4.text + qsTr("<---");
-                            font.pixelSize: 12
-                        }
-                        TextInput
-                        {
-                            id: textMatrix11
-                            text: theObject.Matrix11
-                            y:textLabelMatrix11.y
-                            anchors.left: textLabelMatrix11.right
-                            width: top.width-10
-                            height: 25
-                            visible: true
-                            font.pixelSize: 12
-                            maximumLength: 31
-                            wrapMode: TextInput.NoWrap
-                            onTextChanged:
-                            {
-                                theObject.onMatrix11Changed(textMatrix11.text);
-                            }
-                        }
 
                         Button
                         {

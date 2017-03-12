@@ -15,8 +15,19 @@ class MyObject1 : public QObject
     Q_OBJECT
 
     //Q_PROPERTY(QStringList comboList READ comboList WRITE setComboList NOTIFY comboListChanged)
-    Q_PROPERTY(QStringList comboList READ comboList NOTIFY comboListChanged)
-    Q_PROPERTY(int count READ count NOTIFY countChanged)
+    Q_PROPERTY(QStringList comboList0 READ comboList0 NOTIFY comboListChanged)
+    Q_PROPERTY(QStringList comboList1 READ comboList1 NOTIFY comboListChanged)
+    Q_PROPERTY(QStringList comboList2 READ comboList2 NOTIFY comboListChanged)
+    Q_PROPERTY(QStringList comboList3 READ comboList3 NOTIFY comboListChanged)
+    Q_PROPERTY(QStringList comboList4 READ comboList4 NOTIFY comboListChanged)
+    Q_PROPERTY(QStringList comboList5 READ comboList5 NOTIFY comboListChanged)
+    Q_PROPERTY(QStringList comboList6 READ comboList6 NOTIFY comboListChanged)
+    Q_PROPERTY(QStringList comboList7 READ comboList7 NOTIFY comboListChanged)
+    Q_PROPERTY(QStringList comboList8 READ comboList8 NOTIFY comboListChanged)
+    Q_PROPERTY(QStringList comboList9 READ comboList9 NOTIFY comboListChanged)
+    Q_PROPERTY(QStringList comboList10 READ comboList10 NOTIFY comboListChanged)
+    Q_PROPERTY(QStringList comboList11 READ comboList11 NOTIFY comboListChanged)
+    //Q_PROPERTY(int count READ count NOTIFY countChanged)
 
 
     //Song
@@ -87,16 +98,38 @@ public:
 
     QByteArray m_RecvData;
 
-    const QStringList comboList();
+    const QStringList comboList0();
+    const QStringList comboList1();
+    const QStringList comboList2();
+    const QStringList comboList3();
+    const QStringList comboList4();
+    const QStringList comboList5();
+    const QStringList comboList6();
+    const QStringList comboList7();
+    const QStringList comboList8();
+    const QStringList comboList9();
+    const QStringList comboList10();
+    const QStringList comboList11();
     //void setComboList(const QStringList &comboList);
-    int count();
+    //int count();
 
 
 private:
     MyAppGui* myApp;
 
-    QStringList m_comboList;
-    int         m_count;
+    QStringList m_comboList0;
+    QStringList m_comboList1;
+    QStringList m_comboList2;
+    QStringList m_comboList3;
+    QStringList m_comboList4;
+    QStringList m_comboList5;
+    QStringList m_comboList6;
+    QStringList m_comboList7;
+    QStringList m_comboList8;
+    QStringList m_comboList9;
+    QStringList m_comboList10;
+    QStringList m_comboList11;
+
 
 signals:
     void recdBLEdata(QByteArray);
@@ -105,7 +138,7 @@ signals:
     void modelChanged(void);
 
     void comboListChanged();
-    void countChanged();
+    //void countChanged();
 
 public slots:
     void addService(QBluetoothUuid);
@@ -114,6 +147,8 @@ public slots:
     void writeData(QByteArray);
     void bleConnected();
     void bleServiceChanged(QLowEnergyService::ServiceState);
+
+    void updateComboBoxes(void);
 
     //QAbstractItemModel* model(void) const;
 
