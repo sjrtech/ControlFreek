@@ -39,9 +39,11 @@
 **
 ****************************************************************************/
 
+
 import QtQuick 2.0
 import QtBluetooth 5.2
 import QtQuick.Controls 1.5
+import QtQuick.Controls.Styles 1.1
 
 Item
 {
@@ -529,9 +531,114 @@ Item
 
                     Text
                     {
-                        id: textLabelFsw1
+                        id: textLabelAux1
                         x:0
                         y:textLabelLoop7.y+24
+                        text: qsTr("Aux1 Name:")
+                        font.pixelSize: 12
+                    }
+                    TextInput
+                    {
+                        id: textNameAux1
+                        text: theObject.AuxName1
+                        anchors.left: textLabelAux1.right
+                        y:textLabelAux1.y
+                        width: 150
+                        height: 16
+                        visible: true
+                        font.pixelSize: 16
+                        font.bold: true
+                        maximumLength: 11
+                        wrapMode: TextInput.NoWrap
+                        onTextChanged:
+                        {
+                            theObject.onAuxName1Changed(textNameAux1.text);
+                        }
+                    }
+                    Text
+                    {
+                        id: textLabelAux2
+                        x:0
+                        y:textLabelAux1.y+18
+                        text: qsTr("Aux2 Name:")
+                        font.pixelSize: 12
+                    }
+                    TextInput
+                    {
+                        id: textNameAux2
+                        text: theObject.AuxName2
+                        anchors.left: textLabelAux2.right
+                        y:textLabelAux2.y
+                        width: 150
+                        height: 16
+                        visible: true
+                        font.pixelSize: 16
+                        font.bold: true
+                        maximumLength: 11
+                        wrapMode: TextInput.NoWrap
+                        onTextChanged:
+                        {
+                            theObject.onAuxName2Changed(textNameAux2.text);
+                        }
+                    }
+                    Text
+                    {
+                        id: textLabelAux3
+                        x:0
+                        y:textLabelAux2.y+18
+                        text: qsTr("Aux3 Name:")
+                        font.pixelSize: 12
+                    }
+                    TextInput
+                    {
+                        id: textNameAux3
+                        text: theObject.AuxName3
+                        anchors.left: textLabelAux3.right
+                        y:textLabelAux3.y
+                        width: 150
+                        height: 16
+                        visible: true
+                        font.pixelSize: 16
+                        font.bold: true
+                        maximumLength: 11
+                        wrapMode: TextInput.NoWrap
+                        onTextChanged:
+                        {
+                            theObject.onAuxName3Changed(textNameAux3.text);
+                        }
+                    }
+                    Text
+                    {
+                        id: textLabelAux4
+                        x:0
+                        y:textLabelAux3.y+18
+                        text: qsTr("Aux4 Name:")
+                        font.pixelSize: 12
+                    }
+                    TextInput
+                    {
+                        id: textNameAux4
+                        text: theObject.AuxName4
+                        anchors.left: textLabelAux4.right
+                        y:textLabelAux4.y
+                        width: 150
+                        height: 16
+                        visible: true
+                        font.pixelSize: 16
+                        font.bold: true
+                        maximumLength: 11
+                        wrapMode: TextInput.NoWrap
+                        onTextChanged:
+                        {
+                            theObject.onAuxName4Changed(textNameAux4.text);
+                        }
+                    }
+
+                    Text
+                    {
+                        id: textLabelFsw1
+                        x:0
+                        y:textLabelAux4.y+24
                         text: qsTr("Fsw1 Name:")
                         font.pixelSize: 12
                     }
@@ -656,8 +763,6 @@ Item
                         {
                             theObject.onFswName5Changed(textNameFsw5.text);
                         }
-
-
                     }
                     Text
                     {
@@ -683,111 +788,6 @@ Item
                         onTextChanged:
                         {
                             theObject.onFswName6Changed(textNameFsw6.text);
-                        }
-                    }
-
-                    Text
-                    {
-                        id: textLabelAux1
-                        x:0
-                        y:textLabelFsw6.y+24
-                        text: qsTr("Aux1 Name:")
-                        font.pixelSize: 12
-                    }
-                    TextInput
-                    {
-                        id: textNameAux1
-                        text: theObject.AuxName1
-                        anchors.left: textLabelAux1.right
-                        y:textLabelAux1.y
-                        width: 150
-                        height: 16
-                        visible: true
-                        font.pixelSize: 16
-                        font.bold: true
-                        maximumLength: 11
-                        wrapMode: TextInput.NoWrap
-                        onTextChanged:
-                        {
-                            theObject.onAuxName1Changed(textNameAux1.text);
-                        }
-                    }
-                    Text
-                    {
-                        id: textLabelAux2
-                        x:0
-                        y:textLabelAux1.y+18
-                        text: qsTr("Aux2 Name:")
-                        font.pixelSize: 12
-                    }
-                    TextInput
-                    {
-                        id: textNameAux2
-                        text: theObject.AuxName2
-                        anchors.left: textLabelAux2.right
-                        y:textLabelAux2.y
-                        width: 150
-                        height: 16
-                        visible: true
-                        font.pixelSize: 16
-                        font.bold: true
-                        maximumLength: 11
-                        wrapMode: TextInput.NoWrap
-                        onTextChanged:
-                        {
-                            theObject.onAuxName2Changed(textNameAux2.text);
-                        }
-                    }
-                    Text
-                    {
-                        id: textLabelAux3
-                        x:0
-                        y:textLabelAux2.y+18
-                        text: qsTr("Aux3 Name:")
-                        font.pixelSize: 12
-                    }
-                    TextInput
-                    {
-                        id: textNameAux3
-                        text: theObject.AuxName3
-                        anchors.left: textLabelAux3.right
-                        y:textLabelAux3.y
-                        width: 150
-                        height: 16
-                        visible: true
-                        font.pixelSize: 16
-                        font.bold: true
-                        maximumLength: 11
-                        wrapMode: TextInput.NoWrap
-                        onTextChanged:
-                        {
-                            theObject.onAuxName3Changed(textNameAux3.text);
-                        }
-                    }
-                    Text
-                    {
-                        id: textLabelAux4
-                        x:0
-                        y:textLabelAux3.y+18
-                        text: qsTr("Aux4 Name:")
-                        font.pixelSize: 12
-                    }
-                    TextInput
-                    {
-                        id: textNameAux4
-                        text: theObject.AuxName4
-                        anchors.left: textLabelAux4.right
-                        y:textLabelAux4.y
-                        width: 150
-                        height: 16
-                        visible: true
-                        font.pixelSize: 16
-                        font.bold: true
-                        maximumLength: 11
-                        wrapMode: TextInput.NoWrap
-                        onTextChanged:
-                        {
-                            theObject.onAuxName4Changed(textNameAux4.text);
                         }
                     }
 
@@ -845,6 +845,39 @@ Item
                             text: qsTr("Name line 1: ")
                             font.pixelSize: 12
                         }
+
+                        TextField
+                        {
+                            placeholderText: "type here..."
+                            y:textLabelSongName.y+16
+                            x:5
+                            width: 140
+                            id: textSongName
+                            text: theObject.SongName
+                            font.pixelSize: 14
+                            font.bold: true
+                            maximumLength: 9
+                            onTextChanged:
+                            {
+                                theObject.onSongNameChanged(textSongName.text);
+                            }
+                            style:
+                                TextFieldStyle
+                                {
+                                    textColor: "black"
+                                    background:
+                                        Rectangle
+                                        {
+                                            radius: 5
+                                            color: "light blue"
+                                            implicitWidth: 90
+                                            implicitHeight: 25
+                                            border.color: "#333"
+                                            border.width: 1
+                                        }
+                                }
+                        }
+                        /*
                         TextInput
                         {
                             id: textSongName
@@ -865,14 +898,47 @@ Item
                                 theObject.onSongNameChanged(textSongName.text);
                             }
                         }
+                        */
                         Text
                         {
                             id: textLabelPartName
-                            x:100
+                            x:160
                             y:textLabelSongName.y//+20
                             text: qsTr("Name line 2: ")
                             font.pixelSize: 12
                         }
+                        TextField
+                        {
+                            placeholderText: "type here..."
+                            y:textLabelPartName.y+16
+                            x:textLabelPartName.x+5
+                            width: 140
+                            id: textPartName
+                            text: theObject.SongName
+                            font.pixelSize: 14
+                            font.bold: true
+                            maximumLength: 9
+                            onTextChanged:
+                            {
+                                theObject.onSongPartNameChanged(textPartName.text);
+                            }
+                            style:
+                                TextFieldStyle
+                                {
+                                    textColor: "black"
+                                    background:
+                                        Rectangle
+                                        {
+                                            radius: 5
+                                            color: "light blue"
+                                            implicitWidth: 90
+                                            implicitHeight: 25
+                                            border.color: "#333"
+                                            border.width: 1
+                                        }
+                                }
+                        }
+                        /*
                         TextInput
                         {
                             id: textPartName
@@ -888,19 +954,12 @@ Item
                             font.bold: true
                             maximumLength: 9
                             wrapMode: TextInput.NoWrap
-                            /*
-                            width: top.width-10
-                            height: 25
-                            visible: true
-                            font.pixelSize: 14
-                            maximumLength: 9
-                            wrapMode: TextInput.NoWrap
-                            */
                             onTextChanged:
                             {
                                 theObject.onSongPartNameChanged(textPartName.text);
                             }
                         }
+                        */
                         // ///////////////////////////////////////////
                         // THE MATRIX
                         Text
@@ -909,7 +968,7 @@ Item
                             x:10
                             //y:100
                             anchors.top: textPartName.bottom
-                            anchors.topMargin: 3
+                            anchors.topMargin: 10
                             text: qsTr("Main out<---")
                             font.pixelSize: 12
                         }
@@ -1080,11 +1139,13 @@ Item
                                 theObject.onMatrix7Changed(currentText)
                             }
                         }
+                        /////////////////////////////////////////////////////////////////////////////
+                        //  AUX
                         Text
                         {
                             id: textLabelMatrix8
                             x:10
-                            y:textLabelMatrix7.y+28
+                            y:textLabelMatrix7.y+40
                             text: textNameAux1.text + qsTr(" <--- ");
                             font.pixelSize: 12
                         }
@@ -1175,7 +1236,7 @@ Item
                         {
                             id: textLabelMidiMsg1
                             x:10
-                            y:425
+                            y:textLabelMatrix11.y+32
                             text: qsTr("MIDI Msg 1: ")
                             font.pixelSize: 12
                         }
