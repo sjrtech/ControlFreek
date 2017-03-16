@@ -47,7 +47,7 @@ import QtQuick.Controls.Styles 1.1
 
 Item
 {
-    id: top
+    //id: top
 
     property BluetoothService currentService
 
@@ -81,11 +81,11 @@ Item
     Rectangle {
         id: mainwindow
         width: 320
-        height: 640
+        height: 720
         Flickable {
             anchors.fill: parent
             contentWidth: 960
-            contentHeight: 640
+            contentHeight: 720
             //Flickable.width: 320
             //Flickable.height: 0
             Rectangle
@@ -98,7 +98,7 @@ Item
                 //anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: parent.top;
                 width: 320
-                height: 640
+                height: 720
                 border.width: 1
                 Rectangle
                 {
@@ -108,14 +108,14 @@ Item
                     anchors.horizontalCenter: connectscreen.horizontalCenter
                     //anchors.top: top.top;
                     anchors.top: connectscreen.top;
-                    height: text.height*1.2;
+                    height: textTHING.height*1.2;
                     radius: 5
                     color: "#1c56f3"
                     visible: btModel.running
 
                     Text
                     {
-                        id: text
+                        id: textTHING
                         text: "Scanning"
                         font.bold: true
                         font.pointSize: 20
@@ -266,7 +266,7 @@ Item
                 // Breakout box SCREENS
                 border.width: 1
                 width: 320
-                height: 640
+                height: 720
                 anchors.left: connectscreen.right
                 anchors.top: connectscreen.top;
                 GridView
@@ -289,7 +289,7 @@ Item
                         id: textLabelSettingsTitle
                         x:40
                         y:0
-                        text: qsTr("SYSTEM INFO v0.1")
+                        text: qsTr("SYSTEM INFO v0.2")
                         font.pixelSize: 20
                         font.bold: true
                         font.underline: true
@@ -794,10 +794,12 @@ Item
                     Button
                     {
                         id: buttonUpdateSettings
-                        y:552
-                        x:60
+                        //y:552
+                        //x:60
                         width: 200
-                        //mdButton has longest text
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.bottomMargin: 5
+                        anchors.bottom: parent.bottom
                         height: 80
                         text: "Update Settings"
                         visible: true
@@ -817,7 +819,7 @@ Item
                     //
                     border.width: 1
                     width: 320
-                    height: 640
+                    height: parent.height
                     anchors.left: settingsview.right
                     anchors.top: settingsview.top;
                     GridView
@@ -825,8 +827,8 @@ Item
                         id: songview;
                         //visible: false;
                         y:0
-                        width: 320
-                        height: 640
+                        width: parent.width
+                        height: parent.height
                         Text
                         {
                             id: textLabelSongTitle
@@ -840,7 +842,7 @@ Item
                         Text
                         {
                             id: textLabelSongName
-                            x:0
+                            x:2
                             y:textLabelSongTitle.y+30
                             text: qsTr("Name line 1: ")
                             font.pixelSize: 12
@@ -1370,6 +1372,57 @@ Item
                             text: qsTr("Footswitch Config: ")
                             font.pixelSize: 12
                         }
+                        CheckBox {
+                            id: checkBoxFsw1
+                            x: textLabelSongFsw.x
+                            anchors.top: textLabelSongFsw.bottom
+                            anchors.topMargin: 1
+                            text: textNameFsw1.text
+                            onCheckedChanged: theObject.fswOneCheckChanged(checkedState);
+                        }
+                        CheckBox {
+                            id: checkBoxFsw2
+                            x: checkBoxFsw1.x
+                            anchors.top: checkBoxFsw1.bottom
+                            anchors.topMargin: 1
+                            text: textNameFsw2.text
+                            onCheckedChanged: theObject.fswTwoCheckChanged(checkedState);
+                        }
+                        CheckBox {
+                            id: checkBoxFsw3
+                            anchors.left: checkBoxFsw1.right
+                            anchors.leftMargin: 5
+                            anchors.top: checkBoxFsw1.top
+                            text: textNameFsw3.text
+                            onCheckedChanged: theObject.fswThreeCheckChanged(checkedState);
+                        }
+                        CheckBox {
+                            id: checkBoxFsw4
+                            anchors.left: checkBoxFsw2.right
+                            anchors.leftMargin: 5
+                            anchors.top: checkBoxFsw3.bottom
+                            anchors.topMargin: 1
+                            text: textNameFsw4.text
+                            onCheckedChanged: theObject.fswFourCheckChanged(checkedState);
+                        }
+                        CheckBox {
+                            id: checkBoxFsw5
+                            anchors.left: checkBoxFsw3.right
+                            anchors.leftMargin: 5
+                            anchors.top: checkBoxFsw1.top
+                            text: textNameFsw5.text
+                            onCheckedChanged: theObject.fswFiveCheckChanged(checkedState);
+                        }
+                        CheckBox {
+                            id: checkBoxFsw6
+                            anchors.left: checkBoxFsw4.right
+                            anchors.leftMargin: 5
+                            anchors.top: checkBoxFsw5.bottom
+                            anchors.topMargin: 1
+                            text: textNameFsw6.text
+                            onCheckedChanged: theObject.fswSixCheckChanged(checkedState);
+                        }
+                        /*
                         TextInput
                         {
                             id: textSongFsw
@@ -1387,11 +1440,13 @@ Item
                                 theObject.onSongFswChanged(textSongFsw.text);
                             }
                         }
+                        */
                         Text
                         {
                             id: textLabelSongBacklight
                             x:10
-                            y:textSongFsw.y+18
+                            anchors.top: checkBoxFsw2.bottom
+                            anchors.topMargin: 2
                             text: qsTr("Backlight(song): ")
                             font.pixelSize: 12
                         }
@@ -1469,10 +1524,13 @@ Item
                         Button
                         {
                             id: buttonPreviousSong
-                            y:552
-                            x:0
+                            //y:552
+                            //x:0
+                            anchors.bottom: parent.bottom
+                            anchors.left: parent.left
+                            anchors.leftMargin: 1
+                            anchors.bottomMargin: 5
                             width: 120
-                            //mdButton has longest text
                             height: 80
                             text: "Previous Song"
                             visible: true
@@ -1481,11 +1539,12 @@ Item
                         Button
                         {
                             id: buttonUpdateSong
-                            y:552
-                            anchors.horizontalCenter: songview.horizontalCenter
+                            //y:552
+                            anchors.bottom: parent.bottom
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.bottomMargin: 5
                             anchors.horizontalCenterOffset: 20
                             width: 100
-                            //mdButton has longest text
                             height: 80
                             text: "Update Song"
                             visible: true
@@ -1494,15 +1553,18 @@ Item
                         Button
                         {
                             id: buttonNextSong
-                            y:552
+                            //y:552
+                            anchors.bottom: parent.bottom
+                            anchors.bottomMargin: 5
                             anchors.right: parent.right
+                            anchors.rightMargin: 1
                             width: 80
-                            //mdButton has longest text
                             height: 80
                             text: "Next Song"
                             visible: true
                             onClicked: theObject.selectNextSong()
                         }
+
                     }
                 }
             }

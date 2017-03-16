@@ -264,6 +264,13 @@ public slots:
     void updateConfigDisplay(void);
     void updateConfigDevice(void);
 
+    void fswOneCheckChanged(int);
+    void fswTwoCheckChanged(int);
+    void fswThreeCheckChanged(int);
+    void fswFourCheckChanged(int);
+    void fswFiveCheckChanged(int);
+    void fswSixCheckChanged(int);
+
 };
 
 

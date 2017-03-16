@@ -1498,6 +1498,139 @@ void MyObject1::updateComboBoxes(void)
 
 }
 
+void MyObject1::fswOneCheckChanged(int checkedState)
+{
+    if(myApp)
+    {
+        if(myApp->isInitialized == 1)
+        {
+            // 0 = not check, 2 = checked
+            int mask = 0x01;
+            if(checkedState == 0)
+            {
+                //clear bit
+                myApp->ramSong.footswitch = myApp->ramSong.footswitch & ~mask;
+            }
+            else
+            {
+                //set bit
+                myApp->ramSong.footswitch = myApp->ramSong.footswitch | mask;
+            }
+
+        }
+    }
+}
+void MyObject1::fswTwoCheckChanged(int checkedState)
+{
+    if(myApp)
+    {
+        if(myApp->isInitialized == 1)
+        {
+            // 0 = not check, 2 = checked
+            int mask = 0x02;
+            if(checkedState == 0)
+            {
+                //clear bit
+                myApp->ramSong.footswitch = myApp->ramSong.footswitch & ~mask;
+            }
+            else
+            {
+                //set bit
+                myApp->ramSong.footswitch = myApp->ramSong.footswitch | mask;
+            }
+
+        }
+    }
+}
+void MyObject1::fswThreeCheckChanged(int checkedState)
+{
+    if(myApp)
+    {
+        if(myApp->isInitialized == 1)
+        {
+            // 0 = not check, 2 = checked
+            int mask = 0x04;
+            if(checkedState == 0)
+            {
+                //clear bit
+                myApp->ramSong.footswitch = myApp->ramSong.footswitch & ~mask;
+            }
+            else
+            {
+                //set bit
+                myApp->ramSong.footswitch = myApp->ramSong.footswitch | mask;
+            }
+
+        }
+    }
+}
+void MyObject1::fswFourCheckChanged(int checkedState)
+{
+    if(myApp)
+    {
+        if(myApp->isInitialized == 1)
+        {
+            // 0 = not check, 2 = checked
+            int mask = 0x08;
+            if(checkedState == 0)
+            {
+                //clear bit
+                myApp->ramSong.footswitch = myApp->ramSong.footswitch & ~mask;
+            }
+            else
+            {
+                //set bit
+                myApp->ramSong.footswitch = myApp->ramSong.footswitch | mask;
+            }
+
+        }
+    }
+}
+void MyObject1::fswFiveCheckChanged(int checkedState)
+{
+    if(myApp)
+    {
+        if(myApp->isInitialized == 1)
+        {
+            // 0 = not check, 2 = checked
+            int mask = 0x10;
+            if(checkedState == 0)
+            {
+                //clear bit
+                myApp->ramSong.footswitch = myApp->ramSong.footswitch & ~mask;
+            }
+            else
+            {
+                //set bit
+                myApp->ramSong.footswitch = myApp->ramSong.footswitch | mask;
+            }
+
+        }
+    }
+}
+void MyObject1::fswSixCheckChanged(int checkedState)
+{
+    if(myApp)
+    {
+        if(myApp->isInitialized == 1)
+        {
+            // 0 = not check, 2 = checked
+            int mask = 0x20;
+            if(checkedState == 0)
+            {
+                //clear bit
+                myApp->ramSong.footswitch = myApp->ramSong.footswitch & ~mask;
+            }
+            else
+            {
+                //set bit
+                myApp->ramSong.footswitch = myApp->ramSong.footswitch | mask;
+            }
+
+        }
+    }
+}
+
 /*
 int MyObject1::count()
 {
