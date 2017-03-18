@@ -300,6 +300,7 @@ Item
                         x:0
                         y:textLabelSettingsTitle.y + 30
                         text: qsTr("Backlight: ")
+                        visible: false
                         font.pixelSize: 12
                     }
                     TextInput
@@ -310,7 +311,7 @@ Item
                         y:text1.y
                         width: 150
                         height: 16
-                        visible: true
+                        visible: false
                         font.pixelSize: 16
                         font.bold: true
                         maximumLength: 11
@@ -327,6 +328,7 @@ Item
                         y:textBacklightMain.y+20
                         text: qsTr("Current Song #: ")
                         font.pixelSize: 12
+                        visible: false
                     }
                     TextInput
                     {
@@ -336,7 +338,7 @@ Item
                         y:text2.y
                         width: 150
                         height: 16
-                        visible: true
+                        visible: false
                         font.pixelSize: 16
                         font.bold: true
                         maximumLength: 11
@@ -352,8 +354,42 @@ Item
                         x:0
                         y:textCurrentSong.y+20
                         text: qsTr("Loop 1 Name: ")
-                        font.pixelSize: 12
+                        font.pixelSize: 16
                     }
+                    TextField
+                    {
+                        placeholderText: "type here..."
+                        anchors.bottom: textLabelLoop1.bottom
+                        anchors.bottomMargin: 0
+                        anchors.left: textLabelLoop1.right
+                        anchors.leftMargin: 1
+                        width: 180
+                        id: textLoop1Name
+                        text: theObject.LoopName1
+                        font.pixelSize: 14
+                        font.bold: true
+                        maximumLength: 9
+                        onTextChanged:
+                        {
+                            theObject.onLoopName1Changed(text);
+                        }
+                        style:
+                            TextFieldStyle
+                            {
+                                textColor: "black"
+                                background:
+                                    Rectangle
+                                    {
+                                        radius: 5
+                                        color: "light blue"
+                                        implicitWidth: 90
+                                        implicitHeight: 25
+                                        border.color: "#333"
+                                        border.width: 1
+                                    }
+                            }
+                    }
+                    /*
                     TextInput
                     {
                         id: textLoop1Name
@@ -372,423 +408,677 @@ Item
                             theObject.onLoopName1Changed(textLoop1Name.text);
                         }
                     }
+                    */
                     Text
                     {
                         id: textLabelLoop2
                         x:0
-                        y:textLabelLoop1.y + 18
+                        y:textLabelLoop1.y + 26
                         text: qsTr("Loop 2 Name: ")
-                        font.pixelSize: 12
+                        font.pixelSize: 16
                     }
-                    TextInput
+                    TextField
                     {
+                        placeholderText: "type here..."
+                        anchors.bottom: textLabelLoop2.bottom
+                        anchors.bottomMargin: 0
+                        anchors.left: textLabelLoop2.right
+                        anchors.leftMargin: 1
+                        width: 180
                         id: textLoop2Name
                         text: theObject.LoopName2
-                        anchors.left: textLabelLoop2.right
-                        y:textLabelLoop2.y
-                        width: 150
-                        height: 16
-                        visible: true
-                        font.pixelSize: 16
+                        font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 11
-                        wrapMode: TextInput.NoWrap
+                        maximumLength: 9
                         onTextChanged:
                         {
-                            theObject.onLoopName2Changed(textLoop2Name.text);
+                            theObject.onLoopName2Changed(text);
                         }
+                        style:
+                            TextFieldStyle
+                            {
+                                textColor: "black"
+                                background:
+                                    Rectangle
+                                    {
+                                        radius: 5
+                                        color: "light blue"
+                                        implicitWidth: 90
+                                        implicitHeight: 25
+                                        border.color: "#333"
+                                        border.width: 1
+                                    }
+                            }
                     }
+
                     Text
                     {
                         id: textLabelLoop3
                         x:0
-                        y:textLabelLoop2.y+18
+                        y:textLabelLoop2.y+26
                         text: qsTr("Loop 3 Name: ")
-                        font.pixelSize: 12
+                        font.pixelSize: 16
                     }
-                    TextInput
+                    TextField
                     {
+                        placeholderText: "type here..."
+                        anchors.bottom: textLabelLoop3.bottom
+                        anchors.bottomMargin: 0
+                        anchors.left: textLabelLoop3.right
+                        anchors.leftMargin: 1
+                        width: 180
                         id: textLoop3Name
                         text: theObject.LoopName3
-                        anchors.left: textLabelLoop3.right
-                        y:textLabelLoop3.y
-                        width: 150
-                        height: 16
-                        visible: true
-                        font.pixelSize: 16
+                        font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 11
-                        wrapMode: TextInput.NoWrap
+                        maximumLength: 9
                         onTextChanged:
                         {
-                            theObject.onLoopName3Changed(textLoop3Name.text);
+                            theObject.onLoopName3Changed(text);
                         }
+                        style:
+                            TextFieldStyle
+                            {
+                                textColor: "black"
+                                background:
+                                    Rectangle
+                                    {
+                                        radius: 5
+                                        color: "light blue"
+                                        implicitWidth: 90
+                                        implicitHeight: 25
+                                        border.color: "#333"
+                                        border.width: 1
+                                    }
+                            }
                     }
+
                     Text
                     {
                         id: textLabelLoop4
                         x:0
-                        y:textLabelLoop3.y+18
+                        y:textLabelLoop3.y+26
                         text: qsTr("Loop 4 Name: ")
-                        font.pixelSize: 12
+                        font.pixelSize: 16
                     }
-                    TextInput
+                    TextField
                     {
+                        placeholderText: "type here..."
+                        anchors.bottom: textLabelLoop4.bottom
+                        anchors.bottomMargin: 0
+                        anchors.left: textLabelLoop4.right
+                        anchors.leftMargin: 1
+                        width: 180
                         id: textLoop4Name
                         text: theObject.LoopName4
-                        anchors.left: textLabelLoop4.right
-                        y:textLabelLoop4.y
-                        width: 150
-                        height: 16
-                        visible: true
-                        font.pixelSize: 16
+                        font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 11
-                        wrapMode: TextInput.NoWrap
+                        maximumLength: 9
                         onTextChanged:
                         {
-                            theObject.onLoopName4Changed(textLoop4Name.text);
+                            theObject.onLoopName4Changed(text);
                         }
+                        style:
+                            TextFieldStyle
+                            {
+                                textColor: "black"
+                                background:
+                                    Rectangle
+                                    {
+                                        radius: 5
+                                        color: "light blue"
+                                        implicitWidth: 90
+                                        implicitHeight: 25
+                                        border.color: "#333"
+                                        border.width: 1
+                                    }
+                            }
                     }
+
                     Text
                     {
                         id: textLabelLoop5
                         x:0
-                        y:textLabelLoop4.y+18
+                        y:textLabelLoop4.y+26
                         text: qsTr("Loop 5 Name: ")
-                        font.pixelSize: 12
+                        font.pixelSize: 16
                     }
-                    TextInput
+                    TextField
                     {
+                        placeholderText: "type here..."
+                        anchors.bottom: textLabelLoop5.bottom
+                        anchors.bottomMargin: 0
+                        anchors.left: textLabelLoop5.right
+                        anchors.leftMargin: 1
+                        width: 180
                         id: textLoop5Name
                         text: theObject.LoopName5
-                        anchors.left: textLabelLoop5.right
-                        y:textLabelLoop5.y
-                        width: 150
-                        height: 16
-                        visible: true
-                        font.pixelSize: 16
+                        font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 11
-                        wrapMode: TextInput.NoWrap
+                        maximumLength: 9
                         onTextChanged:
                         {
-                            theObject.onLoopName5Changed(textLoop5Name.text);
+                            theObject.onLoopName5Changed(text);
                         }
+                        style:
+                            TextFieldStyle
+                            {
+                                textColor: "black"
+                                background:
+                                    Rectangle
+                                    {
+                                        radius: 5
+                                        color: "light blue"
+                                        implicitWidth: 90
+                                        implicitHeight: 25
+                                        border.color: "#333"
+                                        border.width: 1
+                                    }
+                            }
                     }
+
                     Text
                     {
                         id: textLabelLoop6
                         x:0
-                        y:textLabelLoop5.y+18
+                        y:textLabelLoop5.y+26
                         text: qsTr("Loop 6 Name: ")
-                        font.pixelSize: 12
+                        font.pixelSize: 16
                     }
-                    TextInput
+                    TextField
                     {
+                        placeholderText: "type here..."
+                        anchors.bottom: textLabelLoop6.bottom
+                        anchors.bottomMargin: 0
+                        anchors.left: textLabelLoop6.right
+                        anchors.leftMargin: 1
+                        width: 180
                         id: textLoop6Name
                         text: theObject.LoopName6
-                        anchors.left: textLabelLoop6.right
-                        y:textLabelLoop6.y
-                        width: 150
-                        height: 16
-                        visible: true
-                        font.pixelSize: 16
+                        font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 11
-                        wrapMode: TextInput.NoWrap
+                        maximumLength: 9
                         onTextChanged:
                         {
-                            theObject.onLoopName6Changed(textLoop6Name.text);
+                            theObject.onLoopName6Changed(text);
                         }
+                        style:
+                            TextFieldStyle
+                            {
+                                textColor: "black"
+                                background:
+                                    Rectangle
+                                    {
+                                        radius: 5
+                                        color: "light blue"
+                                        implicitWidth: 90
+                                        implicitHeight: 25
+                                        border.color: "#333"
+                                        border.width: 1
+                                    }
+                            }
                     }
+
                     Text
                     {
                         id: textLabelLoop7
                         x:0
-                        y:textLabelLoop6.y+18
+                        y:textLabelLoop6.y+26
                         text: qsTr("Loop 7 Name: ")
-                        font.pixelSize: 12
+                        font.pixelSize: 16
                     }
-                    TextInput
+                    TextField
                     {
+                        placeholderText: "type here..."
+                        anchors.bottom: textLabelLoop7.bottom
+                        anchors.bottomMargin: 0
+                        anchors.left: textLabelLoop7.right
+                        anchors.leftMargin: 1
+                        width: 180
                         id: textLoop7Name
                         text: theObject.LoopName7
-                        anchors.left: textLabelLoop7.right
-                        y:textLabelLoop7.y
-                        width: 150
-                        height: 16
-                        visible: true
-                        font.pixelSize: 16
+                        font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 11
-                        wrapMode: TextInput.NoWrap
+                        maximumLength: 9
                         onTextChanged:
                         {
-                            theObject.onLoopName7Changed(textLoop7Name.text);
+                            theObject.onLoopName7Changed(text);
                         }
+                        style:
+                            TextFieldStyle
+                            {
+                                textColor: "black"
+                                background:
+                                    Rectangle
+                                    {
+                                        radius: 5
+                                        color: "light blue"
+                                        implicitWidth: 90
+                                        implicitHeight: 25
+                                        border.color: "#333"
+                                        border.width: 1
+                                    }
+                            }
                     }
 
                     Text
                     {
                         id: textLabelAux1
                         x:0
-                        y:textLabelLoop7.y+24
+                        y:textLabelLoop7.y+30
                         text: qsTr("Aux1 Name:")
-                        font.pixelSize: 12
-                    }
-                    TextInput
-                    {
-                        id: textNameAux1
-                        text: theObject.AuxName1
-                        anchors.left: textLabelAux1.right
-                        y:textLabelAux1.y
-                        width: 150
-                        height: 16
-                        visible: true
                         font.pixelSize: 16
+                    }
+                    TextField
+                    {
+                        placeholderText: "type here..."
+                        anchors.bottom: textLabelAux1.bottom
+                        anchors.bottomMargin: 0
+                        anchors.left: textLabelAux1.right
+                        anchors.leftMargin: 1
+                        width: 180
+                        id: textAux1Name
+                        text: theObject.AuxName1
+                        font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 11
-                        wrapMode: TextInput.NoWrap
+                        maximumLength: 9
                         onTextChanged:
                         {
-                            theObject.onAuxName1Changed(textNameAux1.text);
+                            theObject.onAuxName1Changed(text);
                         }
+                        style:
+                            TextFieldStyle
+                            {
+                                textColor: "black"
+                                background:
+                                    Rectangle
+                                    {
+                                        radius: 5
+                                        color: "light blue"
+                                        implicitWidth: 90
+                                        implicitHeight: 25
+                                        border.color: "#333"
+                                        border.width: 1
+                                    }
+                            }
                     }
+
                     Text
                     {
                         id: textLabelAux2
                         x:0
-                        y:textLabelAux1.y+18
+                        y:textLabelAux1.y+26
                         text: qsTr("Aux2 Name:")
-                        font.pixelSize: 12
-                    }
-                    TextInput
-                    {
-                        id: textNameAux2
-                        text: theObject.AuxName2
-                        anchors.left: textLabelAux2.right
-                        y:textLabelAux2.y
-                        width: 150
-                        height: 16
-                        visible: true
                         font.pixelSize: 16
+                    }
+                    TextField
+                    {
+                        placeholderText: "type here..."
+                        anchors.bottom: textLabelAux2.bottom
+                        anchors.bottomMargin: 0
+                        anchors.left: textLabelAux2.right
+                        anchors.leftMargin: 1
+                        width: 180
+                        id: textAux2Name
+                        text: theObject.AuxName2
+                        font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 11
-                        wrapMode: TextInput.NoWrap
+                        maximumLength: 9
                         onTextChanged:
                         {
-                            theObject.onAuxName2Changed(textNameAux2.text);
+                            theObject.onAuxName2Changed(text);
                         }
+                        style:
+                            TextFieldStyle
+                            {
+                                textColor: "black"
+                                background:
+                                    Rectangle
+                                    {
+                                        radius: 5
+                                        color: "light blue"
+                                        implicitWidth: 90
+                                        implicitHeight: 25
+                                        border.color: "#333"
+                                        border.width: 1
+                                    }
+                            }
                     }
+
                     Text
                     {
                         id: textLabelAux3
                         x:0
-                        y:textLabelAux2.y+18
+                        y:textLabelAux2.y+26
                         text: qsTr("Aux3 Name:")
-                        font.pixelSize: 12
-                    }
-                    TextInput
-                    {
-                        id: textNameAux3
-                        text: theObject.AuxName3
-                        anchors.left: textLabelAux3.right
-                        y:textLabelAux3.y
-                        width: 150
-                        height: 16
-                        visible: true
                         font.pixelSize: 16
+                    }
+                    TextField
+                    {
+                        placeholderText: "type here..."
+                        anchors.bottom: textLabelAux3.bottom
+                        anchors.bottomMargin: 0
+                        anchors.left: textLabelAux3.right
+                        anchors.leftMargin: 1
+                        width: 180
+                        id: textAux3Name
+                        text: theObject.AuxName3
+                        font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 11
-                        wrapMode: TextInput.NoWrap
+                        maximumLength: 9
                         onTextChanged:
                         {
-                            theObject.onAuxName3Changed(textNameAux3.text);
+                            theObject.onAuxName3Changed(text);
                         }
+                        style:
+                            TextFieldStyle
+                            {
+                                textColor: "black"
+                                background:
+                                    Rectangle
+                                    {
+                                        radius: 5
+                                        color: "light blue"
+                                        implicitWidth: 90
+                                        implicitHeight: 25
+                                        border.color: "#333"
+                                        border.width: 1
+                                    }
+                            }
                     }
+
                     Text
                     {
                         id: textLabelAux4
                         x:0
-                        y:textLabelAux3.y+18
+                        y:textLabelAux3.y+26
                         text: qsTr("Aux4 Name:")
-                        font.pixelSize: 12
-                    }
-                    TextInput
-                    {
-                        id: textNameAux4
-                        text: theObject.AuxName4
-                        anchors.left: textLabelAux4.right
-                        y:textLabelAux4.y
-                        width: 150
-                        height: 16
-                        visible: true
                         font.pixelSize: 16
+                    }
+                    TextField
+                    {
+                        placeholderText: "type here..."
+                        anchors.bottom: textLabelAux4.bottom
+                        anchors.bottomMargin: 0
+                        anchors.left: textLabelAux4.right
+                        anchors.leftMargin: 1
+                        width: 180
+                        id: textAux4Name
+                        text: theObject.AuxName4
+                        font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 11
-                        wrapMode: TextInput.NoWrap
+                        maximumLength: 9
                         onTextChanged:
                         {
-                            theObject.onAuxName4Changed(textNameAux4.text);
+                            theObject.onAuxName4Changed(text);
                         }
+                        style:
+                            TextFieldStyle
+                            {
+                                textColor: "black"
+                                background:
+                                    Rectangle
+                                    {
+                                        radius: 5
+                                        color: "light blue"
+                                        implicitWidth: 90
+                                        implicitHeight: 25
+                                        border.color: "#333"
+                                        border.width: 1
+                                    }
+                            }
                     }
 
                     Text
                     {
                         id: textLabelFsw1
                         x:0
-                        y:textLabelAux4.y+24
+                        y:textLabelAux4.y+30
                         text: qsTr("Fsw1 Name:")
-                        font.pixelSize: 12
+                        font.pixelSize: 16
                     }
-                    TextInput
+                    TextField
                     {
+                        placeholderText: "type here..."
+                        anchors.bottom: textLabelFsw1.bottom
+                        anchors.bottomMargin: 0
+                        anchors.left: textLabelFsw1.right
+                        anchors.leftMargin: 1
+                        width: 180
                         id: textNameFsw1
                         text: theObject.FswName1
-                        anchors.left: textLabelFsw1.right
-                        y:textLabelFsw1.y
-                        width: 150
-                        height: 16
-                        visible: true
-                        font.pixelSize: 16
+                        font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 11
-                        wrapMode: TextInput.NoWrap
+                        maximumLength: 9
                         onTextChanged:
                         {
-                            theObject.onFswName1Changed(textNameFsw1.text);
+                            theObject.onFswName1Changed(text);
                         }
+                        style:
+                            TextFieldStyle
+                            {
+                                textColor: "black"
+                                background:
+                                    Rectangle
+                                    {
+                                        radius: 5
+                                        color: "light blue"
+                                        implicitWidth: 90
+                                        implicitHeight: 25
+                                        border.color: "#333"
+                                        border.width: 1
+                                    }
+                            }
                     }
+
                     Text
                     {
                         id: textLabelFsw2
                         x:0
-                        y:textLabelFsw1.y+18
+                        y:textLabelFsw1.y+26
                         text: qsTr("Fsw2 Name:")
-                        font.pixelSize: 12
+                        font.pixelSize: 16
                     }
-                    TextInput
+                    TextField
                     {
+                        placeholderText: "type here..."
+                        anchors.bottom: textLabelFsw2.bottom
+                        anchors.bottomMargin: 0
+                        anchors.left: textLabelFsw2.right
+                        anchors.leftMargin: 1
+                        width: 180
                         id: textNameFsw2
                         text: theObject.FswName2
-                        anchors.left: textLabelFsw2.right
-                        y:textLabelFsw2.y
-                        width: 150
-                        height: 16
-                        visible: true
-                        font.pixelSize: 16
+                        font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 11
-                        wrapMode: TextInput.NoWrap
+                        maximumLength: 9
                         onTextChanged:
                         {
-                            theObject.onFswName2Changed(textNameFsw2.text);
+                            theObject.onFswName2Changed(text);
                         }
+                        style:
+                            TextFieldStyle
+                            {
+                                textColor: "black"
+                                background:
+                                    Rectangle
+                                    {
+                                        radius: 5
+                                        color: "light blue"
+                                        implicitWidth: 90
+                                        implicitHeight: 25
+                                        border.color: "#333"
+                                        border.width: 1
+                                    }
+                            }
                     }
+
                     Text
                     {
                         id: textLabelFsw3
                         x:0
-                        y:textLabelFsw2.y+18
+                        y:textLabelFsw2.y+26
                         text: qsTr("Fsw3 Name:")
-                        font.pixelSize: 12
+                        font.pixelSize: 16
                     }
-                    TextInput
+                    TextField
                     {
+                        placeholderText: "type here..."
+                        anchors.bottom: textLabelFsw3.bottom
+                        anchors.bottomMargin: 0
+                        anchors.left: textLabelFsw3.right
+                        anchors.leftMargin: 1
+                        width: 180
                         id: textNameFsw3
                         text: theObject.FswName3
-                        anchors.left: textLabelFsw3.right
-                        y:textLabelFsw3.y
-                        width: 150
-                        height: 16
-                        visible: true
-                        font.pixelSize: 16
+                        font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 11
-                        wrapMode: TextInput.NoWrap
+                        maximumLength: 9
                         onTextChanged:
                         {
-                            theObject.onFswName3Changed(textNameFsw3.text);
+                            theObject.onFswName3Changed(text);
                         }
+                        style:
+                            TextFieldStyle
+                            {
+                                textColor: "black"
+                                background:
+                                    Rectangle
+                                    {
+                                        radius: 5
+                                        color: "light blue"
+                                        implicitWidth: 90
+                                        implicitHeight: 25
+                                        border.color: "#333"
+                                        border.width: 1
+                                    }
+                            }
                     }
+
                     Text
                     {
                         id: textLabelFsw4
                         x:0
-                        y:textLabelFsw3.y+18
+                        y:textLabelFsw3.y+26
                         text: qsTr("Fsw4 Name:")
-                        font.pixelSize: 12
+                        font.pixelSize: 16
                     }
-                    TextInput
+                    TextField
                     {
+                        placeholderText: "type here..."
+                        anchors.bottom: textLabelFsw4.bottom
+                        anchors.bottomMargin: 0
+                        anchors.left: textLabelFsw4.right
+                        anchors.leftMargin: 1
+                        width: 180
                         id: textNameFsw4
                         text: theObject.FswName4
-                        anchors.left: textLabelFsw4.right
-                        y:textLabelFsw4.y
-                        width: 150
-                        height: 16
-                        visible: true
-                        font.pixelSize: 16
+                        font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 11
-                        wrapMode: TextInput.NoWrap
+                        maximumLength: 9
                         onTextChanged:
                         {
-                            theObject.onFswName4Changed(textNameFsw4.text);
+                            theObject.onFswName4Changed(text);
                         }
+                        style:
+                            TextFieldStyle
+                            {
+                                textColor: "black"
+                                background:
+                                    Rectangle
+                                    {
+                                        radius: 5
+                                        color: "light blue"
+                                        implicitWidth: 90
+                                        implicitHeight: 25
+                                        border.color: "#333"
+                                        border.width: 1
+                                    }
+                            }
                     }
+
                     Text
                     {
                         id: textLabelFsw5
                         x:0
-                        y:textLabelFsw4.y+18
+                        y:textLabelFsw4.y+26
                         text: qsTr("Fsw5 Name:")
-                        font.pixelSize: 12
+                        font.pixelSize: 16
                     }
-                    TextInput
+                    TextField
                     {
+                        placeholderText: "type here..."
+                        anchors.bottom: textLabelFsw5.bottom
+                        anchors.bottomMargin: 0
+                        anchors.left: textLabelFsw5.right
+                        anchors.leftMargin: 1
+                        width: 180
                         id: textNameFsw5
                         text: theObject.FswName5
-                        anchors.left: textLabelFsw5.right
-                        y:textLabelFsw5.y
-                        width: 150
-                        height: 16
-                        visible: true
-                        font.pixelSize: 16
+                        font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 11
-                        wrapMode: TextInput.NoWrap
+                        maximumLength: 9
                         onTextChanged:
                         {
-                            theObject.onFswName5Changed(textNameFsw5.text);
+                            theObject.onFswName5Changed(text);
                         }
+                        style:
+                            TextFieldStyle
+                            {
+                                textColor: "black"
+                                background:
+                                    Rectangle
+                                    {
+                                        radius: 5
+                                        color: "light blue"
+                                        implicitWidth: 90
+                                        implicitHeight: 25
+                                        border.color: "#333"
+                                        border.width: 1
+                                    }
+                            }
                     }
+
                     Text
                     {
                         id: textLabelFsw6
                         x:0
-                        y:textLabelFsw5.y+18
+                        y:textLabelFsw5.y+26
                         text: qsTr("Fsw6 Name:")
-                        font.pixelSize: 12
+                        font.pixelSize: 16
                     }
-                    TextInput
+                    TextField
                     {
+                        placeholderText: "type here..."
+                        anchors.bottom: textLabelFsw6.bottom
+                        anchors.bottomMargin: 0
+                        anchors.left: textLabelFsw6.right
+                        anchors.leftMargin: 1
+                        width: 180
                         id: textNameFsw6
                         text: theObject.FswName6
-                        anchors.left: textLabelFsw6.right
-                        y:textLabelFsw6.y
-                        width: 150
-                        height: 16
-                        visible: true
-                        font.pixelSize: 16
+                        font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 11
-                        wrapMode: TextInput.NoWrap
+                        maximumLength: 9
                         onTextChanged:
                         {
-                            theObject.onFswName6Changed(textNameFsw6.text);
+                            theObject.onFswName6Changed(text);
                         }
+                        style:
+                            TextFieldStyle
+                            {
+                                textColor: "black"
+                                background:
+                                    Rectangle
+                                    {
+                                        radius: 5
+                                        color: "light blue"
+                                        implicitWidth: 90
+                                        implicitHeight: 25
+                                        border.color: "#333"
+                                        border.width: 1
+                                    }
+                            }
                     }
 
                     Button
@@ -834,11 +1124,12 @@ Item
                             id: textLabelSongTitle
                             x:20
                             y:0
-                            text: qsTr("SONG INFO for #") +  qsTr(theObject.currentSong)
+                            text: qsTr("SONG INFO (Index=") +  qsTr(theObject.currentSong) +qsTr(")")
                             font.pixelSize: 20
                             font.bold: true
                             font.underline: true
                         }
+
                         Text
                         {
                             id: textLabelSongName
@@ -847,7 +1138,6 @@ Item
                             text: qsTr("Name line 1: ")
                             font.pixelSize: 12
                         }
-
                         TextField
                         {
                             placeholderText: "type here..."
@@ -991,7 +1281,7 @@ Item
                         {
                             id: textLabelMatrix1
                             x:10
-                            y:textLabelMatrix0.y+28
+                            y:textLabelMatrix0.y+26
                             text: textLoop1Name.text + qsTr(" <--- ");
                             font.pixelSize: 12
                         }
@@ -1013,7 +1303,7 @@ Item
                         {
                             id: textLabelMatrix2
                             x:10
-                            y:textLabelMatrix1.y+28
+                            y:textLabelMatrix1.y+26
                             text: textLoop2Name.text + qsTr(" <--- ");
                             font.pixelSize: 12
                         }
@@ -1035,7 +1325,7 @@ Item
                         {
                             id: textLabelMatrix3
                             x:10
-                            y:textLabelMatrix2.y+28
+                            y:textLabelMatrix2.y+26
                             text: textLoop3Name.text + qsTr(" <--- ");
                             font.pixelSize: 12
                         }
@@ -1057,7 +1347,7 @@ Item
                         {
                             id: textLabelMatrix4
                             x:10
-                            y:textLabelMatrix3.y+28
+                            y:textLabelMatrix3.y+26
                             text: textLoop4Name.text + qsTr(" <--- ");
                             font.pixelSize: 12
                         }
@@ -1079,7 +1369,7 @@ Item
                         {
                             id: textLabelMatrix5
                             x:10
-                            y:textLabelMatrix4.y+28
+                            y:textLabelMatrix4.y+26
                             text: textLoop5Name.text + qsTr(" <--- ");
                             font.pixelSize: 12
                         }
@@ -1101,7 +1391,7 @@ Item
                         {
                             id: textLabelMatrix6
                             x:10
-                            y:textLabelMatrix5.y+28
+                            y:textLabelMatrix5.y+26
                             text: textLoop6Name.text + qsTr(" <--- ");
                             font.pixelSize: 12
                         }
@@ -1123,7 +1413,7 @@ Item
                         {
                             id: textLabelMatrix7
                             x:10
-                            y:textLabelMatrix6.y+28
+                            y:textLabelMatrix6.y+26
                             text: textLoop7Name.text + qsTr(" <--- ");
                             font.pixelSize: 12
                         }
@@ -1147,8 +1437,8 @@ Item
                         {
                             id: textLabelMatrix8
                             x:10
-                            y:textLabelMatrix7.y+40
-                            text: textNameAux1.text + qsTr(" <--- ");
+                            y:textLabelMatrix7.y+30
+                            text: textAux1Name.text + qsTr(" <--- ");
                             font.pixelSize: 12
                         }
                         ComboBox
@@ -1170,8 +1460,8 @@ Item
                         {
                             id: textLabelMatrix9
                             x:10
-                            y:textLabelMatrix8.y+28
-                            text: textNameAux2.text + qsTr(" <--- ");
+                            y:textLabelMatrix8.y+26
+                            text: textAux2Name.text + qsTr(" <--- ");
                             font.pixelSize: 12
                         }
                         ComboBox
@@ -1192,8 +1482,8 @@ Item
                         {
                             id: textLabelMatrix10
                             x:10
-                            y:textLabelMatrix9.y+28
-                            text: textNameAux3.text + qsTr(" <--- ");
+                            y:textLabelMatrix9.y+26
+                            text: textAux3Name.text + qsTr(" <--- ");
                             font.pixelSize: 12
                         }
                         ComboBox
@@ -1214,8 +1504,8 @@ Item
                         {
                             id: textLabelMatrix11
                             x:10
-                            y:textLabelMatrix10.y+28
-                            text: textNameAux4.text + qsTr(" <--- ");
+                            y:textLabelMatrix10.y+26
+                            text: textAux4Name.text + qsTr(" <--- ");
                             font.pixelSize: 12
                         }
                         ComboBox
@@ -1238,10 +1528,43 @@ Item
                         {
                             id: textLabelMidiMsg1
                             x:10
-                            y:textLabelMatrix11.y+32
-                            text: qsTr("MIDI Msg 1: ")
+                            y:textLabelMatrix11.y+26
+                            text: qsTr("MIDI Msg: ")
                             font.pixelSize: 12
                         }
+                        TextField
+                        {
+                            placeholderText: "type here..."
+                            //x:5
+                            width: 140
+                            id: textMidiMsg1
+                            text: theObject.MidiMsg1
+                            y:textLabelMidiMsg1.y
+                            anchors.left: textLabelMidiMsg1.right
+                            font.pixelSize: 14
+                            font.bold: true
+                            maximumLength: 9
+                            onTextChanged:
+                            {
+                                theObject.onMidiMsg1Changed(text);
+                            }
+                            style:
+                                TextFieldStyle
+                                {
+                                    textColor: "black"
+                                    background:
+                                        Rectangle
+                                        {
+                                            radius: 5
+                                            color: "light blue"
+                                            implicitWidth: 90
+                                            implicitHeight: 25
+                                            border.color: "#333"
+                                            border.width: 1
+                                        }
+                                }
+                        }
+                        /*
                         TextInput
                         {
                             id: textMidiMsg1
@@ -1259,7 +1582,7 @@ Item
                                 theObject.onMidiMsg1Changed(textMidiMsg1.text);
                             }
                         }
-
+                        */
                         /*
                         Text
                         {
@@ -1339,6 +1662,7 @@ Item
                             }
                         }
                         */
+                        /*
                         Text
                         {
                             id: textLabelMidiMode
@@ -1347,6 +1671,22 @@ Item
                             text: qsTr("MIDI Mode: ")
                             font.pixelSize: 12
                         }
+                        ComboBox
+                        {
+                            id: comboBoxMidiMode
+                            anchors.left: textLabelMidiMode.right
+                            anchors.bottom: textLabelMidiMode.bottom
+                            anchors.bottomMargin: -3
+                            width: 150
+                            model: theObject.comboListMidiMode
+                            editable: false
+                            onCurrentIndexChanged:
+                            {
+                                theObject.onMidiModeChanged(currentText);
+                            }
+                        }
+                        */
+                        /*
                         TextInput
                         {
                             id: textMidiMode
@@ -1364,12 +1704,13 @@ Item
                                 theObject.onMidiModeChanged(textMidiMode.text);
                             }
                         }
+                        */
                         Text
                         {
                             id: textLabelSongFsw
                             x:10
-                            y:textMidiMode.y+18
-                            text: qsTr("Footswitch Config: ")
+                            y:textLabelMidiMsg1.y+28
+                            text: qsTr("Footswitch Outputs: ")
                             font.pixelSize: 12
                         }
                         CheckBox {
@@ -1446,67 +1787,98 @@ Item
                             id: textLabelSongBacklight
                             x:10
                             anchors.top: checkBoxFsw2.bottom
-                            anchors.topMargin: 2
+                            anchors.topMargin: 8
                             text: qsTr("Backlight(song): ")
                             font.pixelSize: 12
                         }
-                        TextInput
+                        ComboBox
                         {
-                            id: textSongBacklight
-                            text: theObject.SongBacklight
-                            y:textLabelSongBacklight.y
+                            id: comboBoxSongBacklight
                             anchors.left: textLabelSongBacklight.right
-                            width: top.width-10
-                            height: 25
-                            visible: true
-                            font.pixelSize: 12
-                            maximumLength: 31
-                            wrapMode: TextInput.NoWrap
-                            onTextChanged:
+                            anchors.bottom: textLabelSongBacklight.bottom
+                            anchors.bottomMargin: -3
+                            width: 150
+                            model: theObject.comboListBacklight
+                            editable: false
+                            onCurrentIndexChanged:
                             {
-                                theObject.onSongBacklightChanged(textSongBacklight.text);
+                                theObject.onSongBacklightChanged(currentText)
                             }
                         }
+
 
                         Text
                         {
                             id: textLabelTrickMode
                             x:10
-                            y:textLabelSongBacklight.y+18
-                            text: qsTr("Trick Mode: ")
+                            anchors.top: textLabelSongBacklight.bottom
+                            anchors.topMargin: 15
+                            //textLabelSongBacklight.y+18
+                            text: qsTr("Trick Shot Mode: ")
                             font.pixelSize: 12
                         }
-                        TextInput
+                        ComboBox
                         {
-                            id: textTrickMode
-                            text: theObject.TrickMode
-                            y:textLabelTrickMode.y
+                            id: comboBoxTrickMode
                             anchors.left: textLabelTrickMode.right
-                            width: top.width-10
-                            height: 25
-                            visible: true
-                            font.pixelSize: 12
-                            maximumLength: 31
-                            wrapMode: TextInput.NoWrap
-                            onTextChanged:
+                            anchors.bottom: textLabelTrickMode.bottom
+                            anchors.bottomMargin: -3
+                            width: 200
+                            model: theObject.comboListTrickMode1
+                            editable: false
+                            onCurrentIndexChanged:
                             {
-                                theObject.onTrickModeChanged(textTrickMode.text);
+                                theObject.onTrickMode1Changed(currentText)
                             }
                         }
-
                         Text
                         {
                             id: textLabelTrickData
                             x:10
-                            y:textTrickMode.y+18
-                            text: qsTr("Trick Data: ")
+                            anchors.top: textLabelTrickMode.bottom
+                            anchors.topMargin: 6
+                            text: qsTr("Trick Shot Data: ")
                             font.pixelSize: 12
                         }
+                        TextField
+                        {
+                            placeholderText: "type here..."
+                            x:5
+                            width: 140
+                            id: textTrickData
+                            text: theObject.TrickData1
+                            y:textLabelTrickData.y
+                            anchors.left: textLabelTrickData.right
+                            font.pixelSize: 14
+                            font.bold: true
+                            maximumLength: 9
+                            onTextChanged:
+                            {
+                                theObject.onTrickData1Changed(text);
+                            }
+                            style:
+                                TextFieldStyle
+                                {
+                                    textColor: "black"
+                                    background:
+                                        Rectangle
+                                        {
+                                            radius: 5
+                                            color: "light blue"
+                                            implicitWidth: 90
+                                            implicitHeight: 25
+                                            border.color: "#333"
+                                            border.width: 1
+                                        }
+                                }
+                        }
+                        /*
                         TextInput
                         {
                             id: textTrickData
-                            text: theObject.TrickData
-                            y:textLabelTrickData.y
+                            text: theObject.TrickData1
+                            anchors.top : textLabelTrickData.top
+                            anchors.topMargin: 0
                             anchors.left: textLabelTrickData.right
                             width: top.width-10
                             height: 25
@@ -1516,10 +1888,93 @@ Item
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
                             {
-                                theObject.onTrickDataChanged(textTrickData.text);
+                                theObject.onTrickData1Changed(text);
                             }
                         }
-
+                        */
+                        Text
+                        {
+                            id: textLabelDiveBombMode
+                            x:10
+                            anchors.top : textLabelTrickData.bottom
+                            anchors.topMargin: 20
+                            text: qsTr("Dive Bomb Mode: ")
+                            font.pixelSize: 12
+                        }
+                        ComboBox
+                        {
+                            id: comboBoxDiveBombMode
+                            anchors.left: textLabelDiveBombMode.right
+                            anchors.bottom: textLabelDiveBombMode.bottom
+                            anchors.bottomMargin: -3
+                            width: 200
+                            model: theObject.comboListTrickMode2
+                            editable: false
+                            onCurrentIndexChanged:
+                            {
+                                theObject.onTrickMode2Changed(currentText)
+                            }
+                        }
+                        Text
+                        {
+                            id: textLabelDiveBombData
+                            x:10
+                            anchors.top : textLabelDiveBombMode.bottom
+                            anchors.topMargin: 6
+                            text: qsTr("Dive Bomb Data: ")
+                            font.pixelSize: 12
+                        }
+                        TextField
+                        {
+                            placeholderText: "type here..."
+                            x:5
+                            width: 140
+                            id: textDiveBombData
+                            text: theObject.TrickData2
+                            y:textLabelDiveBombData.y
+                            anchors.left: textLabelDiveBombData.right
+                            font.pixelSize: 14
+                            font.bold: true
+                            maximumLength: 9
+                            onTextChanged:
+                            {
+                                theObject.onTrickData2Changed(text);
+                            }
+                            style:
+                                TextFieldStyle
+                                {
+                                    textColor: "black"
+                                    background:
+                                        Rectangle
+                                        {
+                                            radius: 5
+                                            color: "light blue"
+                                            implicitWidth: 90
+                                            implicitHeight: 25
+                                            border.color: "#333"
+                                            border.width: 1
+                                        }
+                                }
+                        }
+                        /*
+                        TextInput
+                        {
+                            id: textDiveBombData
+                            text: theObject.TrickData1
+                            y:textLabelDiveBombData.y
+                            anchors.left: textLabelDiveBombData.right
+                            width: top.width-10
+                            height: 25
+                            visible: true
+                            font.pixelSize: 12
+                            maximumLength: 31
+                            wrapMode: TextInput.NoWrap
+                            onTextChanged:
+                            {
+                                theObject.onTrickData2Changed(text);
+                            }
+                        }
+                        */
 
                         Button
                         {

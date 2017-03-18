@@ -8,26 +8,33 @@ MyObject1::MyObject1(QObject *parent) : QObject(parent)
     myApp = new MyAppGui();
 
     //Initialize combo boxes
-    m_comboList0.clear();
-    m_comboList0.insert(0, "Main In");
-    m_comboList0.insert(1, "loop 1");
-    m_comboList0.insert(2, "loop 2");
+    m_comboListBacklight.clear();
+    m_comboListBacklight.insert(0, "OFF");
+    m_comboListBacklight.insert(1, "Red");
+    m_comboListBacklight.insert(2, "Blue");
+    m_comboListBacklight.insert(3, "Green");
+    m_comboListBacklight.insert(4, "Red/Blue");     //purple
+    m_comboListBacklight.insert(5, "Red/Green");    //Orange?
+    m_comboListBacklight.insert(6, "Blue/Green");   //Yellow?
+    m_comboListBacklight.insert(7, "White");
 
-    m_comboList1.clear();
-    m_comboList1.insert(0, "Main In");
-    m_comboList1.insert(1, "loop 2");
-    m_comboList1.insert(2, "loop 3");
+    m_comboListTrickMode1.clear();
+    m_comboListTrickMode1.insert(0, "OFF");
+    m_comboListTrickMode1.insert(1, "Momentary Footswitch");
+    m_comboListTrickMode1.insert(2, "Latch Footswitch");
+    m_comboListTrickMode1.insert(3, "Momentary Add Loop");
+    m_comboListTrickMode1.insert(4, "Latch Add Loop");
+    m_comboListTrickMode1.insert(5, "Momentary Jump to Song");
+    m_comboListTrickMode1.insert(6, "Latch Jump to Song");
 
-    m_comboList2.clear();
-    m_comboList2.insert(0, "Main In");
-    m_comboList2.insert(1, "loop 1");
-    m_comboList2.insert(2, "loop 3");
-
-    m_comboList3.clear();
-    m_comboList3.insert(0, "Main In");
-    m_comboList3.insert(1, "loop 1");
-    m_comboList3.insert(2, "loop 2");
-
+    m_comboListTrickMode2.clear();
+    m_comboListTrickMode2.insert(0, "OFF");
+    m_comboListTrickMode2.insert(1, "Momentary Footswitch");
+    m_comboListTrickMode2.insert(2, "Latch Footswitch");
+    m_comboListTrickMode2.insert(3, "Momentary Add Loop");
+    m_comboListTrickMode2.insert(4, "Latch Add Loop");
+    m_comboListTrickMode2.insert(5, "Momentary Jump to Song");
+    m_comboListTrickMode2.insert(6, "Latch Jump to Song");
 
 }
 
@@ -291,6 +298,7 @@ void MyObject1::onMidiMsg1Changed(QString str)
         }
     }
 }
+/*
 QString MyObject1::getMidiMsg2(void) const
 {
     QString str = "";
@@ -370,7 +378,8 @@ void MyObject1::onMidiMsg4Changed(QString str)
         }
     }
 }
-
+*/
+/*
 QString MyObject1::getMidiMode(void) const
 {
     QString str = "";
@@ -396,6 +405,7 @@ void MyObject1::onMidiModeChanged(QString str)
         }
     }
 }
+*/
 QString MyObject1::getFswSongConfig(void) const
 {
     QString str = "";
@@ -421,6 +431,7 @@ void MyObject1::onSongFswChanged(QString str)
         }
     }
 }
+/*
 QString MyObject1::getTrickMode(void) const
 {
     QString str = "";
@@ -435,7 +446,8 @@ QString MyObject1::getTrickMode(void) const
     }
     return str;
 }
-void MyObject1::onTrickModeChanged(QString str)
+*/
+void MyObject1::onTrickMode1Changed(QString str)
 {
     if(myApp)
     {
@@ -446,7 +458,18 @@ void MyObject1::onTrickModeChanged(QString str)
         }
     }
 }
-QString MyObject1::getTrickData(void) const
+void MyObject1::onTrickMode2Changed(QString str)
+{
+    if(myApp)
+    {
+        if(myApp->isInitialized == 1)
+        {
+            int val = str.toInt();
+            myApp->ramSong.trickMode[1] = val;
+        }
+    }
+}
+QString MyObject1::getTrickData1(void) const
 {
     QString str = "";
     if(myApp)
@@ -460,7 +483,7 @@ QString MyObject1::getTrickData(void) const
     }
     return str;
 }
-void MyObject1::onTrickDataChanged(QString str)
+void MyObject1::onTrickData1Changed(QString str)
 {
     if(myApp)
     {
@@ -471,6 +494,32 @@ void MyObject1::onTrickDataChanged(QString str)
         }
     }
 }
+QString MyObject1::getTrickData2(void) const
+{
+    QString str = "";
+    if(myApp)
+    {
+        if(myApp->isInitialized == 1)
+        {
+            char c[10];
+            sprintf(c,"%d", myApp->ramSong.trickData[1]);
+            str = QString(c);
+        }
+    }
+    return str;
+}
+void MyObject1::onTrickData2Changed(QString str)
+{
+    if(myApp)
+    {
+        if(myApp->isInitialized == 1)
+        {
+            int val = str.toInt();
+            myApp->ramSong.trickData[1] = val;
+        }
+    }
+}
+/*
 QString MyObject1::getSongBacklight(void) const
 {
     QString str = "";
@@ -485,6 +534,7 @@ QString MyObject1::getSongBacklight(void) const
     }
     return str;
 }
+*/
 void MyObject1::onSongBacklightChanged(QString str)
 {
     if(myApp)
@@ -496,7 +546,6 @@ void MyObject1::onSongBacklightChanged(QString str)
         }
     }
 }
-
 QString MyObject1::getMatrix0(void) const
 {
     QString str = "";
@@ -1351,6 +1400,26 @@ const QStringList MyObject1::comboList10()
 const QStringList MyObject1::comboList11()
 {
     return m_comboList11;
+}
+
+
+/*
+const QStringList MyObject1::comboListMidiMode()
+{
+    return m_comboListMidiMode;
+}
+*/
+const QStringList MyObject1::comboListBacklight()
+{
+    return m_comboListBacklight;
+}
+const QStringList MyObject1::comboListTrickMode1()
+{
+    return m_comboListTrickMode1;
+}
+const QStringList MyObject1::comboListTrickMode2()
+{
+    return m_comboListTrickMode2;
 }
 
 void MyObject1::updateComboBoxes(void)

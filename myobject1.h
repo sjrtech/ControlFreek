@@ -29,21 +29,26 @@ class MyObject1 : public QObject
     Q_PROPERTY(QStringList comboList11 READ comboList11 NOTIFY comboListChanged)
     //Q_PROPERTY(int count READ count NOTIFY countChanged)
 
+    //Q_PROPERTY(QStringList comboListMidiMode READ comboListMidiMode NOTIFY SongChanged)
+    Q_PROPERTY(QStringList comboListBacklight READ comboListBacklight NOTIFY SongChanged)
+    Q_PROPERTY(QStringList comboListTrickMode1 READ comboListTrickMode1 NOTIFY SongChanged)
+    Q_PROPERTY(QStringList comboListTrickMode2 READ comboListTrickMode2 NOTIFY SongChanged)
 
     //Song
     Q_PROPERTY(QString SongName READ getSongName NOTIFY SongChanged)
     Q_PROPERTY(QString PartName READ getPartName NOTIFY SongChanged)
 
     Q_PROPERTY(QString MidiMsg1 READ getMidiMsg1 NOTIFY SongChanged)
-    Q_PROPERTY(QString MidiMsg2 READ getMidiMsg2 NOTIFY SongChanged)
-    Q_PROPERTY(QString MidiMsg3 READ getMidiMsg3 NOTIFY SongChanged)
-    Q_PROPERTY(QString MidiMsg4 READ getMidiMsg4 NOTIFY SongChanged)
+    //Q_PROPERTY(QString MidiMsg2 READ getMidiMsg2 NOTIFY SongChanged)
+    //Q_PROPERTY(QString MidiMsg3 READ getMidiMsg3 NOTIFY SongChanged)
+    //Q_PROPERTY(QString MidiMsg4 READ getMidiMsg4 NOTIFY SongChanged)
 
-    Q_PROPERTY(QString MidiMode READ getMidiMode NOTIFY SongChanged)
+    //Q_PROPERTY(QString MidiMode READ getMidiMode NOTIFY SongChanged)
     Q_PROPERTY(QString FswSongConfig READ getFswSongConfig NOTIFY SongChanged)
-    Q_PROPERTY(QString TrickMode READ getTrickMode NOTIFY SongChanged)
-    Q_PROPERTY(QString TrickData READ getTrickData NOTIFY SongChanged)
-    Q_PROPERTY(QString SongBacklight READ getSongBacklight NOTIFY SongChanged)
+    //Q_PROPERTY(QString TrickMode READ getTrickMode NOTIFY SongChanged)
+    Q_PROPERTY(QString TrickData1 READ getTrickData1 NOTIFY SongChanged)
+    Q_PROPERTY(QString TrickData2 READ getTrickData2 NOTIFY SongChanged)
+    //Q_PROPERTY(QString SongBacklight READ getSongBacklight NOTIFY SongChanged)
 
     Q_PROPERTY(QString Matrix0 READ getMatrix0 NOTIFY SongChanged)
     Q_PROPERTY(QString Matrix1 READ getMatrix1 NOTIFY SongChanged)
@@ -110,8 +115,11 @@ public:
     const QStringList comboList9();
     const QStringList comboList10();
     const QStringList comboList11();
-    //void setComboList(const QStringList &comboList);
-    //int count();
+
+    //const QStringList comboListMidiMode();
+    const QStringList comboListBacklight();
+    const QStringList comboListTrickMode1();
+    const QStringList comboListTrickMode2();
 
 
 private:
@@ -129,6 +137,11 @@ private:
     QStringList m_comboList9;
     QStringList m_comboList10;
     QStringList m_comboList11;
+
+    //QStringList m_comboListMidiMode;
+    QStringList m_comboListBacklight;
+    QStringList m_comboListTrickMode1;
+    QStringList m_comboListTrickMode2;
 
 
 signals:
@@ -157,15 +170,16 @@ public slots:
     QString getPartName(void) const;
 
     QString getMidiMsg1(void) const;
-    QString getMidiMsg2(void) const;
-    QString getMidiMsg3(void) const;
-    QString getMidiMsg4(void) const;
+    //QString getMidiMsg2(void) const;
+    //QString getMidiMsg3(void) const;
+    //QString getMidiMsg4(void) const;
 
-    QString getMidiMode(void) const;
+    //QString getMidiMode(void) const;
     QString getFswSongConfig(void) const;
-    QString getTrickMode(void) const;
-    QString getTrickData(void) const;
-    QString getSongBacklight(void) const;
+    //QString getTrickMode(void) const;
+    QString getTrickData1(void) const;
+    QString getTrickData2(void) const;
+    //QString getSongBacklight(void) const;
 
     QString getMatrix0(void) const;
     QString getMatrix1(void) const;
@@ -184,14 +198,16 @@ public slots:
     void onSongPartNameChanged(QString);
 
     void onMidiMsg1Changed(QString);
-    void onMidiMsg2Changed(QString);
-    void onMidiMsg3Changed(QString);
-    void onMidiMsg4Changed(QString);
+    //void onMidiMsg2Changed(QString);
+    //void onMidiMsg3Changed(QString);
+    //void onMidiMsg4Changed(QString);
 
-    void onMidiModeChanged(QString);
+    //void onMidiModeChanged(QString);
     void onSongFswChanged(QString);
-    void onTrickModeChanged(QString);
-    void onTrickDataChanged(QString);
+    void onTrickMode1Changed(QString);
+    void onTrickData1Changed(QString);
+    void onTrickMode2Changed(QString);
+    void onTrickData2Changed(QString);
     void onSongBacklightChanged(QString);
 
     void onMatrix0Changed(QString);
