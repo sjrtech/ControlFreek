@@ -7,7 +7,7 @@
 
 
 
-#define SIZE_OF_MIDI_MSG        3
+#define SIZE_OF_MIDI_MSG        12
 
 
 //create a main/global settings structure (to make it easier to read/write system settings from flash)
@@ -32,9 +32,9 @@ typedef struct
     unsigned char name[32];                         //name the song... slow select?
     unsigned char partname[32];                     // part (solo, bridge chorus, verse, etc.) of the song.... rapid select
     unsigned char midiMessage1[SIZE_OF_MIDI_MSG];   //MIDI messages, Chan & Program .. for "program change" messages to MIDI pedals, etc.
-    unsigned char midiMessage2[SIZE_OF_MIDI_MSG];   //MIDI messages, Chan & Program .. for "program change" messages to MIDI pedals, etc.
-    unsigned char midiMessage3[SIZE_OF_MIDI_MSG];   //MIDI messages, Chan & Program .. for "program change" messages to MIDI pedals, etc.
-    unsigned char midiMessage4[SIZE_OF_MIDI_MSG];   //MIDI messages, Chan & Program .. for "program change" messages to MIDI pedals, etc.
+    //unsigned char midiMessage2[SIZE_OF_MIDI_MSG];   //MIDI messages, Chan & Program .. for "program change" messages to MIDI pedals, etc.
+    //unsigned char midiMessage3[SIZE_OF_MIDI_MSG];   //MIDI messages, Chan & Program .. for "program change" messages to MIDI pedals, etc.
+    //unsigned char midiMessage4[SIZE_OF_MIDI_MSG];   //MIDI messages, Chan & Program .. for "program change" messages to MIDI pedals, etc.
     unsigned char midiMsgMode;                      //describe when to send msg, at song load? on trick button press? probably only those two?
     unsigned char matrix[12];                       //twelve bytes to setup up the Matrix
     unsigned char footswitch;                       //state of 6 footswitches

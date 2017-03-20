@@ -604,9 +604,9 @@ void MyAppGui::dumpSongInfo()
     qDebug() << "lcdBacklight:" << ramSong.lcdBacklight;
     qDebug() << "matrix:" << ramSong.matrix[0] << ramSong.matrix[1] << ramSong.matrix[2] << ramSong.matrix[3] << ramSong.matrix[4] << ramSong.matrix[5] << ramSong.matrix[6] << ramSong.matrix[7] << ramSong.matrix[8] << ramSong.matrix[9] << ramSong.matrix[10] << ramSong.matrix[11];
     qDebug() << "midiMessage1:" << (char*)ramSong.midiMessage1;
-    qDebug() << "midiMessage2:" << (char*)ramSong.midiMessage2;
-    qDebug() << "midiMessage3:" << (char*)ramSong.midiMessage3;
-    qDebug() << "midiMessage4:" << (char*)ramSong.midiMessage4;
+    //qDebug() << "midiMessage2:" << (char*)ramSong.midiMessage2;
+    //qDebug() << "midiMessage3:" << (char*)ramSong.midiMessage3;
+    //qDebug() << "midiMessage4:" << (char*)ramSong.midiMessage4;
     qDebug() << "midiMsgMode:" << ramSong.midiMsgMode;
     qDebug() << "name:" << song;
     qDebug() << "partname:" << part;

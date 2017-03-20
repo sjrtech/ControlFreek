@@ -62,7 +62,8 @@ int main(int argc, char *argv[])
     // Qt.quit() called in embedded .qml by default only emits
     // quit() signal, so do this (optionally use Qt.exit()).
     QObject::connect(view.engine(), SIGNAL(quit()), qApp, SLOT(quit()));
-    view.setGeometry(QRect(100, 100, 1200, 720));
+    view.setGeometry(QRect(100, 100, 960, 720));
+    //view.setGeometry(QRect(100, 100, 320, 720));
     view.show();
     return application.exec();
 }

@@ -36,6 +36,12 @@ MyObject1::MyObject1(QObject *parent) : QObject(parent)
     m_comboListTrickMode2.insert(5, "Momentary Jump to Song");
     m_comboListTrickMode2.insert(6, "Latch Jump to Song");
 
+
+    // ////////////////////////////////////////////////////////
+    //temp - load dummy config for testing
+    loadDummyConfig();
+
+
 }
 
 void MyObject1::foo(QString MAC, QString name)
@@ -199,7 +205,7 @@ void MyObject1::writeData(QByteArray data)
 void MyObject1::updateSongDisplay(void)
 {
     //aint Qt awesome!!
-    emit SongChanged();     //temp?? Where should I put this round about way of updating data Qt?  This is the ONLY place it works, but NOT CORRECT??!!
+    emit SongChanged();     //temp?? Where should I put this round about way of updating data?  This is the ONLY place it works, but NOT CORRECT??!!
 }
 void MyObject1::updateSongDevice(void)
 {
@@ -208,7 +214,9 @@ void MyObject1::updateSongDevice(void)
 void MyObject1::selectNextSong(void)
 {
     myApp->gotoNextSong();
-    emit ConfigChanged();     //temp?? Where should I put this round about way of updating data Qt?
+    updateComboBoxes();
+    emit comboListChanged();
+    emit ConfigChanged();
 
 }
 void MyObject1::selectPreviousSong(void)
@@ -216,7 +224,7 @@ void MyObject1::selectPreviousSong(void)
     myApp->gotoPreviousSong();
     updateComboBoxes();
     emit comboListChanged();
-    emit ConfigChanged();     //temp?? Where should I put this round about way of updating data Qt?
+    emit ConfigChanged();
 }
 
 
@@ -280,7 +288,7 @@ QString MyObject1::getMidiMsg1(void) const
         if(myApp->isInitialized == 1)
         {
             QString temp = QString(QByteArray((char*)myApp->ramSong.midiMessage1));
-            str = temp.mid(0, 2);
+            str = temp.mid(0, SIZE_OF_MIDI_MSG);
         }
     }
     return str;
@@ -420,6 +428,100 @@ QString MyObject1::getFswSongConfig(void) const
     }
     return str;
 }
+
+int MyObject1::isFswSongConfig1(void) const
+{
+    int n = 0;
+    if(myApp)
+    {
+        if(myApp->isInitialized == 1)
+        {
+            if ( (myApp->ramSong.footswitch & 0x01) != 0)
+            {
+                n = 2;  //used as "state" to checkbox.. tells GUI to check that checkbox
+            }
+        }
+    }
+    return n;
+}
+int MyObject1::isFswSongConfig2(void) const
+{
+    int n = 0;
+    if(myApp)
+    {
+        if(myApp->isInitialized == 1)
+        {
+            if ( (myApp->ramSong.footswitch & 0x02) != 0)
+            {
+                n = 2;  //used as "state" to checkbox.. tells GUI to check that checkbox
+            }
+        }
+    }
+    return n;
+}
+int MyObject1::isFswSongConfig3(void) const
+{
+    int n = 0;
+    if(myApp)
+    {
+        if(myApp->isInitialized == 1)
+        {
+            if ( (myApp->ramSong.footswitch & 0x04) != 0)
+            {
+                n = 2;  //used as "state" to checkbox.. tells GUI to check that checkbox
+            }
+        }
+    }
+    return n;
+}
+int MyObject1::isFswSongConfig4(void) const
+{
+    int n = 0;
+    if(myApp)
+    {
+        if(myApp->isInitialized == 1)
+        {
+            if ( (myApp->ramSong.footswitch & 0x08) != 0)
+            {
+                n = 2;  //used as "state" to checkbox.. tells GUI to check that checkbox
+            }
+        }
+    }
+    return n;
+}
+int MyObject1::isFswSongConfig5(void) const
+{
+    int n = 0;
+    if(myApp)
+    {
+        if(myApp->isInitialized == 1)
+        {
+            if ( (myApp->ramSong.footswitch & 0x10) != 0)
+            {
+                n = 2;  //used as "state" to checkbox.. tells GUI to check that checkbox
+            }
+        }
+    }
+    return n;
+}
+int MyObject1::isFswSongConfig6(void) const
+{
+    int n = 0;
+    if(myApp)
+    {
+        if(myApp->isInitialized == 1)
+        {
+            if ( (myApp->ramSong.footswitch & 0x20) != 0)
+            {
+                n = 2;  //used as "state" to checkbox.. tells GUI to check that checkbox
+            }
+        }
+    }
+    return n;
+}
+
+
+
 void MyObject1::onSongFswChanged(QString str)
 {
     if(myApp)
@@ -864,8 +966,9 @@ void MyObject1::onMatrix11Changed(QString str)
 
 void MyObject1::updateConfigDisplay(void)
 {
-    //aint Qt awesome!!
-    emit ConfigChanged();     //temp?? Where should I put this round about way of updating data Qt?  This is the ONLY place it works, but NOT CORRECT??!!
+    updateComboBoxes();
+    emit comboListChanged();
+    emit ConfigChanged();
 }
 void MyObject1::updateConfigDevice(void)
 {
@@ -1426,8 +1529,15 @@ void MyObject1::updateComboBoxes(void)
 {
     //update all the QStringLists with the correct values for each specific combobox:
     // - do not list a loop in itself, iow, Loop: BigMuff should not have BigMuff listed in its combobox
+    // - only list values that exist - no black lines
+    // - include a not-used option
+    // TO DO:
+    // - hide comboboxes (and "<--" text) when item name not defined
+    // - set the combobox index to the setting stored for the current song
 
-    //TEMP
+
+    //Update the string lists
+
     m_comboList0.clear();
     m_comboList0.insert(0, "Main In" );
     if(getLoopName1().length() > 0) m_comboList0.insert(1, getLoopName1() );
@@ -1437,7 +1547,7 @@ void MyObject1::updateComboBoxes(void)
     if(getLoopName5().length() > 0) m_comboList0.insert(5, getLoopName5() );
     if(getLoopName6().length() > 0) m_comboList0.insert(6, getLoopName6() );
     if(getLoopName7().length() > 0) m_comboList0.insert(7, getLoopName7() );
-    m_comboList0.insert(7, "not used");
+    m_comboList0.insert(8, "not used");
 
     //do not include this number loop in the list
     m_comboList1.clear();
@@ -1699,6 +1809,84 @@ void MyObject1::fswSixCheckChanged(int checkedState)
         }
     }
 }
+
+
+void MyObject1::loadDummyConfig()
+{
+    myApp->ramSettings.isFilled = 0xa5;
+    myApp->ramSettings.currentSong = 2;
+    myApp->ramSettings.lcdBacklight = 4;
+
+    myApp->ramSettings.auxBacklite[0] = 1;
+    myApp->ramSettings.auxBacklite[1] = 1;
+    myApp->ramSettings.auxBacklite[2] = 1;
+    myApp->ramSettings.auxBacklite[3] = 1;
+    sprintf((char*)myApp->ramSettings.auxOutName[0], "aux1");
+    sprintf((char*)myApp->ramSettings.auxOutName[1], "aux2");
+    sprintf((char*)myApp->ramSettings.auxOutName[2], "aux3");
+    sprintf((char*)myApp->ramSettings.auxOutName[3], "aux4");
+
+    myApp->ramSettings.fswBacklite[0] = 3;
+    myApp->ramSettings.fswBacklite[1] = 3;
+    myApp->ramSettings.fswBacklite[2] = 3;
+    myApp->ramSettings.fswBacklite[3] = 3;
+    myApp->ramSettings.fswBacklite[4] = 3;
+    myApp->ramSettings.fswBacklite[5] = 3;
+    sprintf((char*)myApp->ramSettings.fswName[0], "fsw1");
+    sprintf((char*)myApp->ramSettings.fswName[1], "fsw2");
+    sprintf((char*)myApp->ramSettings.fswName[2], "fsw3");
+    sprintf((char*)myApp->ramSettings.fswName[3], "fsw4");
+    sprintf((char*)myApp->ramSettings.fswName[4], "fsw5");
+    sprintf((char*)myApp->ramSettings.fswName[5], "fsw6");
+
+    myApp->ramSettings.loopBacklite[0] = 5;
+    myApp->ramSettings.loopBacklite[1] = 5;
+    myApp->ramSettings.loopBacklite[2] = 5;
+    myApp->ramSettings.loopBacklite[3] = 5;
+    myApp->ramSettings.loopBacklite[4] = 5;
+    myApp->ramSettings.loopBacklite[5] = 5;
+    myApp->ramSettings.loopBacklite[6] = 5;
+    sprintf((char*)myApp->ramSettings.loopName[0], "loop1");
+    sprintf((char*)myApp->ramSettings.loopName[1], "loop2");
+    sprintf((char*)myApp->ramSettings.loopName[2], "loop3");
+    sprintf((char*)myApp->ramSettings.loopName[3], "loop4");
+    sprintf((char*)myApp->ramSettings.loopName[4], "loop5");
+    sprintf((char*)myApp->ramSettings.loopName[5], "loop6");
+    sprintf((char*)myApp->ramSettings.loopName[6], "loop7");
+
+    // ////////////////////////////////////////////////////////////////////
+    // song
+    myApp->ramSong.isFilled = 0xa5;
+    sprintf((char*)myApp->ramSong.name, "THIS SONG");
+    sprintf((char*)myApp->ramSong.partname, "TESTER");
+    myApp->ramSong.matrix[0] = 1;
+    myApp->ramSong.matrix[1] = 2;
+    myApp->ramSong.matrix[2] = 4;
+    myApp->ramSong.matrix[3] = 8;
+    myApp->ramSong.matrix[4] = 16;
+    myApp->ramSong.matrix[5] = 32;
+    myApp->ramSong.matrix[6] = 64;
+    myApp->ramSong.matrix[7] = 128;
+    myApp->ramSong.matrix[8] = 1;
+    myApp->ramSong.matrix[9] = 0;
+    myApp->ramSong.matrix[10] = 0;
+    myApp->ramSong.matrix[11] = 16;
+    myApp->ramSong.footswitch = 1;
+    sprintf((char*)myApp->ramSong.midiMessage1, "Midi1");
+    myApp->ramSong.midiMsgMode = 1;
+    myApp->ramSong.lcdBacklight = 2;
+    myApp->ramSong.trickMode[0] = 1;
+    myApp->ramSong.trickData[0] = 1;
+    myApp->ramSong.trickMode[1] = 2;
+    myApp->ramSong.trickData[1] = 2;
+
+
+    updateComboBoxes();
+    emit comboListChanged();
+
+
+}
+
 
 /*
 int MyObject1::count()

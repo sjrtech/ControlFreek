@@ -94,7 +94,7 @@ Item
                 // BLE CONNECTION SCREEN
                 id:connectscreen
                 anchors.left: parent.left
-                anchors.leftMargin: 20
+                anchors.leftMargin: 0
                 //anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: parent.top;
                 width: 320
@@ -297,7 +297,7 @@ Item
                     Text
                     {
                         id: text1
-                        x:0
+                        x:2
                         y:textLabelSettingsTitle.y + 30
                         text: qsTr("Backlight: ")
                         visible: false
@@ -324,7 +324,7 @@ Item
                     Text
                     {
                         id: text2
-                        x:0
+                        x:2
                         y:textBacklightMain.y+20
                         text: qsTr("Current Song #: ")
                         font.pixelSize: 12
@@ -351,7 +351,7 @@ Item
                     Text
                     {
                         id: textLabelLoop1
-                        x:0
+                        x:2
                         y:textCurrentSong.y+20
                         text: qsTr("Loop 1 Name: ")
                         font.pixelSize: 16
@@ -368,7 +368,7 @@ Item
                         text: theObject.LoopName1
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 9
+                        maximumLength: 20
                         onTextChanged:
                         {
                             theObject.onLoopName1Changed(text);
@@ -412,7 +412,7 @@ Item
                     Text
                     {
                         id: textLabelLoop2
-                        x:0
+                        x:2
                         y:textLabelLoop1.y + 26
                         text: qsTr("Loop 2 Name: ")
                         font.pixelSize: 16
@@ -429,7 +429,7 @@ Item
                         text: theObject.LoopName2
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 9
+                        maximumLength: 20
                         onTextChanged:
                         {
                             theObject.onLoopName2Changed(text);
@@ -454,7 +454,7 @@ Item
                     Text
                     {
                         id: textLabelLoop3
-                        x:0
+                        x:2
                         y:textLabelLoop2.y+26
                         text: qsTr("Loop 3 Name: ")
                         font.pixelSize: 16
@@ -471,7 +471,7 @@ Item
                         text: theObject.LoopName3
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 9
+                        maximumLength: 20
                         onTextChanged:
                         {
                             theObject.onLoopName3Changed(text);
@@ -496,7 +496,7 @@ Item
                     Text
                     {
                         id: textLabelLoop4
-                        x:0
+                        x:2
                         y:textLabelLoop3.y+26
                         text: qsTr("Loop 4 Name: ")
                         font.pixelSize: 16
@@ -513,7 +513,7 @@ Item
                         text: theObject.LoopName4
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 9
+                        maximumLength: 20
                         onTextChanged:
                         {
                             theObject.onLoopName4Changed(text);
@@ -538,7 +538,7 @@ Item
                     Text
                     {
                         id: textLabelLoop5
-                        x:0
+                        x:2
                         y:textLabelLoop4.y+26
                         text: qsTr("Loop 5 Name: ")
                         font.pixelSize: 16
@@ -555,7 +555,7 @@ Item
                         text: theObject.LoopName5
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 9
+                        maximumLength: 20
                         onTextChanged:
                         {
                             theObject.onLoopName5Changed(text);
@@ -580,7 +580,7 @@ Item
                     Text
                     {
                         id: textLabelLoop6
-                        x:0
+                        x:2
                         y:textLabelLoop5.y+26
                         text: qsTr("Loop 6 Name: ")
                         font.pixelSize: 16
@@ -597,7 +597,7 @@ Item
                         text: theObject.LoopName6
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 9
+                        maximumLength: 20
                         onTextChanged:
                         {
                             theObject.onLoopName6Changed(text);
@@ -622,7 +622,7 @@ Item
                     Text
                     {
                         id: textLabelLoop7
-                        x:0
+                        x:2
                         y:textLabelLoop6.y+26
                         text: qsTr("Loop 7 Name: ")
                         font.pixelSize: 16
@@ -639,7 +639,7 @@ Item
                         text: theObject.LoopName7
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 9
+                        maximumLength: 20
                         onTextChanged:
                         {
                             theObject.onLoopName7Changed(text);
@@ -664,7 +664,7 @@ Item
                     Text
                     {
                         id: textLabelAux1
-                        x:0
+                        x:2
                         y:textLabelLoop7.y+30
                         text: qsTr("Aux1 Name:")
                         font.pixelSize: 16
@@ -681,7 +681,7 @@ Item
                         text: theObject.AuxName1
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 9
+                        maximumLength: 20
                         onTextChanged:
                         {
                             theObject.onAuxName1Changed(text);
@@ -706,7 +706,7 @@ Item
                     Text
                     {
                         id: textLabelAux2
-                        x:0
+                        x:2
                         y:textLabelAux1.y+26
                         text: qsTr("Aux2 Name:")
                         font.pixelSize: 16
@@ -723,7 +723,7 @@ Item
                         text: theObject.AuxName2
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 9
+                        maximumLength: 20
                         onTextChanged:
                         {
                             theObject.onAuxName2Changed(text);
@@ -748,7 +748,7 @@ Item
                     Text
                     {
                         id: textLabelAux3
-                        x:0
+                        x:2
                         y:textLabelAux2.y+26
                         text: qsTr("Aux3 Name:")
                         font.pixelSize: 16
@@ -765,7 +765,7 @@ Item
                         text: theObject.AuxName3
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 9
+                        maximumLength: 20
                         onTextChanged:
                         {
                             theObject.onAuxName3Changed(text);
@@ -790,7 +790,7 @@ Item
                     Text
                     {
                         id: textLabelAux4
-                        x:0
+                        x:2
                         y:textLabelAux3.y+26
                         text: qsTr("Aux4 Name:")
                         font.pixelSize: 16
@@ -807,7 +807,7 @@ Item
                         text: theObject.AuxName4
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 9
+                        maximumLength: 20
                         onTextChanged:
                         {
                             theObject.onAuxName4Changed(text);
@@ -832,7 +832,7 @@ Item
                     Text
                     {
                         id: textLabelFsw1
-                        x:0
+                        x:2
                         y:textLabelAux4.y+30
                         text: qsTr("Fsw1 Name:")
                         font.pixelSize: 16
@@ -849,7 +849,7 @@ Item
                         text: theObject.FswName1
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 9
+                        maximumLength: 20
                         onTextChanged:
                         {
                             theObject.onFswName1Changed(text);
@@ -874,7 +874,7 @@ Item
                     Text
                     {
                         id: textLabelFsw2
-                        x:0
+                        x:2
                         y:textLabelFsw1.y+26
                         text: qsTr("Fsw2 Name:")
                         font.pixelSize: 16
@@ -891,7 +891,7 @@ Item
                         text: theObject.FswName2
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 9
+                        maximumLength: 20
                         onTextChanged:
                         {
                             theObject.onFswName2Changed(text);
@@ -916,7 +916,7 @@ Item
                     Text
                     {
                         id: textLabelFsw3
-                        x:0
+                        x:2
                         y:textLabelFsw2.y+26
                         text: qsTr("Fsw3 Name:")
                         font.pixelSize: 16
@@ -933,7 +933,7 @@ Item
                         text: theObject.FswName3
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 9
+                        maximumLength: 20
                         onTextChanged:
                         {
                             theObject.onFswName3Changed(text);
@@ -958,7 +958,7 @@ Item
                     Text
                     {
                         id: textLabelFsw4
-                        x:0
+                        x:2
                         y:textLabelFsw3.y+26
                         text: qsTr("Fsw4 Name:")
                         font.pixelSize: 16
@@ -975,7 +975,7 @@ Item
                         text: theObject.FswName4
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 9
+                        maximumLength: 20
                         onTextChanged:
                         {
                             theObject.onFswName4Changed(text);
@@ -1000,7 +1000,7 @@ Item
                     Text
                     {
                         id: textLabelFsw5
-                        x:0
+                        x:2
                         y:textLabelFsw4.y+26
                         text: qsTr("Fsw5 Name:")
                         font.pixelSize: 16
@@ -1017,7 +1017,7 @@ Item
                         text: theObject.FswName5
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 9
+                        maximumLength: 20
                         onTextChanged:
                         {
                             theObject.onFswName5Changed(text);
@@ -1042,7 +1042,7 @@ Item
                     Text
                     {
                         id: textLabelFsw6
-                        x:0
+                        x:2
                         y:textLabelFsw5.y+26
                         text: qsTr("Fsw6 Name:")
                         font.pixelSize: 16
@@ -1059,7 +1059,7 @@ Item
                         text: theObject.FswName6
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 9
+                        maximumLength: 20
                         onTextChanged:
                         {
                             theObject.onFswName6Changed(text);
@@ -1206,7 +1206,7 @@ Item
                             x:textLabelPartName.x+5
                             width: 140
                             id: textPartName
-                            text: theObject.SongName
+                            text: theObject.PartName
                             font.pixelSize: 14
                             font.bold: true
                             maximumLength: 9
@@ -1719,6 +1719,7 @@ Item
                             anchors.top: textLabelSongFsw.bottom
                             anchors.topMargin: 1
                             text: textNameFsw1.text
+                            checkedState: theObject.isFswSongConfig1();
                             onCheckedChanged: theObject.fswOneCheckChanged(checkedState);
                         }
                         CheckBox {
@@ -1727,6 +1728,7 @@ Item
                             anchors.top: checkBoxFsw1.bottom
                             anchors.topMargin: 1
                             text: textNameFsw2.text
+                            checkedState: theObject.isFswSongConfig2();
                             onCheckedChanged: theObject.fswTwoCheckChanged(checkedState);
                         }
                         CheckBox {
@@ -1735,6 +1737,7 @@ Item
                             anchors.leftMargin: 5
                             anchors.top: checkBoxFsw1.top
                             text: textNameFsw3.text
+                            checkedState: theObject.isFswSongConfig3();
                             onCheckedChanged: theObject.fswThreeCheckChanged(checkedState);
                         }
                         CheckBox {
@@ -1744,6 +1747,7 @@ Item
                             anchors.top: checkBoxFsw3.bottom
                             anchors.topMargin: 1
                             text: textNameFsw4.text
+                            checkedState: theObject.isFswSongConfig4();
                             onCheckedChanged: theObject.fswFourCheckChanged(checkedState);
                         }
                         CheckBox {
@@ -1752,6 +1756,7 @@ Item
                             anchors.leftMargin: 5
                             anchors.top: checkBoxFsw1.top
                             text: textNameFsw5.text
+                            checkedState: theObject.isFswSongConfig5();
                             onCheckedChanged: theObject.fswFiveCheckChanged(checkedState);
                         }
                         CheckBox {
@@ -1761,6 +1766,7 @@ Item
                             anchors.top: checkBoxFsw5.bottom
                             anchors.topMargin: 1
                             text: textNameFsw6.text
+                            checkedState: theObject.isFswSongConfig6();
                             onCheckedChanged: theObject.fswSixCheckChanged(checkedState);
                         }
                         /*

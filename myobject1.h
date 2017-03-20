@@ -45,6 +45,7 @@ class MyObject1 : public QObject
 
     //Q_PROPERTY(QString MidiMode READ getMidiMode NOTIFY SongChanged)
     Q_PROPERTY(QString FswSongConfig READ getFswSongConfig NOTIFY SongChanged)
+
     //Q_PROPERTY(QString TrickMode READ getTrickMode NOTIFY SongChanged)
     Q_PROPERTY(QString TrickData1 READ getTrickData1 NOTIFY SongChanged)
     Q_PROPERTY(QString TrickData2 READ getTrickData2 NOTIFY SongChanged)
@@ -143,6 +144,7 @@ private:
     QStringList m_comboListTrickMode1;
     QStringList m_comboListTrickMode2;
 
+    void loadDummyConfig();
 
 signals:
     void recdBLEdata(QByteArray);
@@ -176,6 +178,13 @@ public slots:
 
     //QString getMidiMode(void) const;
     QString getFswSongConfig(void) const;
+    int isFswSongConfig1(void) const;
+    int isFswSongConfig2(void) const;
+    int isFswSongConfig3(void) const;
+    int isFswSongConfig4(void) const;
+    int isFswSongConfig5(void) const;
+    int isFswSongConfig6(void) const;
+
     //QString getTrickMode(void) const;
     QString getTrickData1(void) const;
     QString getTrickData2(void) const;
@@ -193,6 +202,8 @@ public slots:
     QString getMatrix9(void) const;
     QString getMatrix10(void) const;
     QString getMatrix11(void) const;
+
+
 
     void onSongNameChanged(QString);
     void onSongPartNameChanged(QString);
