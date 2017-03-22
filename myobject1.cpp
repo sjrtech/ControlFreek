@@ -1460,6 +1460,7 @@ const QStringList MyObject1::comboList0()
 {
     return m_comboList0;
 }
+
 const QStringList MyObject1::comboList1()
 {
     return m_comboList1;
@@ -1533,11 +1534,55 @@ void MyObject1::updateComboBoxes(void)
     // - include a not-used option
     // TO DO:
     // - hide comboboxes (and "<--" text) when item name not defined
-    // - set the combobox index to the setting stored for the current song
 
+
+    //Set the combobox index to the setting stored for the current song
+    //EACH one is different so just write out the code longhand so it's clear!!
+    if(myApp->ramSong.matrix[0] == 1) Combo0_index = 0;
+    else if(myApp->ramSong.matrix[0] == 2) Combo0_index = 1;
+    else if(myApp->ramSong.matrix[0] == 4) Combo0_index = 2;
+    else if(myApp->ramSong.matrix[0] == 8) Combo0_index = 3;
+    else if(myApp->ramSong.matrix[0] == 16) Combo0_index = 4;
+    else if(myApp->ramSong.matrix[0] == 32) Combo0_index = 5;
+    else if(myApp->ramSong.matrix[0] == 64) Combo0_index = 6;
+    else if(myApp->ramSong.matrix[0] == 128) Combo0_index = 7;
+    else if(myApp->ramSong.matrix[0] == 0) Combo0_index = 8;
+
+    //Skip 0x02
+    if(myApp->ramSong.matrix[1] == 1) Combo1_index = 0;
+    else if(myApp->ramSong.matrix[1] == 4) Combo1_index = 1;
+    else if(myApp->ramSong.matrix[1] == 8) Combo1_index = 2;
+    else if(myApp->ramSong.matrix[1] == 16) Combo1_index = 3;
+    else if(myApp->ramSong.matrix[1] == 32) Combo1_index = 4;
+    else if(myApp->ramSong.matrix[1] == 64) Combo1_index = 5;
+    else if(myApp->ramSong.matrix[1] == 128) Combo1_index = 6;
+    else if(myApp->ramSong.matrix[1] == 0) Combo1_index = 7;
+
+    //skip 0x04
+    if(myApp->ramSong.matrix[2] == 1) Combo2_index = 0;
+    else if(myApp->ramSong.matrix[2] == 2) Combo2_index = 1;
+    else if(myApp->ramSong.matrix[2] == 8) Combo2_index = 2;
+    else if(myApp->ramSong.matrix[2] == 16) Combo2_index = 3;
+    else if(myApp->ramSong.matrix[2] == 32) Combo2_index = 4;
+    else if(myApp->ramSong.matrix[2] == 64) Combo2_index = 5;
+    else if(myApp->ramSong.matrix[2] == 128) Combo2_index = 6;
+    else if(myApp->ramSong.matrix[2] == 0) Combo2_index = 7;
+
+    //TEMP
+    Combo3_index = 2;
+    Combo4_index = 2;
+    Combo5_index = 2;
+    Combo6_index = 2;
+    Combo7_index = 2;
+    Combo8_index = 2;
+    Combo9_index = 2;
+    Combo10_index = 2;
+    Combo11_index = 2;
+    ComboBacklight_index = 2;
+    ComboTrickMode1_index = 0;
+    ComboTrickMode2_index = 2;
 
     //Update the string lists
-
     m_comboList0.clear();
     m_comboList0.insert(0, "Main In" );
     if(getLoopName1().length() > 0) m_comboList0.insert(1, getLoopName1() );
@@ -1673,6 +1718,7 @@ void MyObject1::updateComboBoxes(void)
     if(getLoopName6().length() > 0) m_comboList11.insert(6, getLoopName6() );
     if(getLoopName7().length() > 0) m_comboList11.insert(7, getLoopName7() );
     m_comboList11.insert(8, "not used" );
+
 
 
 }
@@ -1821,10 +1867,10 @@ void MyObject1::loadDummyConfig()
     myApp->ramSettings.auxBacklite[1] = 1;
     myApp->ramSettings.auxBacklite[2] = 1;
     myApp->ramSettings.auxBacklite[3] = 1;
-    sprintf((char*)myApp->ramSettings.auxOutName[0], "aux1");
-    sprintf((char*)myApp->ramSettings.auxOutName[1], "aux2");
-    sprintf((char*)myApp->ramSettings.auxOutName[2], "aux3");
-    sprintf((char*)myApp->ramSettings.auxOutName[3], "aux4");
+    sprintf((char*)myApp->ramSettings.auxOutName[0], "Polytune");
+    //sprintf((char*)myApp->ramSettings.auxOutName[1], "");
+    //sprintf((char*)myApp->ramSettings.auxOutName[2], "");
+    //sprintf((char*)myApp->ramSettings.auxOutName[3], "");
 
     myApp->ramSettings.fswBacklite[0] = 3;
     myApp->ramSettings.fswBacklite[1] = 3;
@@ -1832,12 +1878,12 @@ void MyObject1::loadDummyConfig()
     myApp->ramSettings.fswBacklite[3] = 3;
     myApp->ramSettings.fswBacklite[4] = 3;
     myApp->ramSettings.fswBacklite[5] = 3;
-    sprintf((char*)myApp->ramSettings.fswName[0], "fsw1");
-    sprintf((char*)myApp->ramSettings.fswName[1], "fsw2");
-    sprintf((char*)myApp->ramSettings.fswName[2], "fsw3");
-    sprintf((char*)myApp->ramSettings.fswName[3], "fsw4");
-    sprintf((char*)myApp->ramSettings.fswName[4], "fsw5");
-    sprintf((char*)myApp->ramSettings.fswName[5], "fsw6");
+    sprintf((char*)myApp->ramSettings.fswName[0], "Bypass Delay");
+    sprintf((char*)myApp->ramSettings.fswName[1], "Harmonist");
+    sprintf((char*)myApp->ramSettings.fswName[2], "Looper");
+    //sprintf((char*)myApp->ramSettings.fswName[3], "");
+    //sprintf((char*)myApp->ramSettings.fswName[4], "");
+    //sprintf((char*)myApp->ramSettings.fswName[5], "");
 
     myApp->ramSettings.loopBacklite[0] = 5;
     myApp->ramSettings.loopBacklite[1] = 5;
@@ -1846,13 +1892,13 @@ void MyObject1::loadDummyConfig()
     myApp->ramSettings.loopBacklite[4] = 5;
     myApp->ramSettings.loopBacklite[5] = 5;
     myApp->ramSettings.loopBacklite[6] = 5;
-    sprintf((char*)myApp->ramSettings.loopName[0], "loop1");
-    sprintf((char*)myApp->ramSettings.loopName[1], "loop2");
-    sprintf((char*)myApp->ramSettings.loopName[2], "loop3");
-    sprintf((char*)myApp->ramSettings.loopName[3], "loop4");
-    sprintf((char*)myApp->ramSettings.loopName[4], "loop5");
-    sprintf((char*)myApp->ramSettings.loopName[5], "loop6");
-    sprintf((char*)myApp->ramSettings.loopName[6], "loop7");
+    sprintf((char*)myApp->ramSettings.loopName[0], "Big Muff");
+    sprintf((char*)myApp->ramSettings.loopName[1], "Distortion");
+    sprintf((char*)myApp->ramSettings.loopName[2], "MXR EQ");
+    sprintf((char*)myApp->ramSettings.loopName[3], "M5 Modeler");
+    sprintf((char*)myApp->ramSettings.loopName[4], "Harmonist");
+    sprintf((char*)myApp->ramSettings.loopName[5], "Tremolo");
+   // sprintf((char*)myApp->ramSettings.loopName[6], "");
 
     // ////////////////////////////////////////////////////////////////////
     // song
@@ -1860,23 +1906,23 @@ void MyObject1::loadDummyConfig()
     sprintf((char*)myApp->ramSong.name, "THIS SONG");
     sprintf((char*)myApp->ramSong.partname, "TESTER");
     myApp->ramSong.matrix[0] = 1;
-    myApp->ramSong.matrix[1] = 2;
-    myApp->ramSong.matrix[2] = 4;
-    myApp->ramSong.matrix[3] = 8;
-    myApp->ramSong.matrix[4] = 16;
-    myApp->ramSong.matrix[5] = 32;
-    myApp->ramSong.matrix[6] = 64;
-    myApp->ramSong.matrix[7] = 128;
+    myApp->ramSong.matrix[1] = 4;
+    myApp->ramSong.matrix[2] = 0;
+    myApp->ramSong.matrix[3] = 1;
+    myApp->ramSong.matrix[4] = 1;
+    myApp->ramSong.matrix[5] = 1;
+    myApp->ramSong.matrix[6] = 1;
+    myApp->ramSong.matrix[7] = 1;
     myApp->ramSong.matrix[8] = 1;
     myApp->ramSong.matrix[9] = 0;
     myApp->ramSong.matrix[10] = 0;
-    myApp->ramSong.matrix[11] = 16;
-    myApp->ramSong.footswitch = 1;
+    myApp->ramSong.matrix[11] = 0;
+    myApp->ramSong.footswitch = 3;
     sprintf((char*)myApp->ramSong.midiMessage1, "Midi1");
     myApp->ramSong.midiMsgMode = 1;
     myApp->ramSong.lcdBacklight = 2;
-    myApp->ramSong.trickMode[0] = 1;
-    myApp->ramSong.trickData[0] = 1;
+    myApp->ramSong.trickMode[0] = 0;
+    myApp->ramSong.trickData[0] = 0;
     myApp->ramSong.trickMode[1] = 2;
     myApp->ramSong.trickData[1] = 2;
 

@@ -372,6 +372,16 @@ Item
                         onTextChanged:
                         {
                             theObject.onLoopName1Changed(text);
+                            if(text.length <= 0)
+                            {
+                                textLabelMatrix1.visible = false;
+                                comboBox1.visible = false;
+                            }
+                            else
+                            {
+                                textLabelMatrix1.visible = true;
+                                comboBox1.visible = true;
+                            }
                         }
                         style:
                             TextFieldStyle
@@ -433,6 +443,16 @@ Item
                         onTextChanged:
                         {
                             theObject.onLoopName2Changed(text);
+                            if(text.length <= 0)
+                            {
+                                textLabelMatrix2.visible = false;
+                                comboBox2.visible = false;
+                            }
+                            else
+                            {
+                                textLabelMatrix2.visible = true;
+                                comboBox2.visible = true;
+                            }
                         }
                         style:
                             TextFieldStyle
@@ -475,6 +495,16 @@ Item
                         onTextChanged:
                         {
                             theObject.onLoopName3Changed(text);
+                            if(text.length <= 0)
+                            {
+                                textLabelMatrix3.visible = false;
+                                comboBox3.visible = false;
+                            }
+                            else
+                            {
+                                textLabelMatrix3.visible = true;
+                                comboBox3.visible = true;
+                            }
                         }
                         style:
                             TextFieldStyle
@@ -517,6 +547,16 @@ Item
                         onTextChanged:
                         {
                             theObject.onLoopName4Changed(text);
+                            if(text.length <= 0)
+                            {
+                                textLabelMatrix4.visible = false;
+                                comboBox4.visible = false;
+                            }
+                            else
+                            {
+                                textLabelMatrix4.visible = true;
+                                comboBox4.visible = true;
+                            }
                         }
                         style:
                             TextFieldStyle
@@ -559,6 +599,16 @@ Item
                         onTextChanged:
                         {
                             theObject.onLoopName5Changed(text);
+                            if(text.length <= 0)
+                            {
+                                textLabelMatrix5.visible = false;
+                                comboBox5.visible = false;
+                            }
+                            else
+                            {
+                                textLabelMatrix5.visible = true;
+                                comboBox5.visible = true;
+                            }
                         }
                         style:
                             TextFieldStyle
@@ -601,6 +651,16 @@ Item
                         onTextChanged:
                         {
                             theObject.onLoopName6Changed(text);
+                            if(text.length <= 0)
+                            {
+                                textLabelMatrix6.visible = false;
+                                comboBox6.visible = false;
+                            }
+                            else
+                            {
+                                textLabelMatrix6.visible = true;
+                                comboBox6.visible = true;
+                            }
                         }
                         style:
                             TextFieldStyle
@@ -643,6 +703,16 @@ Item
                         onTextChanged:
                         {
                             theObject.onLoopName7Changed(text);
+                            if(text.length <= 0)
+                            {
+                                textLabelMatrix7.visible = false;
+                                comboBox7.visible = false;
+                            }
+                            else
+                            {
+                                textLabelMatrix7.visible = true;
+                                comboBox7.visible = true;
+                            }
                         }
                         style:
                             TextFieldStyle
@@ -685,6 +755,16 @@ Item
                         onTextChanged:
                         {
                             theObject.onAuxName1Changed(text);
+                            if(text.length <= 0)
+                            {
+                                textLabelMatri8.visible = false;
+                                comboBox8.visible = false;
+                            }
+                            else
+                            {
+                                textLabelMatrix8.visible = true;
+                                comboBox8.visible = true;
+                            }
                         }
                         style:
                             TextFieldStyle
@@ -727,6 +807,16 @@ Item
                         onTextChanged:
                         {
                             theObject.onAuxName2Changed(text);
+                            if(text.length <= 0)
+                            {
+                                textLabelMatrix9.visible = false;
+                                comboBox9.visible = false;
+                            }
+                            else
+                            {
+                                textLabelMatrix9.visible = true;
+                                comboBox9.visible = true;
+                            }
                         }
                         style:
                             TextFieldStyle
@@ -769,6 +859,16 @@ Item
                         onTextChanged:
                         {
                             theObject.onAuxName3Changed(text);
+                            if(text.length <= 0)
+                            {
+                                textLabelMatrix10.visible = false;
+                                comboBox10.visible = false;
+                            }
+                            else
+                            {
+                                textLabelMatrix10.visible = true;
+                                comboBox10.visible = true;
+                            }
                         }
                         style:
                             TextFieldStyle
@@ -811,6 +911,16 @@ Item
                         onTextChanged:
                         {
                             theObject.onAuxName4Changed(text);
+                            if(text.length <= 0)
+                            {
+                                textLabelMatrix11.visible = false;
+                                comboBox11.visible = false;
+                            }
+                            else
+                            {
+                                textLabelMatrix11.visible = true;
+                                comboBox11.visible = true;
+                            }
                         }
                         style:
                             TextFieldStyle
@@ -853,6 +963,14 @@ Item
                         onTextChanged:
                         {
                             theObject.onFswName1Changed(text);
+                            if(text.length <= 0)
+                            {
+                                checkBoxFsw1.visible = false;
+                            }
+                            else
+                            {
+                                checkBoxFsw1.visible = true;
+                            }
                         }
                         style:
                             TextFieldStyle
@@ -895,6 +1013,14 @@ Item
                         onTextChanged:
                         {
                             theObject.onFswName2Changed(text);
+                            if(text.length <= 0)
+                            {
+                                checkBoxFsw2.visible = false;
+                            }
+                            else
+                            {
+                                checkBoxFsw2.visible = true;
+                            }
                         }
                         style:
                             TextFieldStyle
@@ -937,6 +1063,14 @@ Item
                         onTextChanged:
                         {
                             theObject.onFswName3Changed(text);
+                            if(text.length <= 0)
+                            {
+                                checkBoxFsw3.visible = false;
+                            }
+                            else
+                            {
+                                checkBoxFsw3.visible = true;
+                            }
                         }
                         style:
                             TextFieldStyle
@@ -979,6 +1113,14 @@ Item
                         onTextChanged:
                         {
                             theObject.onFswName4Changed(text);
+                            if(text.length <= 0)
+                            {
+                                checkBoxFsw4.visible = false;
+                            }
+                            else
+                            {
+                                checkBoxFsw4.visible = true;
+                            }
                         }
                         style:
                             TextFieldStyle
@@ -1021,6 +1163,14 @@ Item
                         onTextChanged:
                         {
                             theObject.onFswName5Changed(text);
+                            if(text.length <= 0)
+                            {
+                                checkBoxFsw5.visible = false;
+                            }
+                            else
+                            {
+                                checkBoxFsw5.visible = true;
+                            }
                         }
                         style:
                             TextFieldStyle
@@ -1063,6 +1213,14 @@ Item
                         onTextChanged:
                         {
                             theObject.onFswName6Changed(text);
+                            if(text.length <= 0)
+                            {
+                                checkBoxFsw6.visible = false;
+                            }
+                            else
+                            {
+                                checkBoxFsw6.visible = true;
+                            }
                         }
                         style:
                             TextFieldStyle
@@ -1276,6 +1434,9 @@ Item
                             {
                                 theObject.onMatrix0Changed(currentText)
                             }
+                            onModelChanged: {
+                                 currentIndex = Qt.binding( function(){return theObject.Combo0_index} )
+                            }
                         }
                         Text
                         {
@@ -1297,6 +1458,9 @@ Item
                             onCurrentIndexChanged:
                             {
                                 theObject.onMatrix1Changed(currentText)
+                            }
+                            onModelChanged: {
+                                 currentIndex = Qt.binding( function(){return theObject.Combo1_index} )
                             }
                         }
                         Text
@@ -1320,6 +1484,9 @@ Item
                             {
                                 theObject.onMatrix2Changed(currentText)
                             }
+                            onModelChanged: {
+                                 currentIndex = Qt.binding( function(){return theObject.Combo2_index} )
+                            }
                         }
                         Text
                         {
@@ -1341,6 +1508,9 @@ Item
                             onCurrentIndexChanged:
                             {
                                 theObject.onMatrix3Changed(currentText)
+                            }
+                            onModelChanged: {
+                                 currentIndex = Qt.binding( function(){return theObject.Combo3_index} )
                             }
                         }
                         Text
@@ -1364,6 +1534,9 @@ Item
                             {
                                 theObject.onMatrix4Changed(currentText)
                             }
+                            onModelChanged: {
+                                 currentIndex = Qt.binding( function(){return theObject.Combo4_index} )
+                            }
                         }
                         Text
                         {
@@ -1385,6 +1558,9 @@ Item
                             onCurrentIndexChanged:
                             {
                                 theObject.onMatrix5Changed(currentText)
+                            }
+                            onModelChanged: {
+                                 currentIndex = Qt.binding( function(){return theObject.Combo5_index} )
                             }
                         }
                         Text
@@ -1408,6 +1584,9 @@ Item
                             {
                                 theObject.onMatrix6Changed(currentText)
                             }
+                            onModelChanged: {
+                                 currentIndex = Qt.binding( function(){return theObject.Combo6_index} )
+                            }
                         }
                         Text
                         {
@@ -1429,6 +1608,9 @@ Item
                             onCurrentIndexChanged:
                             {
                                 theObject.onMatrix7Changed(currentText)
+                            }
+                            onModelChanged: {
+                                 currentIndex = Qt.binding( function(){return theObject.Combo7_index} )
                             }
                         }
                         /////////////////////////////////////////////////////////////////////////////
@@ -1454,6 +1636,9 @@ Item
                             {
                                 theObject.onMatrix8Changed(currentText)
                             }
+                            onModelChanged: {
+                                 currentIndex = Qt.binding( function(){return theObject.Combo8_index} )
+                            }
                         }
 
                         Text
@@ -1477,6 +1662,9 @@ Item
                             {
                                 theObject.onMatrix9Changed(currentText)
                             }
+                            onModelChanged: {
+                                 currentIndex = Qt.binding( function(){return theObject.Combo9_index} )
+                            }
                         }
                         Text
                         {
@@ -1499,6 +1687,9 @@ Item
                             {
                                 theObject.onMatrix10Changed(currentText)
                             }
+                            onModelChanged: {
+                                 currentIndex = Qt.binding( function(){return theObject.Combo10_index} )
+                            }
                         }
                         Text
                         {
@@ -1520,6 +1711,9 @@ Item
                             onCurrentIndexChanged:
                             {
                                 theObject.onMatrix11Changed(currentText)
+                            }
+                            onModelChanged: {
+                                 currentIndex = Qt.binding( function(){return theObject.Combo11_index} )
                             }
                         }
                         /////////////////////////////////////////////////////////////////////////////
@@ -1810,6 +2004,9 @@ Item
                             {
                                 theObject.onSongBacklightChanged(currentText)
                             }
+                            onModelChanged: {
+                                 currentIndex = Qt.binding( function(){return theObject.ComboBacklight_index} )
+                            }
                         }
 
 
@@ -1835,6 +2032,9 @@ Item
                             onCurrentIndexChanged:
                             {
                                 theObject.onTrickMode1Changed(currentText)
+                            }
+                            onModelChanged: {
+                                 currentIndex = Qt.binding( function(){return theObject.ComboTrickMode1_index} )
                             }
                         }
                         Text
@@ -1919,6 +2119,9 @@ Item
                             onCurrentIndexChanged:
                             {
                                 theObject.onTrickMode2Changed(currentText)
+                            }
+                            onModelChanged: {
+                                 currentIndex = Qt.binding( function(){return theObject.ComboTrickMode2_index} )
                             }
                         }
                         Text
