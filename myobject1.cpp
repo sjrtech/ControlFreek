@@ -1568,18 +1568,101 @@ void MyObject1::updateComboBoxes(void)
     else if(myApp->ramSong.matrix[2] == 128) Combo2_index = 6;
     else if(myApp->ramSong.matrix[2] == 0) Combo2_index = 7;
 
+    //skip 0x08
+    if(myApp->ramSong.matrix[3] == 1) Combo3_index = 0;
+    else if(myApp->ramSong.matrix[3] == 2) Combo3_index = 1;
+    else if(myApp->ramSong.matrix[3] == 4) Combo3_index = 2;
+    else if(myApp->ramSong.matrix[3] == 16) Combo3_index = 3;
+    else if(myApp->ramSong.matrix[3] == 32) Combo3_index = 4;
+    else if(myApp->ramSong.matrix[3] == 64) Combo3_index = 5;
+    else if(myApp->ramSong.matrix[3] == 128) Combo3_index = 6;
+    else if(myApp->ramSong.matrix[3] == 0) Combo3_index = 7;
+
+    //skip 0x10
+    if(myApp->ramSong.matrix[4] == 1) Combo4_index = 0;
+    else if(myApp->ramSong.matrix[4] == 2) Combo4_index = 1;
+    else if(myApp->ramSong.matrix[4] == 4) Combo4_index = 2;
+    else if(myApp->ramSong.matrix[4] == 8) Combo4_index = 3;
+    else if(myApp->ramSong.matrix[4] == 32) Combo4_index = 4;
+    else if(myApp->ramSong.matrix[4] == 64) Combo4_index = 5;
+    else if(myApp->ramSong.matrix[4] == 128) Combo4_index = 6;
+    else if(myApp->ramSong.matrix[4] == 0) Combo4_index = 7;
+
+    //skip 0x20
+    if(myApp->ramSong.matrix[5] == 1) Combo5_index = 0;
+    else if(myApp->ramSong.matrix[5] == 2) Combo5_index = 1;
+    else if(myApp->ramSong.matrix[5] == 4) Combo5_index = 2;
+    else if(myApp->ramSong.matrix[5] == 8) Combo5_index = 3;
+    else if(myApp->ramSong.matrix[5] == 16) Combo5_index = 4;
+    else if(myApp->ramSong.matrix[5] == 64) Combo5_index = 5;
+    else if(myApp->ramSong.matrix[5] == 128) Combo5_index = 6;
+    else if(myApp->ramSong.matrix[5] == 0) Combo5_index = 7;
+
+    //skip 0x40
+    if(myApp->ramSong.matrix[6] == 1) Combo6_index = 0;
+    else if(myApp->ramSong.matrix[6] == 2) Combo6_index = 1;
+    else if(myApp->ramSong.matrix[6] == 4) Combo6_index = 2;
+    else if(myApp->ramSong.matrix[6] == 8) Combo6_index = 3;
+    else if(myApp->ramSong.matrix[6] == 16) Combo6_index = 4;
+    else if(myApp->ramSong.matrix[6] == 32) Combo6_index = 5;
+    else if(myApp->ramSong.matrix[6] == 128) Combo6_index = 6;
+    else if(myApp->ramSong.matrix[6] == 0) Combo6_index = 7;
+
+    //skip 0x80
+    if(myApp->ramSong.matrix[7] == 1) Combo7_index = 0;
+    else if(myApp->ramSong.matrix[7] == 2) Combo7_index = 1;
+    else if(myApp->ramSong.matrix[7] == 4) Combo7_index = 2;
+    else if(myApp->ramSong.matrix[7] == 8) Combo7_index = 3;
+    else if(myApp->ramSong.matrix[7] == 16) Combo7_index = 4;
+    else if(myApp->ramSong.matrix[7] == 32) Combo7_index = 5;
+    else if(myApp->ramSong.matrix[7] == 64) Combo7_index = 6;
+    else if(myApp->ramSong.matrix[7] == 0) Combo7_index = 7;
+
+    if(myApp->ramSong.matrix[8] == 1) Combo8_index = 0;
+    else if(myApp->ramSong.matrix[8] == 2) Combo8_index = 1;
+    else if(myApp->ramSong.matrix[8] == 4) Combo8_index = 2;
+    else if(myApp->ramSong.matrix[8] == 8) Combo8_index = 3;
+    else if(myApp->ramSong.matrix[8] == 16) Combo8_index = 4;
+    else if(myApp->ramSong.matrix[8] == 32) Combo8_index = 5;
+    else if(myApp->ramSong.matrix[8] == 64) Combo8_index = 6;
+    else if(myApp->ramSong.matrix[8] == 128) Combo8_index = 7;
+    else if(myApp->ramSong.matrix[8] == 0) Combo8_index = 8;
+
+    if(myApp->ramSong.matrix[9] == 1) Combo9_index = 0;
+    else if(myApp->ramSong.matrix[9] == 2) Combo9_index = 1;
+    else if(myApp->ramSong.matrix[9] == 4) Combo9_index = 2;
+    else if(myApp->ramSong.matrix[9] == 8) Combo9_index = 3;
+    else if(myApp->ramSong.matrix[9] == 16) Combo9_index = 4;
+    else if(myApp->ramSong.matrix[9] == 32) Combo9_index = 5;
+    else if(myApp->ramSong.matrix[9] == 64) Combo9_index = 6;
+    else if(myApp->ramSong.matrix[9] == 128) Combo9_index = 7;
+    else if(myApp->ramSong.matrix[9] == 0) Combo9_index = 8;
+
+    if(myApp->ramSong.matrix[10] == 1) Combo10_index = 0;
+    else if(myApp->ramSong.matrix[10] == 2) Combo10_index = 1;
+    else if(myApp->ramSong.matrix[10] == 4) Combo10_index = 2;
+    else if(myApp->ramSong.matrix[10] == 8) Combo10_index = 3;
+    else if(myApp->ramSong.matrix[10] == 16) Combo10_index = 4;
+    else if(myApp->ramSong.matrix[10] == 32) Combo10_index = 5;
+    else if(myApp->ramSong.matrix[10] == 64) Combo10_index = 6;
+    else if(myApp->ramSong.matrix[10] == 128) Combo10_index = 7;
+    else if(myApp->ramSong.matrix[10] == 0) Combo10_index = 8;
+
+    if(myApp->ramSong.matrix[11] == 1) Combo11_index = 0;
+    else if(myApp->ramSong.matrix[11] == 2) Combo11_index = 1;
+    else if(myApp->ramSong.matrix[11] == 4) Combo11_index = 2;
+    else if(myApp->ramSong.matrix[11] == 8) Combo11_index = 3;
+    else if(myApp->ramSong.matrix[11] == 16) Combo11_index = 4;
+    else if(myApp->ramSong.matrix[11] == 32) Combo11_index = 5;
+    else if(myApp->ramSong.matrix[11] == 64) Combo11_index = 6;
+    else if(myApp->ramSong.matrix[11] == 128) Combo11_index = 7;
+    else if(myApp->ramSong.matrix[11] == 0)  Combo11_index = 8;
+
+
     //TEMP
-    Combo3_index = 2;
-    Combo4_index = 2;
-    Combo5_index = 2;
-    Combo6_index = 2;
-    Combo7_index = 2;
-    Combo8_index = 2;
-    Combo9_index = 2;
-    Combo10_index = 2;
-    Combo11_index = 2;
+
     ComboBacklight_index = 2;
-    ComboTrickMode1_index = 0;
+    ComboTrickMode1_index= 0;
     ComboTrickMode2_index = 2;
 
     //Update the string lists
