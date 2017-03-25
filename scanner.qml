@@ -289,7 +289,7 @@ Item
                         id: textLabelSettingsTitle
                         x:40
                         y:0
-                        text: qsTr("SYSTEM INFO v0.2")
+                        text: qsTr("SYSTEM INFO v0.3")
                         font.pixelSize: 20
                         font.bold: true
                         font.underline: true
@@ -368,7 +368,7 @@ Item
                         text: theObject.LoopName1
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 20
+                        maximumLength: 11
                         onTextChanged:
                         {
                             theObject.onLoopName1Changed(text);
@@ -399,26 +399,6 @@ Item
                                     }
                             }
                     }
-                    /*
-                    TextInput
-                    {
-                        id: textLoop1Name
-                        text: theObject.LoopName1
-                        anchors.left: textLabelLoop1.right
-                        y:textLabelLoop1.y
-                        width: 150
-                        height: 16
-                        visible: true
-                        font.pixelSize: 16
-                        font.bold: true
-                        maximumLength: 11
-                        wrapMode: TextInput.NoWrap
-                        onTextChanged:
-                        {
-                            theObject.onLoopName1Changed(textLoop1Name.text);
-                        }
-                    }
-                    */
                     Text
                     {
                         id: textLabelLoop2
@@ -439,7 +419,7 @@ Item
                         text: theObject.LoopName2
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 20
+                        maximumLength: 11
                         onTextChanged:
                         {
                             theObject.onLoopName2Changed(text);
@@ -491,7 +471,7 @@ Item
                         text: theObject.LoopName3
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 20
+                        maximumLength: 11
                         onTextChanged:
                         {
                             theObject.onLoopName3Changed(text);
@@ -543,7 +523,7 @@ Item
                         text: theObject.LoopName4
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 20
+                        maximumLength: 11
                         onTextChanged:
                         {
                             theObject.onLoopName4Changed(text);
@@ -595,7 +575,7 @@ Item
                         text: theObject.LoopName5
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 20
+                        maximumLength: 11
                         onTextChanged:
                         {
                             theObject.onLoopName5Changed(text);
@@ -647,7 +627,7 @@ Item
                         text: theObject.LoopName6
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 20
+                        maximumLength: 11
                         onTextChanged:
                         {
                             theObject.onLoopName6Changed(text);
@@ -699,7 +679,7 @@ Item
                         text: theObject.LoopName7
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 20
+                        maximumLength: 11
                         onTextChanged:
                         {
                             theObject.onLoopName7Changed(text);
@@ -735,7 +715,8 @@ Item
                     {
                         id: textLabelAux1
                         x:2
-                        y:textLabelLoop7.y+30
+                        y:textLabelMatrix8.y
+                        //anchors.top: textLabelMatrix8.top
                         text: qsTr("Aux1 Name:")
                         font.pixelSize: 16
                     }
@@ -751,7 +732,7 @@ Item
                         text: theObject.AuxName1
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 20
+                        maximumLength: 11
                         onTextChanged:
                         {
                             theObject.onAuxName1Changed(text);
@@ -803,7 +784,7 @@ Item
                         text: theObject.AuxName2
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 20
+                        maximumLength: 11
                         onTextChanged:
                         {
                             theObject.onAuxName2Changed(text);
@@ -855,7 +836,7 @@ Item
                         text: theObject.AuxName3
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 20
+                        maximumLength: 11
                         onTextChanged:
                         {
                             theObject.onAuxName3Changed(text);
@@ -907,7 +888,7 @@ Item
                         text: theObject.AuxName4
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 20
+                        maximumLength: 11
                         onTextChanged:
                         {
                             theObject.onAuxName4Changed(text);
@@ -943,7 +924,7 @@ Item
                     {
                         id: textLabelFsw1
                         x:2
-                        y:textLabelAux4.y+30
+                        y:textLabelSongFsw.y
                         text: qsTr("Fsw1 Name:")
                         font.pixelSize: 16
                     }
@@ -959,7 +940,7 @@ Item
                         text: theObject.FswName1
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 20
+                        maximumLength: 11
                         onTextChanged:
                         {
                             theObject.onFswName1Changed(text);
@@ -1009,7 +990,7 @@ Item
                         text: theObject.FswName2
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 20
+                        maximumLength: 11
                         onTextChanged:
                         {
                             theObject.onFswName2Changed(text);
@@ -1059,7 +1040,7 @@ Item
                         text: theObject.FswName3
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 20
+                        maximumLength: 11
                         onTextChanged:
                         {
                             theObject.onFswName3Changed(text);
@@ -1109,7 +1090,7 @@ Item
                         text: theObject.FswName4
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 20
+                        maximumLength: 11
                         onTextChanged:
                         {
                             theObject.onFswName4Changed(text);
@@ -1159,7 +1140,7 @@ Item
                         text: theObject.FswName5
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 20
+                        maximumLength: 11
                         onTextChanged:
                         {
                             theObject.onFswName5Changed(text);
@@ -1209,7 +1190,7 @@ Item
                         text: theObject.FswName6
                         font.pixelSize: 14
                         font.bold: true
-                        maximumLength: 20
+                        maximumLength: 11
                         onTextChanged:
                         {
                             theObject.onFswName6Changed(text);
@@ -1432,7 +1413,8 @@ Item
                             editable: false
                             onCurrentIndexChanged:
                             {
-                                theObject.onMatrix0Changed(currentText)
+                                //theObject.onMatrix0Changed(currentText)
+                                theObject.onMatrix0Changed(currentIndex.toString())
                             }
                             onModelChanged: {
                                  currentIndex = Qt.binding( function(){return theObject.Combo0_index} )
@@ -1442,6 +1424,7 @@ Item
                         {
                             id: textLabelMatrix1
                             x:10
+                            visible: false
                             y:textLabelMatrix0.y+26
                             text: textLoop1Name.text + qsTr(" <--- ");
                             font.pixelSize: 12
@@ -1453,11 +1436,12 @@ Item
                             anchors.bottom: textLabelMatrix1.bottom
                             anchors.bottomMargin: -3
                             width: 150
+                            visible: false
                             model: theObject.comboList1
                             editable: false
                             onCurrentIndexChanged:
                             {
-                                theObject.onMatrix1Changed(currentText)
+                                theObject.onMatrix1Changed(currentIndex.toString())
                             }
                             onModelChanged: {
                                  currentIndex = Qt.binding( function(){return theObject.Combo1_index} )
@@ -1468,6 +1452,7 @@ Item
                             id: textLabelMatrix2
                             x:10
                             y:textLabelMatrix1.y+26
+                            visible: false
                             text: textLoop2Name.text + qsTr(" <--- ");
                             font.pixelSize: 12
                         }
@@ -1477,12 +1462,13 @@ Item
                             anchors.left: textLabelMatrix2.right
                             anchors.bottom: textLabelMatrix2.bottom
                             anchors.bottomMargin: -3
+                            visible: false
                             width: 150
                             model: theObject.comboList2
                             editable: false
                             onCurrentIndexChanged:
                             {
-                                theObject.onMatrix2Changed(currentText)
+                                theObject.onMatrix2Changed(currentIndex.toString())
                             }
                             onModelChanged: {
                                  currentIndex = Qt.binding( function(){return theObject.Combo2_index} )
@@ -1492,6 +1478,7 @@ Item
                         {
                             id: textLabelMatrix3
                             x:10
+                            visible: false
                             y:textLabelMatrix2.y+26
                             text: textLoop3Name.text + qsTr(" <--- ");
                             font.pixelSize: 12
@@ -1501,13 +1488,14 @@ Item
                             id: comboBox3
                             anchors.left: textLabelMatrix3.right
                             anchors.bottom: textLabelMatrix3.bottom
+                            visible: false
                             anchors.bottomMargin: -3
                             width: 150
                             model: theObject.comboList3
                             editable: false
                             onCurrentIndexChanged:
                             {
-                                theObject.onMatrix3Changed(currentText)
+                                theObject.onMatrix3Changed(currentIndex.toString())
                             }
                             onModelChanged: {
                                  currentIndex = Qt.binding( function(){return theObject.Combo3_index} )
@@ -1518,6 +1506,7 @@ Item
                             id: textLabelMatrix4
                             x:10
                             y:textLabelMatrix3.y+26
+                            visible: false
                             text: textLoop4Name.text + qsTr(" <--- ");
                             font.pixelSize: 12
                         }
@@ -1527,12 +1516,13 @@ Item
                             anchors.left: textLabelMatrix4.right
                             anchors.bottom: textLabelMatrix4.bottom
                             anchors.bottomMargin: -3
+                            visible: false
                             width: 150
                             model: theObject.comboList4
                             editable: false
                             onCurrentIndexChanged:
                             {
-                                theObject.onMatrix4Changed(currentText)
+                                theObject.onMatrix4Changed(currentIndex.toString())
                             }
                             onModelChanged: {
                                  currentIndex = Qt.binding( function(){return theObject.Combo4_index} )
@@ -1542,6 +1532,7 @@ Item
                         {
                             id: textLabelMatrix5
                             x:10
+                            visible: false
                             y:textLabelMatrix4.y+26
                             text: textLoop5Name.text + qsTr(" <--- ");
                             font.pixelSize: 12
@@ -1550,6 +1541,7 @@ Item
                         {
                             id: comboBox5
                             anchors.left: textLabelMatrix5.right
+                            visible: false
                             anchors.bottom: textLabelMatrix5.bottom
                             anchors.bottomMargin: -3
                             width: 150
@@ -1557,7 +1549,7 @@ Item
                             editable: false
                             onCurrentIndexChanged:
                             {
-                                theObject.onMatrix5Changed(currentText)
+                                theObject.onMatrix5Changed(currentIndex.toString())
                             }
                             onModelChanged: {
                                  currentIndex = Qt.binding( function(){return theObject.Combo5_index} )
@@ -1567,6 +1559,7 @@ Item
                         {
                             id: textLabelMatrix6
                             x:10
+                            visible: false
                             y:textLabelMatrix5.y+26
                             text: textLoop6Name.text + qsTr(" <--- ");
                             font.pixelSize: 12
@@ -1575,6 +1568,7 @@ Item
                         {
                             id: comboBox6
                             anchors.left: textLabelMatrix6.right
+                            visible: false
                             anchors.bottom: textLabelMatrix6.bottom
                             anchors.bottomMargin: -3
                             width: 150
@@ -1582,7 +1576,7 @@ Item
                             editable: false
                             onCurrentIndexChanged:
                             {
-                                theObject.onMatrix6Changed(currentText)
+                                theObject.onMatrix6Changed(currentIndex.toString())
                             }
                             onModelChanged: {
                                  currentIndex = Qt.binding( function(){return theObject.Combo6_index} )
@@ -1595,11 +1589,13 @@ Item
                             y:textLabelMatrix6.y+26
                             text: textLoop7Name.text + qsTr(" <--- ");
                             font.pixelSize: 12
+                            visible: false
                         }
                         ComboBox
                         {
                             id: comboBox7
                             anchors.left: textLabelMatrix7.right
+                            visible: false
                             anchors.bottom: textLabelMatrix7.bottom
                             anchors.bottomMargin: -3
                             width: 150
@@ -1607,7 +1603,7 @@ Item
                             editable: false
                             onCurrentIndexChanged:
                             {
-                                theObject.onMatrix7Changed(currentText)
+                                theObject.onMatrix7Changed(currentIndex.toString())
                             }
                             onModelChanged: {
                                  currentIndex = Qt.binding( function(){return theObject.Combo7_index} )
@@ -1619,6 +1615,7 @@ Item
                         {
                             id: textLabelMatrix8
                             x:10
+                            visible: false
                             y:textLabelMatrix7.y+30
                             text: textAux1Name.text + qsTr(" <--- ");
                             font.pixelSize: 12
@@ -1630,11 +1627,12 @@ Item
                             anchors.bottom: textLabelMatrix8.bottom
                             anchors.bottomMargin: -3
                             width: 150
+                            visible: false
                             model: theObject.comboList8
                             editable: false
                             onCurrentIndexChanged:
                             {
-                                theObject.onMatrix8Changed(currentText)
+                                theObject.onMatrix8Changed(currentIndex.toString())
                             }
                             onModelChanged: {
                                  currentIndex = Qt.binding( function(){return theObject.Combo8_index} )
@@ -1646,6 +1644,7 @@ Item
                             id: textLabelMatrix9
                             x:10
                             y:textLabelMatrix8.y+26
+                            visible: false
                             text: textAux2Name.text + qsTr(" <--- ");
                             font.pixelSize: 12
                         }
@@ -1654,13 +1653,14 @@ Item
                             id: comboBox9
                             anchors.left: textLabelMatrix9.right
                             anchors.bottom: textLabelMatrix9.bottom
+                            visible: false
                             anchors.bottomMargin: -3
                             width: 150
                             model: theObject.comboList9
                             editable: false
                             onCurrentIndexChanged:
                             {
-                                theObject.onMatrix9Changed(currentText)
+                                theObject.onMatrix9Changed(currentIndex.toString())
                             }
                             onModelChanged: {
                                  currentIndex = Qt.binding( function(){return theObject.Combo9_index} )
@@ -1670,6 +1670,7 @@ Item
                         {
                             id: textLabelMatrix10
                             x:10
+                            visible: false
                             y:textLabelMatrix9.y+26
                             text: textAux3Name.text + qsTr(" <--- ");
                             font.pixelSize: 12
@@ -1679,13 +1680,14 @@ Item
                             id: comboBox10
                             anchors.left: textLabelMatrix10.right
                             anchors.bottom: textLabelMatrix10.bottom
+                            visible: false
                             anchors.bottomMargin: -3
                             width: 150
                             model: theObject.comboList10
                             editable: false
                             onCurrentIndexChanged:
                             {
-                                theObject.onMatrix10Changed(currentText)
+                                theObject.onMatrix10Changed(currentIndex.toString())
                             }
                             onModelChanged: {
                                  currentIndex = Qt.binding( function(){return theObject.Combo10_index} )
@@ -1696,6 +1698,7 @@ Item
                             id: textLabelMatrix11
                             x:10
                             y:textLabelMatrix10.y+26
+                            visible: false
                             text: textAux4Name.text + qsTr(" <--- ");
                             font.pixelSize: 12
                         }
@@ -1706,11 +1709,12 @@ Item
                             anchors.bottom: textLabelMatrix11.bottom
                             anchors.bottomMargin: -3
                             width: 150
+                            visible: false
                             model: theObject.comboList11
                             editable: false
                             onCurrentIndexChanged:
                             {
-                                theObject.onMatrix11Changed(currentText)
+                                theObject.onMatrix11Changed(currentIndex.toString())
                             }
                             onModelChanged: {
                                  currentIndex = Qt.binding( function(){return theObject.Combo11_index} )
@@ -1912,6 +1916,7 @@ Item
                             x: textLabelSongFsw.x
                             anchors.top: textLabelSongFsw.bottom
                             anchors.topMargin: 1
+                            visible: false
                             text: textNameFsw1.text
                             checkedState: theObject.isFswSongConfig1();
                             onCheckedChanged: theObject.fswOneCheckChanged(checkedState);
@@ -1920,6 +1925,7 @@ Item
                             id: checkBoxFsw2
                             x: checkBoxFsw1.x
                             anchors.top: checkBoxFsw1.bottom
+                            visible: false
                             anchors.topMargin: 1
                             text: textNameFsw2.text
                             checkedState: theObject.isFswSongConfig2();
@@ -1928,6 +1934,7 @@ Item
                         CheckBox {
                             id: checkBoxFsw3
                             anchors.left: checkBoxFsw1.right
+                            visible: false
                             anchors.leftMargin: 5
                             anchors.top: checkBoxFsw1.top
                             text: textNameFsw3.text
@@ -1938,6 +1945,7 @@ Item
                             id: checkBoxFsw4
                             anchors.left: checkBoxFsw2.right
                             anchors.leftMargin: 5
+                            visible: false
                             anchors.top: checkBoxFsw3.bottom
                             anchors.topMargin: 1
                             text: textNameFsw4.text
@@ -1946,6 +1954,7 @@ Item
                         }
                         CheckBox {
                             id: checkBoxFsw5
+                            visible: false
                             anchors.left: checkBoxFsw3.right
                             anchors.leftMargin: 5
                             anchors.top: checkBoxFsw1.top
@@ -1958,6 +1967,7 @@ Item
                             anchors.left: checkBoxFsw4.right
                             anchors.leftMargin: 5
                             anchors.top: checkBoxFsw5.bottom
+                            visible: false
                             anchors.topMargin: 1
                             text: textNameFsw6.text
                             checkedState: theObject.isFswSongConfig6();
