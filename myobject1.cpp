@@ -1638,6 +1638,20 @@ void MyObject1::updateComboBoxes(void)
     // - hide comboboxes (and "<--" text) when item name not defined (in .qml logic)
 
 
+    //TEmp - move this or rename this function to SetSongScreenControls() or something
+    fswSong1CheckedState = 0;
+    fswSong2CheckedState = 0;
+    fswSong3CheckedState = 0;
+    fswSong4CheckedState = 0;
+    fswSong5CheckedState = 0;
+    fswSong6CheckedState = 0;
+    if ( (myApp->ramSong.footswitch & 0x01) != 0) fswSong1CheckedState = 2;  //"2" used as "state" to checkbox.. tells GUI to check that checkbox
+    if ( (myApp->ramSong.footswitch & 0x02) != 0) fswSong2CheckedState = 2;  //"2" used as "state" to checkbox.. tells GUI to check that checkbox
+    if ( (myApp->ramSong.footswitch & 0x04) != 0) fswSong3CheckedState = 2;  //"2" used as "state" to checkbox.. tells GUI to check that checkbox
+    if ( (myApp->ramSong.footswitch & 0x08) != 0) fswSong4CheckedState = 2;  //"2" used as "state" to checkbox.. tells GUI to check that checkbox
+    if ( (myApp->ramSong.footswitch & 0x10) != 0) fswSong5CheckedState = 2;  //"2" used as "state" to checkbox.. tells GUI to check that checkbox
+    if ( (myApp->ramSong.footswitch & 0x20) != 0) fswSong6CheckedState = 2;  //"2" used as "state" to checkbox.. tells GUI to check that checkbox
+
     //Set the combobox index to the setting stored for the current song
     //EACH one is different so just write out the code longhand so it's clear!!
     if(myApp->ramSong.matrix[0] == 0) Combo0_index = 0;

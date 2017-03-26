@@ -50,6 +50,7 @@ Item
     //id: top
 
     property BluetoothService currentService
+    property int nScratch
 
     BluetoothDiscoveryModel
     {
@@ -1920,8 +1921,9 @@ Item
                             anchors.topMargin: 1
                             visible: false
                             text: textNameFsw1.text
-                            checkedState: theObject.isFswSongConfig1();
                             onCheckedChanged: theObject.fswOneCheckChanged(checkedState);
+                            checkedState:theObject.fswSong1CheckedState
+
                         }
                         CheckBox {
                             id: checkBoxFsw2
@@ -1930,8 +1932,12 @@ Item
                             visible: false
                             anchors.topMargin: 1
                             text: textNameFsw2.text
-                            checkedState: theObject.isFswSongConfig2();
                             onCheckedChanged: theObject.fswTwoCheckChanged(checkedState);
+                            onParentChanged:
+                            {
+                                nScratch = Qt.binding( function(){return theObject.fswSong2CheckedState} );
+                            }
+                            checkedState:nScratch
                         }
                         CheckBox {
                             id: checkBoxFsw3
@@ -1940,8 +1946,12 @@ Item
                             anchors.leftMargin: 5
                             anchors.top: checkBoxFsw1.top
                             text: textNameFsw3.text
-                            checkedState: theObject.isFswSongConfig3();
                             onCheckedChanged: theObject.fswThreeCheckChanged(checkedState);
+                            onParentChanged:
+                            {
+                                nScratch = Qt.binding( function(){return theObject.fswSong3CheckedState} );
+                            }
+                            checkedState:nScratch
                         }
                         CheckBox {
                             id: checkBoxFsw4
@@ -1951,8 +1961,12 @@ Item
                             anchors.top: checkBoxFsw3.bottom
                             anchors.topMargin: 1
                             text: textNameFsw4.text
-                            checkedState: theObject.isFswSongConfig4();
                             onCheckedChanged: theObject.fswFourCheckChanged(checkedState);
+                            onParentChanged:
+                            {
+                                nScratch = Qt.binding( function(){return theObject.fswSong4CheckedState} );
+                            }
+                            checkedState:nScratch
                         }
                         CheckBox {
                             id: checkBoxFsw5
@@ -1961,8 +1975,12 @@ Item
                             anchors.leftMargin: 5
                             anchors.top: checkBoxFsw1.top
                             text: textNameFsw5.text
-                            checkedState: theObject.isFswSongConfig5();
                             onCheckedChanged: theObject.fswFiveCheckChanged(checkedState);
+                            onParentChanged:
+                            {
+                                nScratch = Qt.binding( function(){return theObject.fswSong5CheckedState} );
+                            }
+                            checkedState:nScratch
                         }
                         CheckBox {
                             id: checkBoxFsw6
@@ -1972,8 +1990,12 @@ Item
                             visible: false
                             anchors.topMargin: 1
                             text: textNameFsw6.text
-                            checkedState: theObject.isFswSongConfig6();
                             onCheckedChanged: theObject.fswSixCheckChanged(checkedState);
+                            onParentChanged:
+                            {
+                                nScratch = Qt.binding( function(){return theObject.fswSong6CheckedState} );
+                            }
+                            checkedState:nScratch
                         }
                         /*
                         TextInput

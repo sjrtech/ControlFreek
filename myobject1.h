@@ -52,6 +52,14 @@ class MyObject1 : public QObject
     Q_PROPERTY(QStringList comboListTrickMode2 READ comboListTrickMode2 NOTIFY SongChanged)
     Q_PROPERTY(int ComboTrickMode2_index READ comboTrickMode2Index NOTIFY comboListChanged)
 
+    Q_PROPERTY(int fswSong1CheckedState READ fswSong1CheckedStateRead NOTIFY comboListChanged)
+    Q_PROPERTY(int fswSong2CheckedState READ fswSong2CheckedStateRead NOTIFY comboListChanged)
+    Q_PROPERTY(int fswSong3CheckedState READ fswSong3CheckedStateRead NOTIFY comboListChanged)
+    Q_PROPERTY(int fswSong4CheckedState READ fswSong4CheckedStateRead NOTIFY comboListChanged)
+    Q_PROPERTY(int fswSong5CheckedState READ fswSong5CheckedStateRead NOTIFY comboListChanged)
+    Q_PROPERTY(int fswSong6CheckedState READ fswSong6CheckedStateRead NOTIFY comboListChanged)
+
+
     //Song
     Q_PROPERTY(QString SongName READ getSongName NOTIFY SongChanged)
     Q_PROPERTY(QString PartName READ getPartName NOTIFY SongChanged)
@@ -62,7 +70,8 @@ class MyObject1 : public QObject
     //Q_PROPERTY(QString MidiMsg4 READ getMidiMsg4 NOTIFY SongChanged)
 
     //Q_PROPERTY(QString MidiMode READ getMidiMode NOTIFY SongChanged)
-    Q_PROPERTY(QString FswSongConfig READ getFswSongConfig NOTIFY SongChanged)
+    //Q_PROPERTY(QString FswSongConfig READ getFswSongConfig NOTIFY SongChanged)
+
 
     //Q_PROPERTY(QString TrickMode READ getTrickMode NOTIFY SongChanged)
     Q_PROPERTY(QString TrickData1 READ getTrickData1 NOTIFY SongChanged)
@@ -155,6 +164,12 @@ public:
     const QStringList comboListTrickMode2();
     int comboTrickMode2Index() { return ComboTrickMode2_index;  }
 
+    int fswSong1CheckedStateRead() { return fswSong1CheckedState;  }
+    int fswSong2CheckedStateRead() { return fswSong2CheckedState;  }
+    int fswSong3CheckedStateRead() { return fswSong3CheckedState;  }
+    int fswSong4CheckedStateRead() { return fswSong4CheckedState;  }
+    int fswSong5CheckedStateRead() { return fswSong5CheckedState;  }
+    int fswSong6CheckedStateRead() { return fswSong6CheckedState;  }
 
 private:
     MyAppGui* myApp;
@@ -191,6 +206,13 @@ private:
     int ComboTrickMode1_index = 2;
     QStringList m_comboListTrickMode2;
     int ComboTrickMode2_index = 3;
+
+    int fswSong1CheckedState = 0;
+    int fswSong2CheckedState = 0;
+    int fswSong3CheckedState = 0;
+    int fswSong4CheckedState = 0;
+    int fswSong5CheckedState = 0;
+    int fswSong6CheckedState = 0;
 
     void loadDummyConfig();
 
