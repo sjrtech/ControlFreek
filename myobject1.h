@@ -9,6 +9,9 @@
 #include <QStringListModel>
 
 
+#define STRING_NOT_USED         "*not used*"
+#define STRING_MAIN_IN          "MAIN IN"
+
 
 class MyObject1 : public QObject
 {

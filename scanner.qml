@@ -289,7 +289,7 @@ Item
                         id: textLabelSettingsTitle
                         x:40
                         y:0
-                        text: qsTr("SYSTEM INFO v0.3")
+                        text: qsTr("SYSTEM INFO v0.4")
                         font.pixelSize: 20
                         font.bold: true
                         font.underline: true
@@ -1246,6 +1246,7 @@ Item
                     //
                     //  SONG  SCREEN
                     //
+                    id: rectSong
                     border.width: 1
                     width: 320
                     height: parent.height
@@ -1261,9 +1262,10 @@ Item
                         Text
                         {
                             id: textLabelSongTitle
-                            x:20
+                            x:80
                             y:0
-                            text: qsTr("SONG INFO (Index=") +  qsTr(theObject.currentSong) +qsTr(")")
+                            //text: qsTr("SONG INFO (Index=") +  qsTr(theObject.currentSong) +qsTr(")")
+                            text: qsTr("SONG INFO")
                             font.pixelSize: 20
                             font.bold: true
                             font.underline: true

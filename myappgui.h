@@ -75,6 +75,16 @@ typedef struct
 #define MODE_WRITE_CONFIG                   4
 #define MODE_CHANGE_SONG                    5
 
+//Backlight
+#define BACKLIGHT_RED                       0x48
+#define BACKLIGHT_BLUE                      0x03
+#define BACKLIGHT_GREEN                     0x12
+#define BACKLIGHT_REDBLUE                   0x51
+#define BACKLIGHT_REDGREEN                  0x60
+#define BACKLIGHT_BLUEGREEN                 0x15
+#define BACKLIGHT_WHITE                     0x3f
+
+
 class MyAppGui : public QQuickItem
 {
     Q_OBJECT

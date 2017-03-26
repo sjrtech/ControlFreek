@@ -206,10 +206,15 @@ void MyObject1::updateSongDisplay(void)
 {
     //aint Qt awesome!!
     emit SongChanged();     //temp?? Where should I put this round about way of updating data?  This is the ONLY place it works, but NOT CORRECT??!!
+    updateComboBoxes();
+    emit comboListChanged();
 }
 void MyObject1::updateSongDevice(void)
 {
     myApp->UpdateSongToDevice();
+    updateComboBoxes();
+    emit comboListChanged();
+
 }
 void MyObject1::selectNextSong(void)
 {
@@ -1753,14 +1758,14 @@ void MyObject1::updateComboBoxes(void)
     else if(myApp->ramSong.matrix[11] == 128) Combo11_index = 8;
 
     //Backlight
-    if(myApp->ramSong.lcdBacklight == 0) ComboBacklight_index = 0;              //OFF
-    else if(myApp->ramSong.lcdBacklight == 0x48) ComboBacklight_index = 1;      //Red
-    else if(myApp->ramSong.lcdBacklight == 0x03) ComboBacklight_index = 2;      //Blue
-    else if(myApp->ramSong.lcdBacklight == 0x12) ComboBacklight_index = 3;      //Green
-    else if(myApp->ramSong.lcdBacklight == 0x51) ComboBacklight_index = 4;      //Red/Blue
-    else if(myApp->ramSong.lcdBacklight == 0x60) ComboBacklight_index = 5;      //Red/Green
-    else if(myApp->ramSong.lcdBacklight == 0x15) ComboBacklight_index = 6;      //Blue/Green
-    else if(myApp->ramSong.lcdBacklight == 0x3f) ComboBacklight_index = 7;      //White
+    if(myApp->ramSong.lcdBacklight == 0) ComboBacklight_index = 0;
+    else if(myApp->ramSong.lcdBacklight == BACKLIGHT_RED) ComboBacklight_index = 1;
+    else if(myApp->ramSong.lcdBacklight == BACKLIGHT_BLUE) ComboBacklight_index = 2;
+    else if(myApp->ramSong.lcdBacklight == BACKLIGHT_GREEN) ComboBacklight_index = 3;
+    else if(myApp->ramSong.lcdBacklight == BACKLIGHT_REDBLUE) ComboBacklight_index = 4;
+    else if(myApp->ramSong.lcdBacklight == BACKLIGHT_REDGREEN) ComboBacklight_index = 5;
+    else if(myApp->ramSong.lcdBacklight == BACKLIGHT_BLUEGREEN) ComboBacklight_index = 6;
+    else if(myApp->ramSong.lcdBacklight == BACKLIGHT_WHITE) ComboBacklight_index = 7;
     else ComboBacklight_index = 0;    //on error -OFF
 
     // Trick shot 1
@@ -1786,8 +1791,8 @@ void MyObject1::updateComboBoxes(void)
 
     //Update the string lists
     m_comboList0.clear();
-    m_comboList0.insert(0, "not used");
-    m_comboList0.insert(1, "Main In" );
+    m_comboList0.insert(0, STRING_NOT_USED);
+    m_comboList0.insert(1, STRING_MAIN_IN);
     if(getLoopName1().length() > 0) m_comboList0.insert(2, getLoopName1() );
     if(getLoopName2().length() > 0) m_comboList0.insert(3, getLoopName2() );
     if(getLoopName3().length() > 0) m_comboList0.insert(4, getLoopName3() );
@@ -1798,8 +1803,8 @@ void MyObject1::updateComboBoxes(void)
 
     //do not include this number loop in the list
     m_comboList1.clear();
-    m_comboList1.insert(0, "not used");
-    m_comboList1.insert(1, "Main In" );
+    m_comboList1.insert(0, STRING_NOT_USED);
+    m_comboList1.insert(1, STRING_MAIN_IN);
     if(getLoopName2().length() > 0) m_comboList1.insert(2, getLoopName2() );
     if(getLoopName3().length() > 0) m_comboList1.insert(3, getLoopName3() );
     if(getLoopName4().length() > 0) m_comboList1.insert(4, getLoopName4() );
@@ -1809,8 +1814,8 @@ void MyObject1::updateComboBoxes(void)
 
     //do not include this number loop in the list
     m_comboList2.clear();
-    m_comboList2.insert(0, "not used");
-    m_comboList2.insert(1, "Main In" );
+    m_comboList2.insert(0, STRING_NOT_USED);
+    m_comboList2.insert(1, STRING_MAIN_IN);
     if(getLoopName1().length() > 0) m_comboList2.insert(2, getLoopName1() );
     if(getLoopName3().length() > 0) m_comboList2.insert(3, getLoopName3() );
     if(getLoopName4().length() > 0) m_comboList2.insert(4, getLoopName4() );
@@ -1820,8 +1825,8 @@ void MyObject1::updateComboBoxes(void)
 
     //do not include this number loop in the list
     m_comboList3.clear();
-    m_comboList3.insert(0, "not used");
-    m_comboList3.insert(1, "Main In" );
+    m_comboList3.insert(0, STRING_NOT_USED);
+    m_comboList3.insert(1, STRING_MAIN_IN);
     if(getLoopName1().length() > 0) m_comboList3.insert(2, getLoopName1() );
     if(getLoopName2().length() > 0) m_comboList3.insert(3, getLoopName2() );
     if(getLoopName4().length() > 0) m_comboList3.insert(4, getLoopName4() );
@@ -1831,8 +1836,8 @@ void MyObject1::updateComboBoxes(void)
 
     //do not include this number loop in the list
     m_comboList4.clear();
-    m_comboList4.insert(0, "not used");
-    m_comboList4.insert(1, "Main In" );
+    m_comboList4.insert(0, STRING_NOT_USED);
+    m_comboList4.insert(1, STRING_MAIN_IN);
     if(getLoopName1().length() > 0) m_comboList4.insert(2, getLoopName1() );
     if(getLoopName2().length() > 0) m_comboList4.insert(3, getLoopName2() );
     if(getLoopName3().length() > 0) m_comboList4.insert(4, getLoopName3() );
@@ -1842,8 +1847,8 @@ void MyObject1::updateComboBoxes(void)
 
     //do not include this number loop in the list
     m_comboList5.clear();
-    m_comboList5.insert(0, "not used");
-    m_comboList5.insert(1, "Main In" );
+    m_comboList5.insert(0, STRING_NOT_USED);
+    m_comboList5.insert(1, STRING_MAIN_IN);
     if(getLoopName1().length() > 0) m_comboList5.insert(2, getLoopName1() );
     if(getLoopName2().length() > 0) m_comboList5.insert(3, getLoopName2() );
     if(getLoopName3().length() > 0) m_comboList5.insert(4, getLoopName3() );
@@ -1853,8 +1858,8 @@ void MyObject1::updateComboBoxes(void)
 
     //do not include this number loop in the list
     m_comboList6.clear();
-    m_comboList6.insert(0, "not used");
-    m_comboList6.insert(1, "Main In" );
+    m_comboList6.insert(0, STRING_NOT_USED);
+    m_comboList6.insert(1, STRING_MAIN_IN);
     if(getLoopName1().length() > 0) m_comboList6.insert(2, getLoopName1() );
     if(getLoopName2().length() > 0) m_comboList6.insert(3, getLoopName2() );
     if(getLoopName3().length() > 0) m_comboList6.insert(4, getLoopName3() );
@@ -1864,8 +1869,8 @@ void MyObject1::updateComboBoxes(void)
 
     //do not include this number loop in the list
     m_comboList7.clear();
-    m_comboList7.insert(0, "not used");
-    m_comboList7.insert(1, "Main In" );
+    m_comboList7.insert(0, STRING_NOT_USED);
+    m_comboList7.insert(1, STRING_MAIN_IN);
     if(getLoopName1().length() > 0) m_comboList7.insert(2, getLoopName1() );
     if(getLoopName2().length() > 0) m_comboList7.insert(3, getLoopName2() );
     if(getLoopName3().length() > 0) m_comboList7.insert(4, getLoopName3() );
@@ -1875,8 +1880,8 @@ void MyObject1::updateComboBoxes(void)
 
     //Aux out - can get anything (like Main)
     m_comboList8.clear();
-    m_comboList8.insert(0, "not used");
-    m_comboList8.insert(1, "Main In" );
+    m_comboList8.insert(0, STRING_NOT_USED);
+    m_comboList8.insert(1, STRING_MAIN_IN);
     if(getLoopName1().length() > 0) m_comboList8.insert(2, getLoopName1() );
     if(getLoopName2().length() > 0) m_comboList8.insert(3, getLoopName2() );
     if(getLoopName3().length() > 0) m_comboList8.insert(4, getLoopName3() );
@@ -1887,8 +1892,8 @@ void MyObject1::updateComboBoxes(void)
 
     //Aux out - can get anything (like Main)
     m_comboList9.clear();
-    m_comboList9.insert(0, "not used");
-    m_comboList9.insert(1, "Main In" );
+    m_comboList9.insert(0, STRING_NOT_USED);
+    m_comboList9.insert(1, STRING_MAIN_IN);
     if(getLoopName1().length() > 0) m_comboList9.insert(2, getLoopName1() );
     if(getLoopName2().length() > 0) m_comboList9.insert(3, getLoopName2() );
     if(getLoopName3().length() > 0) m_comboList9.insert(4, getLoopName3() );
@@ -1899,8 +1904,8 @@ void MyObject1::updateComboBoxes(void)
 
     //Aux out - can get anything (like Main)
     m_comboList10.clear();
-    m_comboList10.insert(0, "not used");
-    m_comboList10.insert(1, "Main In" );
+    m_comboList10.insert(0, STRING_NOT_USED);
+    m_comboList10.insert(1, STRING_MAIN_IN);
     if(getLoopName1().length() > 0) m_comboList10.insert(2, getLoopName1() );
     if(getLoopName2().length() > 0) m_comboList10.insert(3, getLoopName2() );
     if(getLoopName3().length() > 0) m_comboList10.insert(4, getLoopName3() );
@@ -1911,8 +1916,8 @@ void MyObject1::updateComboBoxes(void)
 
     //Aux out - can get anything (like Main)
     m_comboList11.clear();
-    m_comboList11.insert(0, "not used");
-    m_comboList11.insert(1, "Main In" );
+    m_comboList11.insert(0, STRING_NOT_USED);
+    m_comboList11.insert(1, STRING_MAIN_IN);
     if(getLoopName1().length() > 0) m_comboList11.insert(2, getLoopName1() );
     if(getLoopName2().length() > 0) m_comboList11.insert(3, getLoopName2() );
     if(getLoopName3().length() > 0) m_comboList11.insert(4, getLoopName3() );
@@ -2083,9 +2088,9 @@ void MyObject1::loadDummyConfig()
     sprintf((char*)myApp->ramSettings.fswName[0], "Bypass Delay");
     sprintf((char*)myApp->ramSettings.fswName[1], "Harmonist");
     sprintf((char*)myApp->ramSettings.fswName[2], "Looper");
-    sprintf((char*)myApp->ramSettings.fswName[3], "");
-    sprintf((char*)myApp->ramSettings.fswName[4], "");
-    sprintf((char*)myApp->ramSettings.fswName[5], "");
+    //sprintf((char*)myApp->ramSettings.fswName[3], "");
+    //sprintf((char*)myApp->ramSettings.fswName[4], "");
+    //sprintf((char*)myApp->ramSettings.fswName[5], "");
 
     myApp->ramSettings.loopBacklite[0] = 5;
     myApp->ramSettings.loopBacklite[1] = 5;
@@ -2100,7 +2105,7 @@ void MyObject1::loadDummyConfig()
     sprintf((char*)myApp->ramSettings.loopName[3], "M5 Modeler");
     sprintf((char*)myApp->ramSettings.loopName[4], "Harmonist");
     sprintf((char*)myApp->ramSettings.loopName[5], "Tremolo");
-    sprintf((char*)myApp->ramSettings.loopName[6], "");
+    //sprintf((char*)myApp->ramSettings.loopName[6], "");
 
     // ////////////////////////////////////////////////////////////////////
     // song
@@ -2122,7 +2127,7 @@ void MyObject1::loadDummyConfig()
     myApp->ramSong.footswitch = 3;
     sprintf((char*)myApp->ramSong.midiMessage1, "Midi1");
     myApp->ramSong.midiMsgMode = 1;
-    myApp->ramSong.lcdBacklight = 2;
+    myApp->ramSong.lcdBacklight = BACKLIGHT_REDBLUE;
     myApp->ramSong.trickMode[0] = 6;
     myApp->ramSong.trickData[0] = 6;
     myApp->ramSong.trickMode[1] = 5;
