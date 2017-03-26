@@ -205,7 +205,7 @@ void MyObject1::writeData(QByteArray data)
 void MyObject1::updateSongDisplay(void)
 {
     //aint Qt awesome!!
-    emit SongChanged();     //temp?? Where should I put this round about way of updating data?  This is the ONLY place it works, but NOT CORRECT??!!
+    emit SongChanged();
     updateComboBoxes();
     emit comboListChanged();
 }
