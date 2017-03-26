@@ -47,11 +47,12 @@ typedef struct
 
 #define TRICK_MODE_NONE         0   //Trick shot button does nothing
 #define TRICK_MODE_SONG         1   //switch to a particulatar song, and then back when pressed again
-#define TRICK_MODE_LOOP_LATCH   2   //turn on a certain pedal loop - leave on until button pressed again
-#define TRICK_MODE_LOOP_MOMENT  3   //turn on a certain pedal loop - turn off when button *released*
-#define TRICK_MODE_FSW_LATCH    4   //turn on a footswitch - leave on until button pressed again
-#define TRICK_MODE_FSW_MOMENT   5   //turn on a footswitch - turn off when button *released*
-#define TRICK_MODE_MIDI_MSG     6   //send a MIDI message
+#define TRICK_MODE_SONG_MOMENT  2   //switch to a particulatar song, and then back when pressed again
+#define TRICK_MODE_LOOP_LATCH   3   //turn on a certain pedal loop - leave on until button pressed again
+#define TRICK_MODE_LOOP_MOMENT  4   //turn on a certain pedal loop - turn off when button *released*
+#define TRICK_MODE_FSW_LATCH    5   //turn on a footswitch - leave on until button pressed again
+#define TRICK_MODE_FSW_MOMENT   6   //turn on a footswitch - turn off when button *released*
+#define TRICK_MODE_MIDI_MSG     7   //send a MIDI message
 //more?
 
 //Error Codes:
@@ -76,12 +77,12 @@ typedef struct
 #define MODE_CHANGE_SONG                    5
 
 //Backlight
-#define BACKLIGHT_RED                       0x48
-#define BACKLIGHT_BLUE                      0x03
-#define BACKLIGHT_GREEN                     0x12
-#define BACKLIGHT_REDBLUE                   0x51
-#define BACKLIGHT_REDGREEN                  0x60
-#define BACKLIGHT_BLUEGREEN                 0x15
+#define BACKLIGHT_RED                       48
+#define BACKLIGHT_BLUE                      03
+#define BACKLIGHT_GREEN                     12
+#define BACKLIGHT_REDBLUE                   51
+#define BACKLIGHT_REDGREEN                  60
+#define BACKLIGHT_BLUEGREEN                 15
 #define BACKLIGHT_WHITE                     0x3f
 
 
