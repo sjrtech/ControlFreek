@@ -1732,6 +1732,7 @@ Item
                             y:textLabelMatrix11.y+26
                             text: qsTr("MIDI Msg: ")
                             font.pixelSize: 12
+                            visible: false
                         }
                         TextField
                         {
@@ -1745,6 +1746,7 @@ Item
                             font.pixelSize: 14
                             font.bold: true
                             maximumLength: 9
+                            visible: false
                             onTextChanged:
                             {
                                 theObject.onMidiMsg1Changed(text);

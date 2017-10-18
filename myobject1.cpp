@@ -39,7 +39,7 @@ MyObject1::MyObject1(QObject *parent) : QObject(parent)
 
     // ////////////////////////////////////////////////////////
     //temp - load dummy config for testing
-    loadDummyConfig();
+    //loadDummyConfig();
 
 
 }
