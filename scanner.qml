@@ -290,7 +290,7 @@ Item
                         id: textLabelSettingsTitle
                         x:40
                         y:0
-                        text: qsTr("SYSTEM INFO v0.4")
+                        text: qsTr("SYSTEM INFO v0.5")
                         font.pixelSize: 20
                         font.bold: true
                         font.underline: true
@@ -2065,7 +2065,7 @@ Item
                             editable: false
                             onCurrentIndexChanged:
                             {
-                                theObject.onTrickMode1Changed(currentText)
+                                theObject.onTrickMode1Changed(currentIndex)
                             }
                             onModelChanged: {
                                  currentIndex = Qt.binding( function(){return theObject.ComboTrickMode1_index} )
@@ -2152,7 +2152,7 @@ Item
                             editable: false
                             onCurrentIndexChanged:
                             {
-                                theObject.onTrickMode2Changed(currentText)
+                                theObject.onTrickMode2Changed(currentIndex)
                             }
                             onModelChanged: {
                                  currentIndex = Qt.binding( function(){return theObject.ComboTrickMode2_index} )

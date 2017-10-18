@@ -610,8 +610,10 @@ void MyAppGui::dumpSongInfo()
     qDebug() << "midiMsgMode:" << ramSong.midiMsgMode;
     qDebug() << "name:" << song;
     qDebug() << "partname:" << part;
-    qDebug() << "trickData:" << ramSong.trickData[0];
     qDebug() << "trickMode:" << ramSong.trickMode[0];
+    qDebug() << "trickData:" << ramSong.trickData[0];
+    qDebug() << "DiveMode:" << ramSong.trickMode[1];
+    qDebug() << "DiveData:" << ramSong.trickData[1];
 
     emit SongComplete();
 }

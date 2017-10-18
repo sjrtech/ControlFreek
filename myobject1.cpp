@@ -560,6 +560,7 @@ void MyObject1::onTrickMode1Changed(QString str)
     {
         if(myApp->isInitialized == 1)
         {
+            //To DO: compare text?  send the combo index instead of text?
             int val = str.toInt();
             myApp->ramSong.trickMode[0] = val;
         }
@@ -648,7 +649,34 @@ void MyObject1::onSongBacklightChanged(QString str)
     {
         if(myApp->isInitialized == 1)
         {
-            int val = str.toInt();
+            //int val = str.toInt();
+            /*
+            #define BACKLIGHT_RED                       48
+            #define BACKLIGHT_BLUE                      03
+            #define BACKLIGHT_GREEN                     12
+            #define BACKLIGHT_REDBLUE                   51
+            #define BACKLIGHT_REDGREEN                  60
+            #define BACKLIGHT_BLUEGREEN                 15
+            #define BACKLIGHT_WHITE                     0x3f
+
+            m_comboListBacklight.clear();
+            m_comboListBacklight.insert(0, "OFF");
+            m_comboListBacklight.insert(1, "Red");
+            m_comboListBacklight.insert(2, "Blue");
+            m_comboListBacklight.insert(3, "Green");
+            m_comboListBacklight.insert(4, "Red/Blue");     //purple
+            m_comboListBacklight.insert(5, "Red/Green");    //Orange?
+            m_comboListBacklight.insert(6, "Blue/Green");   //Yellow?
+            m_comboListBacklight.insert(7, "White");
+            */
+            int val;
+            if(str == "Red") val = BACKLIGHT_RED;
+            else if(str == "Blue") val = BACKLIGHT_BLUE;
+            else if(str == "Green") val = BACKLIGHT_GREEN;
+            else if(str == "Red/Blue") val = BACKLIGHT_REDBLUE;
+            else if(str == "Red/Green") val = BACKLIGHT_REDGREEN;
+            else if(str == "Blue/Green") val = BACKLIGHT_BLUEGREEN;
+            else if(str == "White") val = BACKLIGHT_WHITE;
             myApp->ramSong.lcdBacklight = val;
         }
     }
@@ -1784,24 +1812,25 @@ void MyObject1::updateComboBoxes(void)
 
     // Trick shot 1
     if(myApp->ramSong.trickMode[0] == TRICK_MODE_NONE) ComboTrickMode1_index = 0;
-    else if(myApp->ramSong.trickMode[0] == TRICK_MODE_FSW_MOMENT) ComboTrickMode1_index = 1;
-    else if(myApp->ramSong.trickMode[0] == TRICK_MODE_FSW_LATCH) ComboTrickMode1_index = 2;
-    else if(myApp->ramSong.trickMode[0] == TRICK_MODE_LOOP_MOMENT) ComboTrickMode1_index = 3;
-    else if(myApp->ramSong.trickMode[0] == TRICK_MODE_LOOP_LATCH) ComboTrickMode1_index = 4;
-    else if(myApp->ramSong.trickMode[0] == TRICK_MODE_SONG) ComboTrickMode1_index = 5;
-    else if(myApp->ramSong.trickMode[0] == TRICK_MODE_MIDI_MSG) ComboTrickMode1_index = 6;
+    else if(myApp->ramSong.trickMode[0] == TRICK_MODE_SONG) ComboTrickMode1_index = 1;
+    else if(myApp->ramSong.trickMode[0] == TRICK_MODE_SONG_MOMENT) ComboTrickMode1_index = 2;
+    else if(myApp->ramSong.trickMode[0] == TRICK_MODE_LOOP_LATCH) ComboTrickMode1_index = 3;
+    else if(myApp->ramSong.trickMode[0] == TRICK_MODE_LOOP_MOMENT) ComboTrickMode1_index = 4;
+    else if(myApp->ramSong.trickMode[0] == TRICK_MODE_FSW_LATCH) ComboTrickMode1_index = 5;
+    else if(myApp->ramSong.trickMode[0] == TRICK_MODE_FSW_MOMENT) ComboTrickMode1_index = 6;
+    else if(myApp->ramSong.trickMode[0] == TRICK_MODE_MIDI_MSG) ComboTrickMode1_index = 7;
     else ComboTrickMode1_index = 0;    //on error -OFF
 
     // Trick shot 2 (Dive bomb)
     if(myApp->ramSong.trickMode[1] == TRICK_MODE_NONE) ComboTrickMode2_index = 0;
-    else if(myApp->ramSong.trickMode[1] == TRICK_MODE_FSW_MOMENT) ComboTrickMode2_index = 1;
-    else if(myApp->ramSong.trickMode[1] == TRICK_MODE_FSW_LATCH) ComboTrickMode2_index = 2;
-    else if(myApp->ramSong.trickMode[1] == TRICK_MODE_LOOP_MOMENT) ComboTrickMode2_index = 3;
-    else if(myApp->ramSong.trickMode[1] == TRICK_MODE_LOOP_LATCH) ComboTrickMode2_index = 4;
-    else if(myApp->ramSong.trickMode[1] == TRICK_MODE_SONG) ComboTrickMode2_index = 5;
-    else if(myApp->ramSong.trickMode[1] == TRICK_MODE_MIDI_MSG) ComboTrickMode2_index = 6;
+    else if(myApp->ramSong.trickMode[1] == TRICK_MODE_SONG) ComboTrickMode2_index = 1;
+    else if(myApp->ramSong.trickMode[1] == TRICK_MODE_SONG_MOMENT) ComboTrickMode2_index = 2;
+    else if(myApp->ramSong.trickMode[1] == TRICK_MODE_LOOP_LATCH) ComboTrickMode2_index = 3;
+    else if(myApp->ramSong.trickMode[1] == TRICK_MODE_LOOP_MOMENT) ComboTrickMode2_index = 4;
+    else if(myApp->ramSong.trickMode[1] == TRICK_MODE_FSW_LATCH) ComboTrickMode2_index = 5;
+    else if(myApp->ramSong.trickMode[1] == TRICK_MODE_FSW_MOMENT) ComboTrickMode2_index = 6;
+    else if(myApp->ramSong.trickMode[1] == TRICK_MODE_MIDI_MSG) ComboTrickMode2_index = 7;
     else ComboTrickMode2_index = 0;    //on error -OFF
-
 
     //Update the string lists
     m_comboList0.clear();
@@ -2142,9 +2171,9 @@ void MyObject1::loadDummyConfig()
     sprintf((char*)myApp->ramSong.midiMessage1, "Midi1");
     myApp->ramSong.midiMsgMode = 1;
     myApp->ramSong.lcdBacklight = BACKLIGHT_REDBLUE;
-    myApp->ramSong.trickMode[0] = 6;
+    myApp->ramSong.trickMode[0] = 1;
     myApp->ramSong.trickData[0] = 6;
-    myApp->ramSong.trickMode[1] = 5;
+    myApp->ramSong.trickMode[1] = 1;
     myApp->ramSong.trickData[1] = 5;
 
 
