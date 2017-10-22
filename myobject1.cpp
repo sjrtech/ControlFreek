@@ -1,7 +1,7 @@
 #include "myobject1.h"
 #include <QBluetoothAddress>
 #include <QtQuick/QQuickView>
-
+#include <QDir>
 
 MyObject1::MyObject1(QObject *parent) : QObject(parent)
 {
@@ -231,6 +231,125 @@ void MyObject1::selectPreviousSong(void)
     emit comboListChanged();
     emit ConfigChanged();
 }
+void MyObject1::saveSong(void)
+{
+/*
+typedef struct
+{
+    unsigned char isFilled;                         // this song has been programmed, or is empty=0xff (default flash erase value)
+    unsigned char name[32];                         //name the song... slow select?
+    unsigned char partname[32];                     // part (solo, bridge chorus, verse, etc.) of the song.... rapid select
+    unsigned char midiMessage1[SIZE_OF_MIDI_MSG];   //MIDI messages, Chan & Program .. for "program change" messages to MIDI pedals, etc.
+    //unsigned char midiMessage2[SIZE_OF_MIDI_MSG];   //MIDI messages, Chan & Program .. for "program change" messages to MIDI pedals, etc.
+    //unsigned char midiMessage3[SIZE_OF_MIDI_MSG];   //MIDI messages, Chan & Program .. for "program change" messages to MIDI pedals, etc.
+    //unsigned char midiMessage4[SIZE_OF_MIDI_MSG];   //MIDI messages, Chan & Program .. for "program change" messages to MIDI pedals, etc.
+    unsigned char midiMsgMode;                      //describe when to send msg, at song load? on trick button press? probably only those two?
+    unsigned char matrix[12];                       //twelve bytes to setup up the Matrix
+    unsigned char footswitch;                       //state of 6 footswitches
+    unsigned char trickMode[3];                     //Solo/Boost/Trick button - what is doing?
+    unsigned char trickData[3];                     //Solo/Boost/Trick button - any data that needs to be stored (song, loop, fsw, etc.)
+    unsigned char lcdBacklight;                     //4-5 bits of RGB backlight control (different color for each song) - solo mode??pulse color? throbber?
+    unsigned char Dummy[2];                         //add bytes to ensure Size is divisable by 4. 99/4=24.75 so add 1
+} SONG;
+*/
+
+    //QString filename = "data.txt";//(QString)myApp->ramSong.name;// + myApp->ramSong.partname + ".txt";
+    QString str1= (const char*)myApp->ramSong.name;
+    QString str2= (const char*)myApp->ramSong.partname;
+    QString filename= str1 + "_" + str2 + ".dat";
+
+    QFile file(filename);
+    if (file.open(QIODevice::ReadWrite))
+    {
+        QDataStream stream(&file);
+        unsigned int i;
+        stream << myApp->ramSong.isFilled;
+        for(i=0; i<sizeof(myApp->ramSong.name);i++)
+        {
+            stream << myApp->ramSong.name[i];
+        }
+        for(i=0; i<sizeof(myApp->ramSong.partname);i++)
+        {
+            stream << myApp->ramSong.partname[i];
+        }
+        for(i=0; i<sizeof(myApp->ramSong.midiMessage1);i++)
+        {
+            stream << myApp->ramSong.midiMessage1[i];
+        }
+        stream << myApp->ramSong.midiMsgMode;
+        for(i=0; i<sizeof(myApp->ramSong.matrix);i++)
+        {
+            stream << myApp->ramSong.matrix[i];
+        }
+        stream << myApp->ramSong.footswitch;
+        for(i=0; i<sizeof(myApp->ramSong.trickMode);i++)
+        {
+            stream << myApp->ramSong.trickMode[i];
+        }
+        for(i=0; i<sizeof(myApp->ramSong.trickData);i++)
+        {
+            stream << myApp->ramSong.trickData[i];
+        }
+        stream << myApp->ramSong.lcdBacklight;
+        for(i=0; i<sizeof(myApp->ramSong.Dummy);i++)
+        {
+            stream << myApp->ramSong.Dummy[i];
+        }
+    }
+
+}
+void MyObject1::restoreSong(QString filename)
+{
+    QFile file;//(filename);
+    QString path = filename.right( filename.length() - 7 );   //remove "file://"
+    int last = path.lastIndexOf('/', -1, Qt::CaseInsensitive);
+    QString dir = path.left( path.length() - (path.length() - last) );
+    QDir::setCurrent(dir);
+    QString fileName = path.right(path.length() - last - 1);
+    file.setFileName(fileName);
+    file.setTextModeEnabled(true);
+    if (file.open(QIODevice::ReadWrite))
+    {
+        QDataStream stream(&file);
+        unsigned int i;
+        stream >> myApp->ramSong.isFilled;
+        for(i=0; i<sizeof(myApp->ramSong.name);i++)
+        {
+            stream >> myApp->ramSong.name[i];
+        }
+        for(i=0; i<sizeof(myApp->ramSong.partname);i++)
+        {
+            stream >> myApp->ramSong.partname[i];
+        }
+        for(i=0; i<sizeof(myApp->ramSong.midiMessage1);i++)
+        {
+            stream >> myApp->ramSong.midiMessage1[i];
+        }
+        stream >> myApp->ramSong.midiMsgMode;
+        for(i=0; i<sizeof(myApp->ramSong.matrix);i++)
+        {
+            stream >> myApp->ramSong.matrix[i];
+        }
+        stream >> myApp->ramSong.footswitch;
+        for(i=0; i<sizeof(myApp->ramSong.trickMode);i++)
+        {
+            stream >> myApp->ramSong.trickMode[i];
+        }
+        for(i=0; i<sizeof(myApp->ramSong.trickData);i++)
+        {
+            stream >> myApp->ramSong.trickData[i];
+        }
+        stream >> myApp->ramSong.lcdBacklight;
+        for(i=0; i<sizeof(myApp->ramSong.Dummy);i++)
+        {
+            stream >> myApp->ramSong.Dummy[i];
+        }
+    }
+
+    updateSongDisplay();
+
+}
+
 
 
 QString MyObject1::getSongName(void) const

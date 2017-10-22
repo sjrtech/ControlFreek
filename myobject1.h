@@ -358,6 +358,9 @@ public slots:
     void selectNextSong(void);
     void selectPreviousSong(void);
 
+    void saveSong(void);
+    void restoreSong(QString);
+
     void updateConfigDisplay(void);
     void updateConfigDevice(void);
 

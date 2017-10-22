@@ -44,6 +44,7 @@ import QtQuick 2.0
 import QtBluetooth 5.2
 import QtQuick.Controls 1.5
 import QtQuick.Controls.Styles 1.1
+import QtQuick.Dialogs 1.0
 
 Item
 {
@@ -1265,8 +1266,8 @@ Item
                             id: textLabelSongTitle
                             x:80
                             y:0
-                            //text: qsTr("SONG INFO (Index=") +  qsTr(theObject.currentSong) +qsTr(")")
-                            text: qsTr("SONG INFO")
+                            text: qsTr("SONG INFO (Index=") +  qsTr(theObject.currentSong) +qsTr(")")
+                            //text: qsTr("SONG INFO")
                             font.pixelSize: 20
                             font.bold: true
                             font.underline: true
@@ -2224,14 +2225,13 @@ Item
                         Button
                         {
                             id: buttonPreviousSong
-                            //y:552
-                            //x:0
-                            anchors.bottom: parent.bottom
+                            anchors.top: textDiveBombData.bottom
+                            anchors.topMargin: 5
                             anchors.left: parent.left
                             anchors.leftMargin: 1
                             anchors.bottomMargin: 5
                             width: 120
-                            height: 80
+                            height: 40
                             text: "Previous Song"
                             visible: true
                             onClicked: theObject.selectPreviousSong()
@@ -2239,33 +2239,96 @@ Item
                         Button
                         {
                             id: buttonUpdateSong
-                            //y:552
-                            anchors.bottom: parent.bottom
+                            anchors.top: textDiveBombData.bottom
+                            anchors.topMargin: 5
                             anchors.horizontalCenter: parent.horizontalCenter
                             anchors.bottomMargin: 5
                             anchors.horizontalCenterOffset: 20
                             width: 100
-                            height: 80
-                            text: "Update Song"
+                            height: 40
+                            text: "Update to\n   Device"
                             visible: true
                             onClicked: theObject.updateSongDevice()
                         }
                         Button
                         {
                             id: buttonNextSong
-                            //y:552
-                            anchors.bottom: parent.bottom
-                            anchors.bottomMargin: 5
+                            anchors.top: textDiveBombData.bottom
+                            anchors.topMargin: 5
                             anchors.right: parent.right
                             anchors.rightMargin: 1
                             width: 80
-                            height: 80
+                            height: 40
                             text: "Next Song"
                             visible: true
                             onClicked: theObject.selectNextSong()
                         }
+                        Rectangle
+                        {
+                            anchors.bottom: parent.bottom
+                            anchors.bottomMargin: 1
+                            anchors.left: parent.left
+                            anchors.leftMargin: 1
+                            width: parent.width - 2
+                            height:  44
+                            border.width: 2
+                            Label
+                            {
+                                anchors.bottom: parent.bottom
+                                anchors.bottomMargin: 2
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                text: "LOCAL \nBACKUP"
+                            }
 
-                    }
+                            Button
+                            {
+                                id: buttonSaveSong
+                                anchors.bottom: parent.bottom
+                                anchors.bottomMargin: 2
+                                anchors.left: parent.left
+                                anchors.leftMargin: 3
+                                width: 110
+                                height: 40
+                                text: "Backup Song"
+                                visible: true
+                                onClicked: theObject.saveSong()
+                            }
+                            Button
+                            {
+                                id: buttonRestoreSong
+                                anchors.bottom: parent.bottom
+                                anchors.bottomMargin: 2
+                                anchors.right: parent.right
+                                anchors.rightMargin: 3
+                                width: 110
+                                height: 40
+                                text: "Restore Song"
+                                visible: true
+                                //onClicked: theObject.restoreSong()
+                                onClicked: {
+                                    fileDialog.visible = true
+                                    //testSetupController.loadScript();
+                                }
+                                FileDialog {
+                                    id: fileDialog
+                                    title: "Please choose a file"
+                                    folder: shortcuts.home
+                                    onAccepted: {
+                                        console.log("You chose: " + fileDialog.fileUrls)
+                                        //Qt.quit()
+                                        //testSetupController.loadScript(fileDialog.fileUrls);
+                                        theObject.restoreSong(fileDialog.fileUrls);
+                                    }
+                                    onRejected: {
+                                        console.log("Canceled")
+                                        //Qt.quit()
+                                    }
+                                    Component.onCompleted: visible = false
+                                }
+                            }
+                        }
+
+                   }
                 }
             }
         }
