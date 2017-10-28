@@ -7,7 +7,7 @@
 //#include <QAbstractItemModel>
 #include "myappgui.h"
 #include <QStringListModel>
-
+#include <QTimer>
 
 #define STRING_NOT_USED         "*not used*"
 #define STRING_MAIN_IN          "MAIN IN"
@@ -171,6 +171,8 @@ public:
     int fswSong5CheckedStateRead() { return fswSong5CheckedState;  }
     int fswSong6CheckedStateRead() { return fswSong6CheckedState;  }
 
+    QTimer *m_timerBLE;
+
 private:
     MyAppGui* myApp;
 
@@ -234,6 +236,7 @@ public slots:
     void bleServiceChanged(QLowEnergyService::ServiceState);
 
     void updateComboBoxes(void);
+    void readBLE(void);
 
     //QAbstractItemModel* model(void) const;
 

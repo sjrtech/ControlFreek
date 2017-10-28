@@ -20,21 +20,24 @@ MyObject1::MyObject1(QObject *parent) : QObject(parent)
 
     m_comboListTrickMode1.clear();
     m_comboListTrickMode1.insert(0, "OFF");
-    m_comboListTrickMode1.insert(1, "Momentary Footswitch");
-    m_comboListTrickMode1.insert(2, "Latch Footswitch");
-    m_comboListTrickMode1.insert(3, "Momentary Add Loop");
-    m_comboListTrickMode1.insert(4, "Latch Add Loop");
-    m_comboListTrickMode1.insert(5, "Jump to Song");
-    m_comboListTrickMode1.insert(6, "Send MIDI Msg");
+    m_comboListTrickMode1.insert(1, "Latch new Song");
+    m_comboListTrickMode1.insert(2, "Momentary new Song");
+    m_comboListTrickMode1.insert(3, "Latch Add Loop");
+    m_comboListTrickMode1.insert(4, "Momentary Add Loop");
+    m_comboListTrickMode1.insert(5, "Latch Footswitch");
+    m_comboListTrickMode1.insert(6, "Momentary Footswitch");
+    m_comboListTrickMode1.insert(7, "Send MIDI Msg");
 
     m_comboListTrickMode2.clear();
     m_comboListTrickMode2.insert(0, "OFF");
-    m_comboListTrickMode2.insert(1, "Momentary Footswitch");
-    m_comboListTrickMode2.insert(2, "Latch Footswitch");
-    m_comboListTrickMode2.insert(3, "Momentary Add Loop");
-    m_comboListTrickMode2.insert(4, "Latch Add Loop");
-    m_comboListTrickMode2.insert(5, "Jump to Song");
-    m_comboListTrickMode2.insert(6, "Send MIDI Msg");
+    m_comboListTrickMode2.insert(1, "Latch new Song");
+    m_comboListTrickMode2.insert(2, "Momentary new Song");
+    m_comboListTrickMode2.insert(3, "Latch Add Loop");
+    m_comboListTrickMode2.insert(4, "Momentary Add Loop");
+    m_comboListTrickMode2.insert(5, "Latch Footswitch");
+    m_comboListTrickMode2.insert(6, "Momentary Footswitch");
+    m_comboListTrickMode2.insert(7, "Send MIDI Msg");
+
 
 
     // ////////////////////////////////////////////////////////
@@ -147,25 +150,27 @@ void MyObject1::bleServiceChanged(QLowEnergyService::ServiceState a)
         connect(service, SIGNAL(characteristicRead(QLowEnergyCharacteristic,QByteArray)), this, SLOT(dataReadCB(QLowEnergyCharacteristic, QByteArray)));
     }
 
-    //myApp(this);
-    //MyAppGui retardedQTApp(this);       //make a temporary bastard Qt object,
-    //myApp = &retardedQTApp;
-    //OMG i can't believe I had to do that CRAP!!!!  just to get a global pointer to the object.. FUCK!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! I DON"T HAVE ALL FUCKING DAY Qt!!! CAN I INVOICE YOU. YOU SOFTWARE TARDS?
-    //C++ makes sure programmers keep their jobs.  Programmers are satistic fuckheads.
-    //That took all fucking afternoon... now I don't rememeber why I needed it!!
-    //connect(bleComm, SIGNAL(recdBLEdata(QByteArray packetArray)), this, SLOT(parseInData(QByteArray packetArray)) );
-    //connect(this, SIGNAL(recdBLEdata(QByteArray packetArray)), myApp, SLOT(parseInData(QByteArray packetArray)) );
-
     connect(this, SIGNAL(recdBLEdata(QByteArray)), myApp, SLOT(parseInData(QByteArray)) );
     connect(myApp, SIGNAL(writeBLEdata(QByteArray)), this, SLOT(writeData(QByteArray)) );
     connect(myApp, SIGNAL(SongComplete()), this, SLOT(updateSongDisplay()) );
     connect(myApp, SIGNAL(ConfigComplete()), this, SLOT(updateConfigDisplay()) );
 
+    //Start timer to read serial data from motor
+    m_timerBLE = new QTimer(this);
+    connect(m_timerBLE, SIGNAL(timeout()), this, SLOT(readBLE()));
+    //m_timerBLE->start(50); //mSec
 
     //myApp->sendStatus();
     myApp->sendRequestForConfigBlock();
 
 }
+
+void MyObject1::readBLE(void)
+{
+    service->readCharacteristic(bleIncludedChars.value(0));
+
+}
+
 void MyObject1::dataReadCB(QLowEnergyCharacteristic c, QByteArray data)
 {
     qDebug() << "dataRead()";
@@ -788,7 +793,7 @@ void MyObject1::onSongBacklightChanged(QString str)
             m_comboListBacklight.insert(6, "Blue/Green");   //Yellow?
             m_comboListBacklight.insert(7, "White");
             */
-            int val;
+            int val = BACKLIGHT_RED;
             if(str == "Red") val = BACKLIGHT_RED;
             else if(str == "Blue") val = BACKLIGHT_BLUE;
             else if(str == "Green") val = BACKLIGHT_GREEN;
