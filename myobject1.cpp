@@ -155,10 +155,13 @@ void MyObject1::bleServiceChanged(QLowEnergyService::ServiceState a)
     connect(myApp, SIGNAL(SongComplete()), this, SLOT(updateSongDisplay()) );
     connect(myApp, SIGNAL(ConfigComplete()), this, SLOT(updateConfigDisplay()) );
 
+    /*
     //Start timer to read serial data from motor
     m_timerBLE = new QTimer(this);
     connect(m_timerBLE, SIGNAL(timeout()), this, SLOT(readBLE()));
-    //m_timerBLE->start(50); //mSec
+    m_timerBLE->start(2000); //mSec
+    */
+
 
     //myApp->sendStatus();
     myApp->sendRequestForConfigBlock();
@@ -167,6 +170,7 @@ void MyObject1::bleServiceChanged(QLowEnergyService::ServiceState a)
 
 void MyObject1::readBLE(void)
 {
+    qDebug() << "readBLE(): readCharacteristic <- " << bleIncludedChars.value(0).uuid().toString();
     service->readCharacteristic(bleIncludedChars.value(0));
 
 }
