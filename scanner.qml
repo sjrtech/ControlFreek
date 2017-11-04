@@ -86,7 +86,7 @@ Item
         height: parent.height
         Flickable {
             anchors.fill: parent
-            contentWidth: 1920
+            contentWidth: 1380
             contentHeight: parent.height
             //Flickable.width: 640//320
             //Flickable.height: 0
@@ -99,9 +99,10 @@ Item
                 anchors.leftMargin: 0
                 //anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: parent.top;
-                width: 620//320
+                width: 320
                 height: parent.height
                 border.width: 1
+                color: "#66b2ff"
                 Rectangle
                 {
                     id: busy
@@ -150,6 +151,7 @@ Item
                         id: btDelegate
                         width: parent.width
                         height: column.height + 10
+                        color: "#66b2ff"
 
                         property bool expended: false;
                         clip: true
@@ -197,7 +199,7 @@ Item
                                 opacity: btDelegate.expended ? 1 : 0.0
                                 text: get_details(service)
                                 font.family: "FreeSerif"
-                                font.pointSize: 18//14
+                                font.pointSize: 24//18//14
                                 Behavior on opacity {
                                     NumberAnimation { duration: 200}
                                 }
@@ -267,10 +269,11 @@ Item
                 // ////////////////////////////////////////////////////////////////////////
                 // Breakout box SCREENS
                 border.width: 1
-                width: 620//320
+                width: 420
                 height: parent.height
                 anchors.left: connectscreen.right
                 anchors.top: connectscreen.top;
+                color: "#ff9933"
                 GridView
                 {
                     // ////////////////////////////////////////////////////////////////////////
@@ -303,7 +306,7 @@ Item
                         y:textLabelSettingsTitle.y + 30
                         text: qsTr("Backlight: ")
                         visible: false
-                        font.pixelSize: 16//12
+                        font.pixelSize: 18//16//12
                     }
                     TextInput
                     {
@@ -329,7 +332,7 @@ Item
                         x:2
                         y:textBacklightMain.y+20
                         text: qsTr("Current Song #: ")
-                        font.pixelSize: 16//12
+                        font.pixelSize: 18//16//12
                         visible: false
                     }
                     TextInput
@@ -368,7 +371,7 @@ Item
                         width: 180
                         id: textLoop1Name
                         text: theObject.LoopName1
-                        font.pixelSize: 18//14
+                        font.pixelSize: 24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -419,7 +422,7 @@ Item
                         width: 180
                         id: textLoop2Name
                         text: theObject.LoopName2
-                        font.pixelSize: 18//14
+                        font.pixelSize: 24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -471,7 +474,7 @@ Item
                         width: 180
                         id: textLoop3Name
                         text: theObject.LoopName3
-                        font.pixelSize: 18//14
+                        font.pixelSize: 24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -523,7 +526,7 @@ Item
                         width: 180
                         id: textLoop4Name
                         text: theObject.LoopName4
-                        font.pixelSize: 18//14
+                        font.pixelSize: 24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -575,7 +578,7 @@ Item
                         width: 180
                         id: textLoop5Name
                         text: theObject.LoopName5
-                        font.pixelSize: 18//14
+                        font.pixelSize: 24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -627,7 +630,7 @@ Item
                         width: 180
                         id: textLoop6Name
                         text: theObject.LoopName6
-                        font.pixelSize: 18//14
+                        font.pixelSize: 24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -679,7 +682,7 @@ Item
                         width: 180
                         id: textLoop7Name
                         text: theObject.LoopName7
-                        font.pixelSize: 18//14
+                        font.pixelSize: 24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -732,7 +735,7 @@ Item
                         width: 180
                         id: textAux1Name
                         text: theObject.AuxName1
-                        font.pixelSize: 18//14
+                        font.pixelSize: 24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -784,7 +787,7 @@ Item
                         width: 180
                         id: textAux2Name
                         text: theObject.AuxName2
-                        font.pixelSize: 18//14
+                        font.pixelSize: 24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -836,7 +839,7 @@ Item
                         width: 180
                         id: textAux3Name
                         text: theObject.AuxName3
-                        font.pixelSize: 18//14
+                        font.pixelSize: 24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -888,7 +891,7 @@ Item
                         width: 180
                         id: textAux4Name
                         text: theObject.AuxName4
-                        font.pixelSize: 18//14
+                        font.pixelSize: 24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -940,7 +943,7 @@ Item
                         width: 180
                         id: textNameFsw1
                         text: theObject.FswName1
-                        font.pixelSize: 18//14
+                        font.pixelSize: 24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -990,7 +993,7 @@ Item
                         width: 180
                         id: textNameFsw2
                         text: theObject.FswName2
-                        font.pixelSize: 18//14
+                        font.pixelSize: 24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -1040,7 +1043,7 @@ Item
                         width: 180
                         id: textNameFsw3
                         text: theObject.FswName3
-                        font.pixelSize: 18//14
+                        font.pixelSize: 24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -1090,7 +1093,7 @@ Item
                         width: 180
                         id: textNameFsw4
                         text: theObject.FswName4
-                        font.pixelSize: 18//14
+                        font.pixelSize: 24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -1140,7 +1143,7 @@ Item
                         width: 180
                         id: textNameFsw5
                         text: theObject.FswName5
-                        font.pixelSize: 18//14
+                        font.pixelSize: 24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -1190,7 +1193,7 @@ Item
                         width: 180
                         id: textNameFsw6
                         text: theObject.FswName6
-                        font.pixelSize: 18//14
+                        font.pixelSize: 24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -1254,6 +1257,7 @@ Item
                     height: parent.height
                     anchors.left: settingsview.right
                     anchors.top: settingsview.top;
+                    color: "#c0c0c0"
                     GridView
                     {
                         id: songview;
@@ -1266,7 +1270,7 @@ Item
                             id: textLabelSongTitle
                             x:80
                             y:0
-                            text: qsTr("SONG INFO (Index=") +  qsTr(theObject.currentSong) +qsTr(")")
+                            text: qsTr("SONG INFO (#") +  qsTr(theObject.currentSong) +qsTr(")")
                             //text: qsTr("SONG INFO")
                             font.pixelSize: 20
                             font.bold: true
@@ -1279,7 +1283,7 @@ Item
                             x:2
                             y:textLabelSongTitle.y+30
                             text: qsTr("Name line 1: ")
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                         }
                         TextField
                         {
@@ -1289,7 +1293,7 @@ Item
                             width: 250
                             id: textSongName
                             text: theObject.SongName
-                            font.pixelSize: 18//14
+                            font.pixelSize: 24//18//14
                             font.bold: true
                             maximumLength: 9
                             onTextChanged:
@@ -1324,7 +1328,7 @@ Item
                             anchors.top: textLabelSongName.bottom
                             height: 25
                             visible: true
-                            font.pixelSize: 18//14
+                            font.pixelSize: 24//18//14
                             font.bold: true
                             maximumLength: 9
                             wrapMode: TextInput.NoWrap
@@ -1340,7 +1344,7 @@ Item
                             x:300
                             y:textLabelSongName.y//+20
                             text: qsTr("Name line 2: ")
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                         }
                         TextField
                         {
@@ -1350,7 +1354,7 @@ Item
                             width: 250
                             id: textPartName
                             text: theObject.PartName
-                            font.pixelSize: 18//14
+                            font.pixelSize: 24//18//14
                             font.bold: true
                             maximumLength: 9
                             onTextChanged:
@@ -1385,7 +1389,7 @@ Item
                             anchors.top: textLabelPartName.bottom
                             height: 25
                             visible: true
-                            font.pixelSize: 18//14
+                            font.pixelSize: 24//18//14
                             font.bold: true
                             maximumLength: 9
                             wrapMode: TextInput.NoWrap
@@ -1405,7 +1409,7 @@ Item
                             anchors.top: textPartName.bottom
                             anchors.topMargin: 10
                             text: qsTr("Main out<---")
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                         }
                         ComboBox {
                             id: comboBox0
@@ -1431,7 +1435,7 @@ Item
                             visible: false
                             y:textLabelMatrix0.y+40
                             text: textLoop1Name.text + qsTr(" <--- ");
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                         }
                         ComboBox
                         {
@@ -1458,7 +1462,7 @@ Item
                             y:textLabelMatrix1.y+40
                             visible: false
                             text: textLoop2Name.text + qsTr(" <--- ");
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                         }
                         ComboBox
                         {
@@ -1485,7 +1489,7 @@ Item
                             visible: false
                             y:textLabelMatrix2.y+40
                             text: textLoop3Name.text + qsTr(" <--- ");
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                         }
                         ComboBox
                         {
@@ -1512,7 +1516,7 @@ Item
                             y:textLabelMatrix3.y+40
                             visible: false
                             text: textLoop4Name.text + qsTr(" <--- ");
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                         }
                         ComboBox
                         {
@@ -1539,7 +1543,7 @@ Item
                             visible: false
                             y:textLabelMatrix4.y+40
                             text: textLoop5Name.text + qsTr(" <--- ");
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                         }
                         ComboBox
                         {
@@ -1566,7 +1570,7 @@ Item
                             visible: false
                             y:textLabelMatrix5.y+40
                             text: textLoop6Name.text + qsTr(" <--- ");
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                         }
                         ComboBox
                         {
@@ -1592,7 +1596,7 @@ Item
                             x:10
                             y:textLabelMatrix6.y+40
                             text: textLoop7Name.text + qsTr(" <--- ");
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                             visible: false
                         }
                         ComboBox
@@ -1622,7 +1626,7 @@ Item
                             visible: false
                             y:textLabelMatrix7.y+30
                             text: textAux1Name.text + qsTr(" <--- ");
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                         }
                         ComboBox
                         {
@@ -1650,7 +1654,7 @@ Item
                             y:textLabelMatrix8.y+40
                             visible: false
                             text: textAux2Name.text + qsTr(" <--- ");
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                         }
                         ComboBox
                         {
@@ -1677,7 +1681,7 @@ Item
                             visible: false
                             y:textLabelMatrix9.y+40
                             text: textAux3Name.text + qsTr(" <--- ");
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                         }
                         ComboBox
                         {
@@ -1704,7 +1708,7 @@ Item
                             y:textLabelMatrix10.y+40
                             visible: false
                             text: textAux4Name.text + qsTr(" <--- ");
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                         }
                         ComboBox
                         {
@@ -1733,7 +1737,7 @@ Item
                             x:10
                             y:textLabelMatrix11.y+40
                             text: qsTr("MIDI Msg: ")
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                             visible: false
                         }
                         TextField
@@ -1745,7 +1749,7 @@ Item
                             text: theObject.MidiMsg1
                             y:textLabelMidiMsg1.y
                             anchors.left: textLabelMidiMsg1.right
-                            font.pixelSize: 18//14
+                            font.pixelSize: 24//18//14
                             font.bold: true
                             maximumLength: 9
                             visible: false
@@ -1778,7 +1782,7 @@ Item
                             width: top.width-10
                             height: 25
                             visible: true
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                             maximumLength: 31
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
@@ -1794,7 +1798,7 @@ Item
                             x:10
                             y:textMidiMsg1.y+18
                             text: qsTr("MIDI Msg 2: ")
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                         }
                         TextInput
                         {
@@ -1805,7 +1809,7 @@ Item
                             width: top.width-10
                             height: 25
                             visible: true
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                             maximumLength: 31
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
@@ -1820,7 +1824,7 @@ Item
                             x:10
                             y:textMidiMsg2.y+18
                             text: qsTr("MIDI Msg 3: ")
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                         }
                         TextInput
                         {
@@ -1831,7 +1835,7 @@ Item
                             width: top.width-10
                             height: 25
                             visible: true
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                             maximumLength: 31
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
@@ -1846,7 +1850,7 @@ Item
                             x:10
                             y:textMidiMsg3.y+18
                             text: qsTr("MIDI Msg 4: ")
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                         }
                         TextInput
                         {
@@ -1857,7 +1861,7 @@ Item
                             width: top.width-10
                             height: 25
                             visible: true
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                             maximumLength: 31
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
@@ -1873,7 +1877,7 @@ Item
                             x:10
                             y:textMidiMsg1.y+18
                             text: qsTr("MIDI Mode: ")
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                         }
                         ComboBox
                         {
@@ -1900,7 +1904,7 @@ Item
                             width: top.width-10
                             height: 25
                             visible: true
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                             maximumLength: 31
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
@@ -1915,7 +1919,7 @@ Item
                             x:10
                             y:textLabelMatrix11.y+40
                             text: qsTr("Footswitch Outputs: ")
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                         }
                         CheckBox {
                             id: checkBoxFsw1
@@ -2010,7 +2014,7 @@ Item
                             width: top.width-10
                             height: 25
                             visible: true
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                             maximumLength: 31
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
@@ -2026,7 +2030,7 @@ Item
                             anchors.top: checkBoxFsw2.bottom
                             anchors.topMargin: 8
                             text: qsTr("Backlight(song): ")
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                         }
                         ComboBox
                         {
@@ -2055,7 +2059,7 @@ Item
                             anchors.topMargin: 15
                             //textLabelSongBacklight.y+18
                             text: qsTr("Trick Shot Mode: ")
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                         }
                         ComboBox
                         {
@@ -2081,7 +2085,7 @@ Item
                             anchors.top: textLabelTrickMode.bottom
                             anchors.topMargin: 6
                             text: qsTr("Trick Shot Data: ")
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                         }
                         TextField
                         {
@@ -2092,7 +2096,7 @@ Item
                             text: theObject.TrickData1
                             y:textLabelTrickData.y
                             anchors.left: textLabelTrickData.right
-                            font.pixelSize: 18//14
+                            font.pixelSize: 24//18//14
                             font.bold: true
                             maximumLength: 9
                             onTextChanged:
@@ -2126,7 +2130,7 @@ Item
                             width: top.width-10
                             height: 25
                             visible: true
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                             maximumLength: 31
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
@@ -2142,7 +2146,7 @@ Item
                             anchors.top : textLabelTrickData.bottom
                             anchors.topMargin: 20
                             text: qsTr("Dive Bomb Mode: ")
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                         }
                         ComboBox
                         {
@@ -2168,7 +2172,7 @@ Item
                             anchors.top : textLabelDiveBombMode.bottom
                             anchors.topMargin: 6
                             text: qsTr("Dive Bomb Data: ")
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                         }
                         TextField
                         {
@@ -2179,7 +2183,7 @@ Item
                             text: theObject.TrickData2
                             y:textLabelDiveBombData.y
                             anchors.left: textLabelDiveBombData.right
-                            font.pixelSize: 18//14
+                            font.pixelSize: 24//18//14
                             font.bold: true
                             maximumLength: 9
                             onTextChanged:
@@ -2212,7 +2216,7 @@ Item
                             width: top.width-10
                             height: 25
                             visible: true
-                            font.pixelSize: 16//12
+                            font.pixelSize: 18//16//12
                             maximumLength: 31
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
