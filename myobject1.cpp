@@ -109,12 +109,39 @@ void MyObject1::bleServiceChanged(QLowEnergyService::ServiceState a)
     //get the List of recently discovered characteristics
     bleIncludedChars = service->characteristics();
 
+    //From: https://stackoverflow.com/questions/42647587/qt-ble-for-android-cannot-read-value-of-characteristic-for-custom-service
+    foreach(QLowEnergyCharacteristic c, service->characteristics()){
+        QLowEnergyDescriptor d = c.descriptor(QBluetoothUuid::ClientCharacteristicConfiguration);
+        if(!c.isValid()){
+            continue;
+        }
+        if(c.properties() & QLowEnergyCharacteristic::Notify)
+        { // enable notification
+            qDebug() << "enable notification";
+            service->writeDescriptor(d, QByteArray::fromHex("0100"));
+        }
+        if(c.properties() & QLowEnergyCharacteristic::Indicate)
+        { // enable indication
+            qDebug() << "enable indication";
+            service->writeDescriptor(d, QByteArray::fromHex("0200"));
+        }
+    }
+
     //look for the correct values
     for(int i=0;i<bleIncludedChars.length();i++)
     {
         qDebug() << bleIncludedChars.value(i).uuid().toString();
-        if(bleIncludedChars.value(i).uuid().toString() == "{713d0002-503e-4c75-ba94-3148f18d941e}") bleReadReady = true;
-        if(bleIncludedChars.value(i).uuid().toString() == "{713d0003-503e-4c75-ba94-3148f18d941e}") bleWriteReady = true;
+        if(bleIncludedChars.value(i).uuid().toString() == "{713d0002-503e-4c75-ba94-3148f18d941e}")
+        {
+            qDebug() << "Read @ (bleIncludedChars.value(" << i << ")";
+            bleReadReady = true;
+        }
+        if(bleIncludedChars.value(i).uuid().toString() == "{713d0003-503e-4c75-ba94-3148f18d941e}")
+        {
+            qDebug() << "Write @ (bleIncludedChars.value(" << i << ")";
+            bleWriteReady = true;
+        }
+
     }
 
     if( (bleWriteReady == false) || (bleWriteReady == false))
@@ -146,8 +173,10 @@ void MyObject1::bleServiceChanged(QLowEnergyService::ServiceState a)
     {
         qDebug() << "Found Read Characteristic - starting to read";
         //to do: start timer here?
+        //connect(service, SIGNAL(characteristicRead(QLowEnergyCharacteristic,QByteArray)), this, SLOT(dataReadCB(QLowEnergyCharacteristic, QByteArray)));
+        //https://stackoverflow.com/questions/42651989/qt-ble-for-android-characteristic-update-does-not-trigger-characteristicchanged
+        connect(service, SIGNAL(characteristicChanged(QLowEnergyCharacteristic, QByteArray)), this, SLOT(dataReadCB(QLowEnergyCharacteristic, QByteArray)));
         service->readCharacteristic(bleIncludedChars.value(0));
-        connect(service, SIGNAL(characteristicRead(QLowEnergyCharacteristic,QByteArray)), this, SLOT(dataReadCB(QLowEnergyCharacteristic, QByteArray)));
     }
 
     connect(this, SIGNAL(recdBLEdata(QByteArray)), myApp, SLOT(parseInData(QByteArray)) );
@@ -2246,9 +2275,9 @@ void MyObject1::loadDummyConfig()
     myApp->ramSettings.auxBacklite[2] = 1;
     myApp->ramSettings.auxBacklite[3] = 1;
     sprintf((char*)myApp->ramSettings.auxOutName[0], "Polytune");
-    //sprintf((char*)myApp->ramSettings.auxOutName[1], "");
-    //sprintf((char*)myApp->ramSettings.auxOutName[2], "");
-    //sprintf((char*)myApp->ramSettings.auxOutName[3], "");
+    sprintf((char*)myApp->ramSettings.auxOutName[1], "empty");
+    sprintf((char*)myApp->ramSettings.auxOutName[2], "empty");
+    sprintf((char*)myApp->ramSettings.auxOutName[3], "empty");
 
     myApp->ramSettings.fswBacklite[0] = 3;
     myApp->ramSettings.fswBacklite[1] = 3;
@@ -2259,9 +2288,9 @@ void MyObject1::loadDummyConfig()
     sprintf((char*)myApp->ramSettings.fswName[0], "Bypass Delay");
     sprintf((char*)myApp->ramSettings.fswName[1], "Harmonist");
     sprintf((char*)myApp->ramSettings.fswName[2], "Looper");
-    //sprintf((char*)myApp->ramSettings.fswName[3], "");
-    //sprintf((char*)myApp->ramSettings.fswName[4], "");
-    //sprintf((char*)myApp->ramSettings.fswName[5], "");
+    sprintf((char*)myApp->ramSettings.fswName[3], "empty");
+    sprintf((char*)myApp->ramSettings.fswName[4], "empty");
+    sprintf((char*)myApp->ramSettings.fswName[5], "empty");
 
     myApp->ramSettings.loopBacklite[0] = 5;
     myApp->ramSettings.loopBacklite[1] = 5;
@@ -2276,7 +2305,7 @@ void MyObject1::loadDummyConfig()
     sprintf((char*)myApp->ramSettings.loopName[3], "M5 Modeler");
     sprintf((char*)myApp->ramSettings.loopName[4], "Harmonist");
     sprintf((char*)myApp->ramSettings.loopName[5], "Tremolo");
-    //sprintf((char*)myApp->ramSettings.loopName[6], "");
+    sprintf((char*)myApp->ramSettings.loopName[6], "empty");
 
     // ////////////////////////////////////////////////////////////////////
     // song
