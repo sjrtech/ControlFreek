@@ -82,14 +82,14 @@ Item
 
     Rectangle {
         id: mainwindow
-        width: 640//320
+        property int windowWidth:parent.width
+        width: windowWidth//640//320
         height: parent.height
         Flickable {
             anchors.fill: parent
-            contentWidth: 1380
+            //contentWidth: mainwindow.windowWidth+(mainwindow.windowWidth/2)//1380-640+parent.width
+            contentWidth: mainwindow.windowWidth*2
             contentHeight: parent.height
-            //Flickable.width: 640//320
-            //Flickable.height: 0
             Rectangle
             {
                 // ////////////////////////////////////////////////////////////////////////
@@ -99,7 +99,7 @@ Item
                 anchors.leftMargin: 0
                 //anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: parent.top;
-                width: 320
+                width: mainwindow.windowWidth/2
                 height: parent.height
                 border.width: 1
                 color: "#66b2ff"
@@ -269,7 +269,7 @@ Item
                 // ////////////////////////////////////////////////////////////////////////
                 // Breakout box SCREENS
                 border.width: 1
-                width: 420
+                width: mainwindow.windowWidth/2
                 height: parent.height
                 anchors.left: connectscreen.right
                 anchors.top: connectscreen.top;
@@ -294,8 +294,8 @@ Item
                         id: textLabelSettingsTitle
                         x:40
                         y:0
-                        text: qsTr("SYSTEM INFO v0.6")
-                        font.pixelSize: 20
+                        text: qsTr("SYSTEM INFO v0.7")
+                        font.pixelSize: parent.height*0.0175//20
                         font.bold: true
                         font.underline: true
                     }
@@ -303,21 +303,22 @@ Item
                     {
                         id: text1
                         x:2
-                        y:textLabelSettingsTitle.y + 30
+                        y:textLabelSettingsTitle.y + 20
                         text: qsTr("Backlight: ")
                         visible: false
-                        font.pixelSize: 18//16//12
+                        font.pixelSize: parent.height*0.0175//18//16//12
                     }
+                    /*
                     TextInput
                     {
                         id: textBacklightMain
                         text: theObject.BacklightMain
                         anchors.left: text1.right
                         y:text1.y
-                        width: 250//150
+                        width: parent.width/2//250//150
                         height: 20//16
                         visible: false
-                        font.pixelSize: 20//16
+                        font.pixelSize: parent.height*0.0175//20//16
                         font.bold: true
                         maximumLength: 11
                         wrapMode: TextInput.NoWrap
@@ -332,7 +333,7 @@ Item
                         x:2
                         y:textBacklightMain.y+20
                         text: qsTr("Current Song #: ")
-                        font.pixelSize: 18//16//12
+                        font.pixelSize: parent.height*0.0175//18//16//12
                         visible: false
                     }
                     TextInput
@@ -341,10 +342,10 @@ Item
                         text: theObject.currentSong
                         anchors.left: text2.right
                         y:text2.y
-                        width: 250//150
+                        width: parent.width/2//250//150
                         height: 20//16
                         visible: false
-                        font.pixelSize: 20//16
+                        font.pixelSize: parent.height*0.0175//20//16
                         font.bold: true
                         maximumLength: 11
                         wrapMode: TextInput.NoWrap
@@ -353,13 +354,14 @@ Item
                             theObject.onCurrentSongChanged(textCurrentSong.text);
                         }
                     }
+                    */
                     Text
                     {
                         id: textLabelLoop1
                         x:2
-                        y:textCurrentSong.y+20
+                        y:textLabelMatrix1.y //textCurrentSong.y+50
                         text: qsTr("Loop 1 Name: ")
-                        font.pixelSize: 20//16
+                        font.pixelSize: parent.height*0.0175//20//16
                     }
                     TextField
                     {
@@ -368,10 +370,10 @@ Item
                         anchors.bottomMargin: 0
                         anchors.left: textLabelLoop1.right
                         anchors.leftMargin: 1
-                        width: 180
+                        width: mainwindow.windowWidth/5
                         id: textLoop1Name
                         text: theObject.LoopName1
-                        font.pixelSize: 24//18//14
+                        font.pixelSize: parent.height*0.0175//24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -398,7 +400,7 @@ Item
                                         radius: 5
                                         color: "light blue"
                                         implicitWidth: 90
-                                        implicitHeight: 30//25
+                                        implicitHeight: mainwindow.height/37//25
                                         border.color: "#333"
                                         border.width: 1
                                     }
@@ -408,9 +410,9 @@ Item
                     {
                         id: textLabelLoop2
                         x:2
-                        y:textLabelLoop1.y+40
+                        y:textLabelMatrix2.y
                         text: qsTr("Loop 2 Name: ")
-                        font.pixelSize: 20//16
+                        font.pixelSize: parent.height*0.0175//20//16
                     }
                     TextField
                     {
@@ -419,10 +421,10 @@ Item
                         anchors.bottomMargin: 0
                         anchors.left: textLabelLoop2.right
                         anchors.leftMargin: 1
-                        width: 180
+                        width: textLoop1Name.width
                         id: textLoop2Name
                         text: theObject.LoopName2
-                        font.pixelSize: 24//18//14
+                        font.pixelSize: parent.height*0.0175//24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -449,7 +451,7 @@ Item
                                         radius: 5
                                         color: "light blue"
                                         implicitWidth: 90
-                                        implicitHeight: 30//25
+                                        implicitHeight: mainwindow.height/37//25
                                         border.color: "#333"
                                         border.width: 1
                                     }
@@ -460,9 +462,9 @@ Item
                     {
                         id: textLabelLoop3
                         x:2
-                        y:textLabelLoop2.y+40
+                        y:textLabelMatrix3.y
                         text: qsTr("Loop 3 Name: ")
-                        font.pixelSize: 20//16
+                        font.pixelSize: parent.height*0.0175//20//16
                     }
                     TextField
                     {
@@ -471,10 +473,10 @@ Item
                         anchors.bottomMargin: 0
                         anchors.left: textLabelLoop3.right
                         anchors.leftMargin: 1
-                        width: 180
+                        width: textLoop1Name.width
                         id: textLoop3Name
                         text: theObject.LoopName3
-                        font.pixelSize: 24//18//14
+                        font.pixelSize: parent.height*0.0175//24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -501,7 +503,7 @@ Item
                                         radius: 5
                                         color: "light blue"
                                         implicitWidth: 90
-                                        implicitHeight: 30//25
+                                        implicitHeight: mainwindow.height/37//25
                                         border.color: "#333"
                                         border.width: 1
                                     }
@@ -512,9 +514,9 @@ Item
                     {
                         id: textLabelLoop4
                         x:2
-                        y:textLabelLoop3.y+40
+                        y:textLabelMatrix4.y
                         text: qsTr("Loop 4 Name: ")
-                        font.pixelSize: 20//16
+                        font.pixelSize: parent.height*0.0175//20//16
                     }
                     TextField
                     {
@@ -523,10 +525,11 @@ Item
                         anchors.bottomMargin: 0
                         anchors.left: textLabelLoop4.right
                         anchors.leftMargin: 1
-                        width: 180
+                        width: textLoop1Name.width
+
                         id: textLoop4Name
                         text: theObject.LoopName4
-                        font.pixelSize: 24//18//14
+                        font.pixelSize: parent.height*0.0175//24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -553,7 +556,7 @@ Item
                                         radius: 5
                                         color: "light blue"
                                         implicitWidth: 90
-                                        implicitHeight: 30//25
+                                        implicitHeight: mainwindow.height/37//25
                                         border.color: "#333"
                                         border.width: 1
                                     }
@@ -564,9 +567,9 @@ Item
                     {
                         id: textLabelLoop5
                         x:2
-                        y:textLabelLoop4.y+40
+                        y:textLabelMatrix5.y
                         text: qsTr("Loop 5 Name: ")
-                        font.pixelSize: 20//16
+                        font.pixelSize: parent.height*0.0175//20//16
                     }
                     TextField
                     {
@@ -575,10 +578,11 @@ Item
                         anchors.bottomMargin: 0
                         anchors.left: textLabelLoop5.right
                         anchors.leftMargin: 1
-                        width: 180
+                        width: textLoop1Name.width
+
                         id: textLoop5Name
                         text: theObject.LoopName5
-                        font.pixelSize: 24//18//14
+                        font.pixelSize: parent.height*0.0175//24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -605,7 +609,7 @@ Item
                                         radius: 5
                                         color: "light blue"
                                         implicitWidth: 90
-                                        implicitHeight: 30//25
+                                        implicitHeight: mainwindow.height/37//25
                                         border.color: "#333"
                                         border.width: 1
                                     }
@@ -616,9 +620,9 @@ Item
                     {
                         id: textLabelLoop6
                         x:2
-                        y:textLabelLoop5.y+40
+                        y:textLabelMatrix6.y
                         text: qsTr("Loop 6 Name: ")
-                        font.pixelSize: 20//16
+                        font.pixelSize: parent.height*0.0175//20//16
                     }
                     TextField
                     {
@@ -627,10 +631,11 @@ Item
                         anchors.bottomMargin: 0
                         anchors.left: textLabelLoop6.right
                         anchors.leftMargin: 1
-                        width: 180
+                        width: textLoop1Name.width
+
                         id: textLoop6Name
                         text: theObject.LoopName6
-                        font.pixelSize: 24//18//14
+                        font.pixelSize: parent.height*0.0175//24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -657,7 +662,7 @@ Item
                                         radius: 5
                                         color: "light blue"
                                         implicitWidth: 90
-                                        implicitHeight: 30//25
+                                        implicitHeight: mainwindow.height/37//25
                                         border.color: "#333"
                                         border.width: 1
                                     }
@@ -668,9 +673,9 @@ Item
                     {
                         id: textLabelLoop7
                         x:2
-                        y:textLabelLoop6.y+40
+                        y:textLabelMatrix7.y
                         text: qsTr("Loop 7 Name: ")
-                        font.pixelSize: 20//16
+                        font.pixelSize: parent.height*0.0175//20//16
                     }
                     TextField
                     {
@@ -679,10 +684,11 @@ Item
                         anchors.bottomMargin: 0
                         anchors.left: textLabelLoop7.right
                         anchors.leftMargin: 1
-                        width: 180
+                        width: textLoop1Name.width
+
                         id: textLoop7Name
                         text: theObject.LoopName7
-                        font.pixelSize: 24//18//14
+                        font.pixelSize: parent.height*0.0175//24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -709,7 +715,7 @@ Item
                                         radius: 5
                                         color: "light blue"
                                         implicitWidth: 90
-                                        implicitHeight: 30//25
+                                        implicitHeight: mainwindow.height/37//25
                                         border.color: "#333"
                                         border.width: 1
                                     }
@@ -723,7 +729,7 @@ Item
                         y:textLabelMatrix8.y
                         //anchors.top: textLabelMatrix8.top
                         text: qsTr("Aux1 Name:")
-                        font.pixelSize: 20//16
+                        font.pixelSize: parent.height*0.0175//20//16
                     }
                     TextField
                     {
@@ -732,10 +738,11 @@ Item
                         anchors.bottomMargin: 0
                         anchors.left: textLabelAux1.right
                         anchors.leftMargin: 1
-                        width: 180
+                        width: textLoop1Name.width
+
                         id: textAux1Name
                         text: theObject.AuxName1
-                        font.pixelSize: 24//18//14
+                        font.pixelSize: parent.height*0.0175//24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -743,7 +750,7 @@ Item
                             theObject.onAuxName1Changed(text);
                             if(text.length <= 0)
                             {
-                                textLabelMatri8.visible = false;
+                                textLabelMatrix8.visible = false;
                                 comboBox8.visible = false;
                             }
                             else
@@ -762,7 +769,7 @@ Item
                                         radius: 5
                                         color: "light blue"
                                         implicitWidth: 90
-                                        implicitHeight: 30//25
+                                        implicitHeight: mainwindow.height/37//25
                                         border.color: "#333"
                                         border.width: 1
                                     }
@@ -773,9 +780,9 @@ Item
                     {
                         id: textLabelAux2
                         x:2
-                        y:textLabelAux1.y+40
+                        y:textLabelMatrix9.y
                         text: qsTr("Aux2 Name:")
-                        font.pixelSize: 20//16
+                        font.pixelSize: parent.height*0.0175//20//16
                     }
                     TextField
                     {
@@ -784,10 +791,11 @@ Item
                         anchors.bottomMargin: 0
                         anchors.left: textLabelAux2.right
                         anchors.leftMargin: 1
-                        width: 180
+                        width: textLoop1Name.width
+
                         id: textAux2Name
                         text: theObject.AuxName2
-                        font.pixelSize: 24//18//14
+                        font.pixelSize: parent.height*0.0175//24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -814,7 +822,7 @@ Item
                                         radius: 5
                                         color: "light blue"
                                         implicitWidth: 90
-                                        implicitHeight: 30//25
+                                        implicitHeight: mainwindow.height/37//25
                                         border.color: "#333"
                                         border.width: 1
                                     }
@@ -825,9 +833,9 @@ Item
                     {
                         id: textLabelAux3
                         x:2
-                        y:textLabelAux2.y+40
+                        y:textLabelMatrix10.y
                         text: qsTr("Aux3 Name:")
-                        font.pixelSize: 20//16
+                        font.pixelSize: parent.height*0.0175//20//16
                     }
                     TextField
                     {
@@ -836,10 +844,11 @@ Item
                         anchors.bottomMargin: 0
                         anchors.left: textLabelAux3.right
                         anchors.leftMargin: 1
-                        width: 180
+                        width: textLoop1Name.width
+
                         id: textAux3Name
                         text: theObject.AuxName3
-                        font.pixelSize: 24//18//14
+                        font.pixelSize: parent.height*0.0175//24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -866,7 +875,7 @@ Item
                                         radius: 5
                                         color: "light blue"
                                         implicitWidth: 90
-                                        implicitHeight: 30//25
+                                        implicitHeight: mainwindow.height/37//25
                                         border.color: "#333"
                                         border.width: 1
                                     }
@@ -877,9 +886,9 @@ Item
                     {
                         id: textLabelAux4
                         x:2
-                        y:textLabelAux3.y+40
+                        y:textLabelMatrix11.y
                         text: qsTr("Aux4 Name:")
-                        font.pixelSize: 20//16
+                        font.pixelSize: parent.height*0.0175//20//16
                     }
                     TextField
                     {
@@ -888,10 +897,11 @@ Item
                         anchors.bottomMargin: 0
                         anchors.left: textLabelAux4.right
                         anchors.leftMargin: 1
-                        width: 180
+                        width: textLoop1Name.width
+
                         id: textAux4Name
                         text: theObject.AuxName4
-                        font.pixelSize: 24//18//14
+                        font.pixelSize: parent.height*0.0175//24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -918,7 +928,7 @@ Item
                                         radius: 5
                                         color: "light blue"
                                         implicitWidth: 90
-                                        implicitHeight: 30//25
+                                        implicitHeight: mainwindow.height/37//25
                                         border.color: "#333"
                                         border.width: 1
                                     }
@@ -929,9 +939,11 @@ Item
                     {
                         id: textLabelFsw1
                         x:2
-                        y:textLabelSongFsw.y
+                        //y:textLabelSongFsw.y
+                        anchors.top: textLabelAux4.bottom
+                        anchors.topMargin: mainwindow.height/50
                         text: qsTr("Fsw1 Name:")
-                        font.pixelSize: 20//16
+                        font.pixelSize: parent.height*0.0175//20//16
                     }
                     TextField
                     {
@@ -940,10 +952,11 @@ Item
                         anchors.bottomMargin: 0
                         anchors.left: textLabelFsw1.right
                         anchors.leftMargin: 1
-                        width: 180
+                        width: textLoop1Name.width
+
                         id: textNameFsw1
                         text: theObject.FswName1
-                        font.pixelSize: 24//18//14
+                        font.pixelSize: parent.height*0.0175//24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -968,7 +981,7 @@ Item
                                         radius: 5
                                         color: "light blue"
                                         implicitWidth: 90
-                                        implicitHeight: 30//25
+                                        implicitHeight: mainwindow.height/37//25
                                         border.color: "#333"
                                         border.width: 1
                                     }
@@ -979,9 +992,9 @@ Item
                     {
                         id: textLabelFsw2
                         x:2
-                        y:textLabelFsw1.y+40
+                        y:textLabelFsw1.y+60
                         text: qsTr("Fsw2 Name:")
-                        font.pixelSize: 20//16
+                        font.pixelSize: parent.height*0.0175//20//16
                     }
                     TextField
                     {
@@ -990,10 +1003,11 @@ Item
                         anchors.bottomMargin: 0
                         anchors.left: textLabelFsw2.right
                         anchors.leftMargin: 1
-                        width: 180
+                        width: textLoop1Name.width
+
                         id: textNameFsw2
                         text: theObject.FswName2
-                        font.pixelSize: 24//18//14
+                        font.pixelSize: parent.height*0.0175//24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -1018,7 +1032,7 @@ Item
                                         radius: 5
                                         color: "light blue"
                                         implicitWidth: 90
-                                        implicitHeight: 30//25
+                                        implicitHeight: mainwindow.height/37//25
                                         border.color: "#333"
                                         border.width: 1
                                     }
@@ -1029,9 +1043,9 @@ Item
                     {
                         id: textLabelFsw3
                         x:2
-                        y:textLabelFsw2.y+40
+                        y:textLabelFsw2.y+60
                         text: qsTr("Fsw3 Name:")
-                        font.pixelSize: 20//16
+                        font.pixelSize: parent.height*0.0175//20//16
                     }
                     TextField
                     {
@@ -1040,10 +1054,11 @@ Item
                         anchors.bottomMargin: 0
                         anchors.left: textLabelFsw3.right
                         anchors.leftMargin: 1
-                        width: 180
+                        width: textLoop1Name.width
+
                         id: textNameFsw3
                         text: theObject.FswName3
-                        font.pixelSize: 24//18//14
+                        font.pixelSize: parent.height*0.0175//24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -1068,7 +1083,7 @@ Item
                                         radius: 5
                                         color: "light blue"
                                         implicitWidth: 90
-                                        implicitHeight: 30//25
+                                        implicitHeight: mainwindow.height/37//25
                                         border.color: "#333"
                                         border.width: 1
                                     }
@@ -1079,9 +1094,9 @@ Item
                     {
                         id: textLabelFsw4
                         x:2
-                        y:textLabelFsw3.y+40
+                        y:textLabelFsw3.y+60
                         text: qsTr("Fsw4 Name:")
-                        font.pixelSize: 20//16
+                        font.pixelSize: parent.height*0.0175//20//16
                     }
                     TextField
                     {
@@ -1090,10 +1105,11 @@ Item
                         anchors.bottomMargin: 0
                         anchors.left: textLabelFsw4.right
                         anchors.leftMargin: 1
-                        width: 180
+                        width: textLoop1Name.width
+
                         id: textNameFsw4
                         text: theObject.FswName4
-                        font.pixelSize: 24//18//14
+                        font.pixelSize: parent.height*0.0175//24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -1118,7 +1134,7 @@ Item
                                         radius: 5
                                         color: "light blue"
                                         implicitWidth: 90
-                                        implicitHeight: 30//25
+                                        implicitHeight: mainwindow.height/37//25
                                         border.color: "#333"
                                         border.width: 1
                                     }
@@ -1129,9 +1145,9 @@ Item
                     {
                         id: textLabelFsw5
                         x:2
-                        y:textLabelFsw4.y+40
+                        y:textLabelFsw4.y+60
                         text: qsTr("Fsw5 Name:")
-                        font.pixelSize: 20//16
+                        font.pixelSize: parent.height*0.0175//20//16
                     }
                     TextField
                     {
@@ -1140,10 +1156,11 @@ Item
                         anchors.bottomMargin: 0
                         anchors.left: textLabelFsw5.right
                         anchors.leftMargin: 1
-                        width: 180
+                        width: textLoop1Name.width
+
                         id: textNameFsw5
                         text: theObject.FswName5
-                        font.pixelSize: 24//18//14
+                        font.pixelSize: parent.height*0.0175//24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -1168,7 +1185,7 @@ Item
                                         radius: 5
                                         color: "light blue"
                                         implicitWidth: 90
-                                        implicitHeight: 30//25
+                                        implicitHeight: mainwindow.height/37//25
                                         border.color: "#333"
                                         border.width: 1
                                     }
@@ -1179,9 +1196,9 @@ Item
                     {
                         id: textLabelFsw6
                         x:2
-                        y:textLabelFsw5.y+40
+                        y:textLabelFsw5.y+60
                         text: qsTr("Fsw6 Name:")
-                        font.pixelSize: 20//16
+                        font.pixelSize: parent.height*0.0175//20//16
                     }
                     TextField
                     {
@@ -1190,10 +1207,11 @@ Item
                         anchors.bottomMargin: 0
                         anchors.left: textLabelFsw6.right
                         anchors.leftMargin: 1
-                        width: 180
+                        width: textLoop1Name.width
+
                         id: textNameFsw6
                         text: theObject.FswName6
-                        font.pixelSize: 24//18//14
+                        font.pixelSize: parent.height*0.0175//24//18//14
                         font.bold: true
                         maximumLength: 11
                         onTextChanged:
@@ -1218,7 +1236,7 @@ Item
                                         radius: 5
                                         color: "light blue"
                                         implicitWidth: 90
-                                        implicitHeight: 30//25
+                                        implicitHeight: mainwindow.height/37//25
                                         border.color: "#333"
                                         border.width: 1
                                     }
@@ -1230,11 +1248,13 @@ Item
                         id: buttonUpdateSettings
                         //y:552
                         //x:60
-                        width: 200
+                        //width: 200
+                        //height: 80
+                        width: mainwindow.windowWidth/2-30
+                        height: mainwindow.height/10
                         anchors.horizontalCenter: parent.horizontalCenter
                         anchors.bottomMargin: 5
                         anchors.bottom: parent.bottom
-                        height: 80
                         text: "Update Settings"
                         visible: true
                         onClicked: theObject.updateConfigDevice()
@@ -1252,12 +1272,13 @@ Item
                     //  SONG  SCREEN
                     //
                     id: rectSong
+                    objectName: "rectSongWindow"
                     border.width: 1
-                    width: 620//320
+                    width: mainwindow.windowWidth//620//320
                     height: parent.height
                     anchors.left: settingsview.right
                     anchors.top: settingsview.top;
-                    color: "#c0c0c0"
+                    color: "#30c0e0"
                     GridView
                     {
                         id: songview;
@@ -1272,7 +1293,7 @@ Item
                             y:0
                             text: qsTr("SONG INFO (#") +  qsTr(theObject.currentSong) +qsTr(")")
                             //text: qsTr("SONG INFO")
-                            font.pixelSize: 20
+                            font.pixelSize: parent.height*0.0175//20
                             font.bold: true
                             font.underline: true
                         }
@@ -1281,19 +1302,21 @@ Item
                         {
                             id: textLabelSongName
                             x:2
-                            y:textLabelSongTitle.y+30
+                            //y:textLabelSongTitle.y+mainwindow.height/50
+                            anchors.top: textLabelSongTitle.bottom
+                            anchors.topMargin: 10
                             text: qsTr("Name line 1: ")
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.0175//18//16//12
                         }
                         TextField
                         {
-                            placeholderText: "type here..."
-                            y:textLabelSongName.y+20//16
-                            x:5
-                            width: 250
                             id: textSongName
+                            placeholderText: "type here..."
+                            anchors.bottom: textLabelSongName.bottom
+                            anchors.left: textLabelSongName.right
+                            width: 250
                             text: theObject.SongName
-                            font.pixelSize: 24//18//14
+                            font.pixelSize: parent.height*0.0175//24//18//14
                             font.bold: true
                             maximumLength: 9
                             onTextChanged:
@@ -1310,7 +1333,7 @@ Item
                                             radius: 5
                                             color: "light blue"
                                             implicitWidth: 90
-                                            implicitHeight: 30//25
+                                            implicitHeight: mainwindow.height/37//30//25
                                             border.color: "#333"
                                             border.width: 1
                                         }
@@ -1328,7 +1351,7 @@ Item
                             anchors.top: textLabelSongName.bottom
                             height: 25
                             visible: true
-                            font.pixelSize: 24//18//14
+                            font.pixelSize: parent.height*0.0175//24//18//14
                             font.bold: true
                             maximumLength: 9
                             wrapMode: TextInput.NoWrap
@@ -1341,20 +1364,20 @@ Item
                         Text
                         {
                             id: textLabelPartName
-                            x:300
+                            anchors.left: textSongName.right
                             y:textLabelSongName.y//+20
                             text: qsTr("Name line 2: ")
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.0175//18//16//12
                         }
                         TextField
                         {
                             placeholderText: "type here..."
-                            y:textLabelPartName.y+20//16
-                            x:textLabelPartName.x+5
+                            anchors.bottom: textSongName.bottom//y:textLabelPartName.y+20//16
+                            anchors.left: textLabelPartName.right
                             width: 250
                             id: textPartName
                             text: theObject.PartName
-                            font.pixelSize: 24//18//14
+                            font.pixelSize: parent.height*0.0175//24//18//14
                             font.bold: true
                             maximumLength: 9
                             onTextChanged:
@@ -1371,7 +1394,7 @@ Item
                                             radius: 5
                                             color: "light blue"
                                             implicitWidth: 90
-                                            implicitHeight: 30//25
+                                            implicitHeight: mainwindow.height/37//30//25
                                             border.color: "#333"
                                             border.width: 1
                                         }
@@ -1389,7 +1412,7 @@ Item
                             anchors.top: textLabelPartName.bottom
                             height: 25
                             visible: true
-                            font.pixelSize: 24//18//14
+                            font.pixelSize: parent.height*0.0175//24//18//14
                             font.bold: true
                             maximumLength: 9
                             wrapMode: TextInput.NoWrap
@@ -1407,16 +1430,16 @@ Item
                             x:10
                             //y:100
                             anchors.top: textPartName.bottom
-                            anchors.topMargin: 10
+                            anchors.topMargin: mainwindow.height/37//17//5
                             text: qsTr("Main out<---")
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.0175//18//16//12
                         }
                         ComboBox {
                             id: comboBox0
                             anchors.left: textLabelMatrix0.right
                             anchors.bottom: textLabelMatrix0.bottom
                             anchors.bottomMargin: -3
-                            width: 250//150
+                            width: parent.width/2//parent.width/2//250//150
                             model: theObject.comboList0
                             editable: false
                             onCurrentIndexChanged:
@@ -1433,9 +1456,11 @@ Item
                             id: textLabelMatrix1
                             x:10
                             visible: false
-                            y:textLabelMatrix0.y+40
+                            //y:textLabelMatrix0.y+40
+                            anchors.top: textLabelMatrix0.bottom
+                            anchors.topMargin: mainwindow.height/50//5
                             text: textLoop1Name.text + qsTr(" <--- ");
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.0175//18//16//12
                         }
                         ComboBox
                         {
@@ -1443,7 +1468,7 @@ Item
                             anchors.left: textLabelMatrix1.right
                             anchors.bottom: textLabelMatrix1.bottom
                             anchors.bottomMargin: -3
-                            width: 250//150
+                            width: parent.width/2//250//150
                             visible: false
                             model: theObject.comboList1
                             editable: false
@@ -1459,10 +1484,12 @@ Item
                         {
                             id: textLabelMatrix2
                             x:10
-                            y:textLabelMatrix1.y+40
+                            //y:textLabelMatrix1.y+mainwindow.height/25//40
+                            anchors.top: textLabelMatrix1.bottom
+                            anchors.topMargin: mainwindow.height/50//5
                             visible: false
                             text: textLoop2Name.text + qsTr(" <--- ");
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.0175//18//16//12
                         }
                         ComboBox
                         {
@@ -1471,7 +1498,7 @@ Item
                             anchors.bottom: textLabelMatrix2.bottom
                             anchors.bottomMargin: -3
                             visible: false
-                            width: 250//150
+                            width: parent.width/2//250//150
                             model: theObject.comboList2
                             editable: false
                             onCurrentIndexChanged:
@@ -1487,9 +1514,11 @@ Item
                             id: textLabelMatrix3
                             x:10
                             visible: false
-                            y:textLabelMatrix2.y+40
+                            //y:textLabelMatrix2.y+mainwindow.height/25//40
+                            anchors.top: textLabelMatrix2.bottom
+                            anchors.topMargin: mainwindow.height/50//5
                             text: textLoop3Name.text + qsTr(" <--- ");
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.0175//18//16//12
                         }
                         ComboBox
                         {
@@ -1498,7 +1527,7 @@ Item
                             anchors.bottom: textLabelMatrix3.bottom
                             visible: false
                             anchors.bottomMargin: -3
-                            width: 250//150
+                            width: parent.width/2//250//150
                             model: theObject.comboList3
                             editable: false
                             onCurrentIndexChanged:
@@ -1513,10 +1542,12 @@ Item
                         {
                             id: textLabelMatrix4
                             x:10
-                            y:textLabelMatrix3.y+40
+                            //y:textLabelMatrix3.y+mainwindow.height/25//40
+                            anchors.top: textLabelMatrix3.bottom
+                            anchors.topMargin: mainwindow.height/50//5
                             visible: false
                             text: textLoop4Name.text + qsTr(" <--- ");
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.0175//18//16//12
                         }
                         ComboBox
                         {
@@ -1525,7 +1556,7 @@ Item
                             anchors.bottom: textLabelMatrix4.bottom
                             anchors.bottomMargin: -3
                             visible: false
-                            width: 250//150
+                            width: parent.width/2//250//150
                             model: theObject.comboList4
                             editable: false
                             onCurrentIndexChanged:
@@ -1541,9 +1572,11 @@ Item
                             id: textLabelMatrix5
                             x:10
                             visible: false
-                            y:textLabelMatrix4.y+40
+                            //y:textLabelMatrix4.y+40
+                            anchors.top: textLabelMatrix4.bottom
+                            anchors.topMargin: mainwindow.height/50//5
                             text: textLoop5Name.text + qsTr(" <--- ");
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.0175//18//16//12
                         }
                         ComboBox
                         {
@@ -1552,7 +1585,7 @@ Item
                             visible: false
                             anchors.bottom: textLabelMatrix5.bottom
                             anchors.bottomMargin: -3
-                            width: 250//150
+                            width: parent.width/2//250//150
                             model: theObject.comboList5
                             editable: false
                             onCurrentIndexChanged:
@@ -1568,9 +1601,11 @@ Item
                             id: textLabelMatrix6
                             x:10
                             visible: false
-                            y:textLabelMatrix5.y+40
+                            //y:textLabelMatrix5.y+40
+                            anchors.top: textLabelMatrix5.bottom
+                            anchors.topMargin: mainwindow.height/50//5
                             text: textLoop6Name.text + qsTr(" <--- ");
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.0175//18//16//12
                         }
                         ComboBox
                         {
@@ -1579,7 +1614,7 @@ Item
                             visible: false
                             anchors.bottom: textLabelMatrix6.bottom
                             anchors.bottomMargin: -3
-                            width: 250//150
+                            width: parent.width/2//250//150
                             model: theObject.comboList6
                             editable: false
                             onCurrentIndexChanged:
@@ -1594,9 +1629,11 @@ Item
                         {
                             id: textLabelMatrix7
                             x:10
-                            y:textLabelMatrix6.y+40
+                            //y:textLabelMatrix6.y+40
+                            anchors.top: textLabelMatrix6.bottom
+                            anchors.topMargin: mainwindow.height/50//5
                             text: textLoop7Name.text + qsTr(" <--- ");
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.0175//18//16//12
                             visible: false
                         }
                         ComboBox
@@ -1606,7 +1643,7 @@ Item
                             visible: false
                             anchors.bottom: textLabelMatrix7.bottom
                             anchors.bottomMargin: -3
-                            width: 250//150
+                            width: parent.width/2//250//150
                             model: theObject.comboList7
                             editable: false
                             onCurrentIndexChanged:
@@ -1624,9 +1661,11 @@ Item
                             id: textLabelMatrix8
                             x:10
                             visible: false
-                            y:textLabelMatrix7.y+30
+                            //y:textLabelMatrix7.y+45
+                            anchors.top: textLabelMatrix7.bottom
+                            anchors.topMargin: mainwindow.height/50//5
                             text: textAux1Name.text + qsTr(" <--- ");
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.0175//18//16//12
                         }
                         ComboBox
                         {
@@ -1634,7 +1673,7 @@ Item
                             anchors.left: textLabelMatrix8.right
                             anchors.bottom: textLabelMatrix8.bottom
                             anchors.bottomMargin: -3
-                            width: 250//150
+                            width: parent.width/2//250//150
                             visible: false
                             model: theObject.comboList8
                             editable: false
@@ -1651,10 +1690,12 @@ Item
                         {
                             id: textLabelMatrix9
                             x:10
-                            y:textLabelMatrix8.y+40
+                            //y:textLabelMatrix8.y+40
+                            anchors.top: textLabelMatrix8.bottom
+                            anchors.topMargin: mainwindow.height/50//5
                             visible: false
                             text: textAux2Name.text + qsTr(" <--- ");
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.0175//18//16//12
                         }
                         ComboBox
                         {
@@ -1663,7 +1704,7 @@ Item
                             anchors.bottom: textLabelMatrix9.bottom
                             visible: false
                             anchors.bottomMargin: -3
-                            width: 250//150
+                            width: parent.width/2//250//150
                             model: theObject.comboList9
                             editable: false
                             onCurrentIndexChanged:
@@ -1679,9 +1720,11 @@ Item
                             id: textLabelMatrix10
                             x:10
                             visible: false
-                            y:textLabelMatrix9.y+40
+                            //y:textLabelMatrix9.y+40
+                            anchors.top: textLabelMatrix9.bottom
+                            anchors.topMargin: mainwindow.height/50//5
                             text: textAux3Name.text + qsTr(" <--- ");
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.0175//18//16//12
                         }
                         ComboBox
                         {
@@ -1690,7 +1733,7 @@ Item
                             anchors.bottom: textLabelMatrix10.bottom
                             visible: false
                             anchors.bottomMargin: -3
-                            width: 250//150
+                            width: parent.width/2//250//150
                             model: theObject.comboList10
                             editable: false
                             onCurrentIndexChanged:
@@ -1705,10 +1748,12 @@ Item
                         {
                             id: textLabelMatrix11
                             x:10
-                            y:textLabelMatrix10.y+40
+                            //y:textLabelMatrix10.y+40
+                            anchors.top: textLabelMatrix10.bottom
+                            anchors.topMargin: mainwindow.height/50//5
                             visible: false
                             text: textAux4Name.text + qsTr(" <--- ");
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.0175//18//16//12
                         }
                         ComboBox
                         {
@@ -1716,7 +1761,7 @@ Item
                             anchors.left: textLabelMatrix11.right
                             anchors.bottom: textLabelMatrix11.bottom
                             anchors.bottomMargin: -3
-                            width: 250//150
+                            width: parent.width/2//250//150
                             visible: false
                             model: theObject.comboList11
                             editable: false
@@ -1737,7 +1782,7 @@ Item
                             x:10
                             y:textLabelMatrix11.y+40
                             text: qsTr("MIDI Msg: ")
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.0175//18//16//12
                             visible: false
                         }
                         TextField
@@ -1749,7 +1794,7 @@ Item
                             text: theObject.MidiMsg1
                             y:textLabelMidiMsg1.y
                             anchors.left: textLabelMidiMsg1.right
-                            font.pixelSize: 24//18//14
+                            font.pixelSize: parent.height*0.0175//24//18//14
                             font.bold: true
                             maximumLength: 9
                             visible: false
@@ -1767,7 +1812,7 @@ Item
                                             radius: 5
                                             color: "light blue"
                                             implicitWidth: 90
-                                            implicitHeight: 30//25
+                                            implicitHeight: mainwindow.height/37//25
                                             border.color: "#333"
                                             border.width: 1
                                         }
@@ -1782,7 +1827,7 @@ Item
                             width: top.width-10
                             height: 25
                             visible: true
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.0175//18//16//12
                             maximumLength: 31
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
@@ -1798,7 +1843,7 @@ Item
                             x:10
                             y:textMidiMsg1.y+18
                             text: qsTr("MIDI Msg 2: ")
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.0175//18//16//12
                         }
                         TextInput
                         {
@@ -1809,7 +1854,7 @@ Item
                             width: top.width-10
                             height: 25
                             visible: true
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.0175//18//16//12
                             maximumLength: 31
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
@@ -1824,7 +1869,7 @@ Item
                             x:10
                             y:textMidiMsg2.y+18
                             text: qsTr("MIDI Msg 3: ")
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.0175//18//16//12
                         }
                         TextInput
                         {
@@ -1835,7 +1880,7 @@ Item
                             width: top.width-10
                             height: 25
                             visible: true
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.0175//18//16//12
                             maximumLength: 31
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
@@ -1850,7 +1895,7 @@ Item
                             x:10
                             y:textMidiMsg3.y+18
                             text: qsTr("MIDI Msg 4: ")
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.0175//18//16//12
                         }
                         TextInput
                         {
@@ -1861,7 +1906,7 @@ Item
                             width: top.width-10
                             height: 25
                             visible: true
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.0175//18//16//12
                             maximumLength: 31
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
@@ -1877,7 +1922,7 @@ Item
                             x:10
                             y:textMidiMsg1.y+18
                             text: qsTr("MIDI Mode: ")
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.0175//18//16//12
                         }
                         ComboBox
                         {
@@ -1885,7 +1930,7 @@ Item
                             anchors.left: textLabelMidiMode.right
                             anchors.bottom: textLabelMidiMode.bottom
                             anchors.bottomMargin: -3
-                            width: 250//150
+                            width: parent.width/2//250//150
                             model: theObject.comboListMidiMode
                             editable: false
                             onCurrentIndexChanged:
@@ -1904,7 +1949,7 @@ Item
                             width: top.width-10
                             height: 25
                             visible: true
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.0175//18//16//12
                             maximumLength: 31
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
@@ -1917,15 +1962,17 @@ Item
                         {
                             id: textLabelSongFsw
                             x:10
-                            y:textLabelMatrix11.y+40
-                            text: qsTr("Footswitch Outputs: ")
-                            font.pixelSize: 18//16//12
+                            anchors.top: textLabelMatrix11.bottom
+                            anchors.topMargin: mainwindow.height/100//5
+                            //y:textLabelMatrix11.y+35
+                            text: qsTr("Footswitch Outputs (FORCE ON): ")
+                            font.pixelSize: parent.height*0.0175//18//16//12
                         }
                         CheckBox {
                             id: checkBoxFsw1
                             x: textLabelSongFsw.x
                             anchors.top: textLabelSongFsw.bottom
-                            anchors.topMargin: 1
+                            //anchors.topMargin: 1
                             visible: false
                             text: textNameFsw1.text
                             onCheckedChanged: theObject.fswOneCheckChanged(checkedState);
@@ -1936,8 +1983,8 @@ Item
                             id: checkBoxFsw2
                             x: checkBoxFsw1.x
                             anchors.top: checkBoxFsw1.bottom
+                            anchors.topMargin: -40
                             visible: false
-                            anchors.topMargin: 1
                             text: textNameFsw2.text
                             onCheckedChanged: theObject.fswTwoCheckChanged(checkedState);
                             onParentChanged:
@@ -1965,8 +2012,7 @@ Item
                             anchors.left: checkBoxFsw2.right
                             anchors.leftMargin: 5
                             visible: false
-                            anchors.top: checkBoxFsw3.bottom
-                            anchors.topMargin: 1
+                            anchors.top: checkBoxFsw2.top
                             text: textNameFsw4.text
                             onCheckedChanged: theObject.fswFourCheckChanged(checkedState);
                             onParentChanged:
@@ -1993,9 +2039,8 @@ Item
                             id: checkBoxFsw6
                             anchors.left: checkBoxFsw4.right
                             anchors.leftMargin: 5
-                            anchors.top: checkBoxFsw5.bottom
+                            anchors.top: checkBoxFsw2.top
                             visible: false
-                            anchors.topMargin: 1
                             text: textNameFsw6.text
                             onCheckedChanged: theObject.fswSixCheckChanged(checkedState);
                             onParentChanged:
@@ -2014,7 +2059,7 @@ Item
                             width: top.width-10
                             height: 25
                             visible: true
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.0175//18//16//12
                             maximumLength: 31
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
@@ -2028,9 +2073,9 @@ Item
                             id: textLabelSongBacklight
                             x:10
                             anchors.top: checkBoxFsw2.bottom
-                            anchors.topMargin: 8
+                            anchors.topMargin: mainwindow.height/50//5
                             text: qsTr("Backlight(song): ")
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.02//18//16//12
                         }
                         ComboBox
                         {
@@ -2038,7 +2083,7 @@ Item
                             anchors.left: textLabelSongBacklight.right
                             anchors.bottom: textLabelSongBacklight.bottom
                             anchors.bottomMargin: -3
-                            width: 250//150
+                            width: parent.width/2//250//150
                             model: theObject.comboListBacklight
                             editable: false
                             onCurrentIndexChanged:
@@ -2056,10 +2101,10 @@ Item
                             id: textLabelTrickMode
                             x:10
                             anchors.top: textLabelSongBacklight.bottom
-                            anchors.topMargin: 15
+                            anchors.topMargin: mainwindow.height/50//5
                             //textLabelSongBacklight.y+18
                             text: qsTr("Trick Shot Mode: ")
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.02//18//16//12
                         }
                         ComboBox
                         {
@@ -2067,7 +2112,7 @@ Item
                             anchors.left: textLabelTrickMode.right
                             anchors.bottom: textLabelTrickMode.bottom
                             anchors.bottomMargin: -3
-                            width: 200
+                            width: parent.width/2//250//1
                             model: theObject.comboListTrickMode1
                             editable: false
                             onCurrentIndexChanged:
@@ -2083,9 +2128,9 @@ Item
                             id: textLabelTrickData
                             x:10
                             anchors.top: textLabelTrickMode.bottom
-                            anchors.topMargin: 6
+                            anchors.topMargin: mainwindow.height/200//5
                             text: qsTr("Trick Shot Data: ")
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.02//18//16//12
                         }
                         TextField
                         {
@@ -2096,7 +2141,7 @@ Item
                             text: theObject.TrickData1
                             y:textLabelTrickData.y
                             anchors.left: textLabelTrickData.right
-                            font.pixelSize: 24//18//14
+                            font.pixelSize: parent.height*0.0175//24//18//14
                             font.bold: true
                             maximumLength: 9
                             onTextChanged:
@@ -2113,7 +2158,7 @@ Item
                                             radius: 5
                                             color: "light blue"
                                             implicitWidth: 90
-                                            implicitHeight: 30//25
+                                            implicitHeight: mainwindow.height/37//25
                                             border.color: "#333"
                                             border.width: 1
                                         }
@@ -2130,7 +2175,7 @@ Item
                             width: top.width-10
                             height: 25
                             visible: true
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.0175//18//16//12
                             maximumLength: 31
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
@@ -2144,9 +2189,9 @@ Item
                             id: textLabelDiveBombMode
                             x:10
                             anchors.top : textLabelTrickData.bottom
-                            anchors.topMargin: 20
+                            anchors.topMargin: mainwindow.height/30//5
                             text: qsTr("Dive Bomb Mode: ")
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.02//18//16//12
                         }
                         ComboBox
                         {
@@ -2154,7 +2199,7 @@ Item
                             anchors.left: textLabelDiveBombMode.right
                             anchors.bottom: textLabelDiveBombMode.bottom
                             anchors.bottomMargin: -3
-                            width: 200
+                            width: parent.width/2//250//1
                             model: theObject.comboListTrickMode2
                             editable: false
                             onCurrentIndexChanged:
@@ -2170,9 +2215,9 @@ Item
                             id: textLabelDiveBombData
                             x:10
                             anchors.top : textLabelDiveBombMode.bottom
-                            anchors.topMargin: 6
+                            anchors.topMargin: mainwindow.height/200//5
                             text: qsTr("Dive Bomb Data: ")
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.02//18//16//12
                         }
                         TextField
                         {
@@ -2183,7 +2228,7 @@ Item
                             text: theObject.TrickData2
                             y:textLabelDiveBombData.y
                             anchors.left: textLabelDiveBombData.right
-                            font.pixelSize: 24//18//14
+                            font.pixelSize: parent.height*0.0175//24//18//14
                             font.bold: true
                             maximumLength: 9
                             onTextChanged:
@@ -2200,7 +2245,7 @@ Item
                                             radius: 5
                                             color: "light blue"
                                             implicitWidth: 90
-                                            implicitHeight: 30//25
+                                            implicitHeight: mainwindow.height/37//25
                                             border.color: "#333"
                                             border.width: 1
                                         }
@@ -2216,7 +2261,7 @@ Item
                             width: top.width-10
                             height: 25
                             visible: true
-                            font.pixelSize: 18//16//12
+                            font.pixelSize: parent.height*0.0175//18//16//12
                             maximumLength: 31
                             wrapMode: TextInput.NoWrap
                             onTextChanged:
@@ -2230,40 +2275,40 @@ Item
                         {
                             id: buttonPreviousSong
                             anchors.top: textDiveBombData.bottom
-                            anchors.topMargin: 5
+                            //anchors.topMargin: mainwindow.height/50//5
                             anchors.left: parent.left
                             anchors.leftMargin: 1
-                            anchors.bottomMargin: 5
-                            width: 180
-                            height: 60
-                            text: "Previous Song"
+                            //anchors.bottomMargin: 5
+                            width: mainwindow.windowWidth/6
+                            height: mainwindow.height/15
+                            text: "<<"
                             visible: true
-                            onClicked: theObject.selectPreviousSong()
+                            onClicked: {
+                                theObject.selectPreviousSong()
+                            }
                         }
                         Button
                         {
                             id: buttonUpdateSong
-                            anchors.top: textDiveBombData.bottom
-                            anchors.topMargin: 5
+                            anchors.top: buttonPreviousSong.top
                             anchors.horizontalCenter: parent.horizontalCenter
-                            anchors.bottomMargin: 5
+                            //anchors.bottomMargin: 5
                             anchors.horizontalCenterOffset: 20
-                            width: 180
-                            height: 65
-                            text: "Update to\n   Device"
+                            width: mainwindow.windowWidth/2+20
+                            height: mainwindow.height/15
+                            text: "Update to Device"
                             visible: true
                             onClicked: theObject.updateSongDevice()
                         }
                         Button
                         {
                             id: buttonNextSong
-                            anchors.top: textDiveBombData.bottom
-                            anchors.topMargin: 5
+                            anchors.top: buttonPreviousSong.top
                             anchors.right: parent.right
                             anchors.rightMargin: 1
-                            width: 180
-                            height: 60
-                            text: "Next Song"
+                            width: mainwindow.windowWidth/6
+                            height: mainwindow.height/15
+                            text: ">>"
                             visible: true
                             onClicked: theObject.selectNextSong()
                         }
@@ -2274,7 +2319,7 @@ Item
                             anchors.left: parent.left
                             anchors.leftMargin: 1
                             width: parent.width - 2
-                            height:  54
+                            height:  mainwindow.height/15
                             border.width: 2
                             Label
                             {
@@ -2282,6 +2327,7 @@ Item
                                 anchors.bottomMargin: 2
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 text: "LOCAL \nBACKUP"
+                                font.pixelSize: mainwindow.height*0.02
 
                             }
 
@@ -2292,8 +2338,8 @@ Item
                                 anchors.bottomMargin: 2
                                 anchors.left: parent.left
                                 anchors.leftMargin: 3
-                                width: 220
-                                height: 50
+                                width: parent.width/3+50
+                                height: parent.height-4
                                 text: "Backup Song"
                                 visible: true
                                 onClicked: theObject.saveSong()
@@ -2305,8 +2351,8 @@ Item
                                 anchors.bottomMargin: 2
                                 anchors.right: parent.right
                                 anchors.rightMargin: 3
-                                width: 220
-                                height: 50
+                                width: parent.width/3+50
+                                height: parent.height-4
                                 text: "Restore Song"
                                 visible: true
                                 //onClicked: theObject.restoreSong()

@@ -1,6 +1,8 @@
 #include "myobject1.h"
 #include <QBluetoothAddress>
 #include <QtQuick/QQuickView>
+#include <QQmlApplicationEngine>
+//#include <QtQuick/QQuickItem>
 #include <QDir>
 
 MyObject1::MyObject1(QObject *parent) : QObject(parent)
@@ -42,7 +44,7 @@ MyObject1::MyObject1(QObject *parent) : QObject(parent)
 
     // ////////////////////////////////////////////////////////
     //temp - load dummy config for testing
-    //loadDummyConfig();
+    loadDummyConfig();
 
 
 }
@@ -246,6 +248,27 @@ void MyObject1::updateSongDisplay(void)
     emit SongChanged();
     updateComboBoxes();
     emit comboListChanged();
+
+    /* NOTHING WORKED
+    //change background color
+    QQmlApplicationEngine engine;
+    engine.load(QUrl(QStringLiteral("qrc:///scanner.qml")));
+    QMetaObject::invokeMethod(engine.rootObjects().first(), "changeColor");
+    */
+    /*
+    QQmlApplicationEngine engine;
+    engine.load(QUrl(QStringLiteral("qrc:///scanner.qml")));
+    QQuickItem *item = engine.rootObjects().at(0)->findChild<QQuickItem*>("rectSongWindow");
+    if (item){
+        if(myApp->ramSong.lcdBacklight == BACKLIGHT_RED) item->setProperty("color", QColor(Qt::yellow));
+        else if(myApp->ramSong.lcdBacklight == BACKLIGHT_BLUE) item->setProperty("color", QColor(Qt::yellow));
+        else if(myApp->ramSong.lcdBacklight == BACKLIGHT_GREEN) item->setProperty("color", QColor(Qt::yellow));
+        else if(myApp->ramSong.lcdBacklight == BACKLIGHT_REDBLUE) item->setProperty("color", QColor(Qt::yellow));
+        else if(myApp->ramSong.lcdBacklight == BACKLIGHT_REDGREEN) item->setProperty("color", QColor(Qt::yellow));
+        else if(myApp->ramSong.lcdBacklight == BACKLIGHT_BLUEGREEN) item->setProperty("color", QColor(Qt::yellow));
+        else if(myApp->ramSong.lcdBacklight == BACKLIGHT_WHITE) item->setProperty("color", QColor(Qt::yellow));
+    }
+    */
 }
 void MyObject1::updateSongDevice(void)
 {
