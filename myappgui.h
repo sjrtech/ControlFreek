@@ -47,12 +47,12 @@ typedef struct
 
 #define TRICK_MODE_NONE         0   //Trick shot button does nothing
 #define TRICK_MODE_SONG         1   //switch to a particulatar song, and then back when pressed again
-#define TRICK_MODE_SONG_MOMENT  2   //switch to a particulatar song, and then back when pressed again
-#define TRICK_MODE_LOOP_LATCH   3   //turn on a certain pedal loop - leave on until button pressed again
-#define TRICK_MODE_LOOP_MOMENT  4   //turn on a certain pedal loop - turn off when button *released*
-#define TRICK_MODE_FSW_LATCH    5   //turn on a footswitch - leave on until button pressed again
-#define TRICK_MODE_FSW_MOMENT   6   //turn on a footswitch - turn off when button *released*
-#define TRICK_MODE_MIDI_MSG     7   //send a MIDI message
+//#define TRICK_MODE_SONG_MOMENT  2   //switch to a particulatar song, and then back when pressed again
+//#define TRICK_MODE_LOOP_LATCH   3   //turn on a certain pedal loop - leave on until button pressed again
+//#define TRICK_MODE_LOOP_MOMENT  4   //turn on a certain pedal loop - turn off when button *released*
+#define TRICK_MODE_FSW_LATCH    2   //turn on a footswitch - leave on until button pressed again
+#define TRICK_MODE_FSW_MOMENT   3   //turn on a footswitch - turn off when button *released*
+//#define TRICK_MODE_MIDI_MSG     7   //send a MIDI message
 //more?
 
 //Error Codes:

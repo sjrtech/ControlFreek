@@ -22,29 +22,29 @@ MyObject1::MyObject1(QObject *parent) : QObject(parent)
 
     m_comboListTrickMode1.clear();
     m_comboListTrickMode1.insert(0, "OFF");
-    m_comboListTrickMode1.insert(1, "Latch new Song");
-    m_comboListTrickMode1.insert(2, "Momentary new Song");
-    m_comboListTrickMode1.insert(3, "Latch Add Loop");
-    m_comboListTrickMode1.insert(4, "Momentary Add Loop");
-    m_comboListTrickMode1.insert(5, "Latch Footswitch");
-    m_comboListTrickMode1.insert(6, "Momentary Footswitch");
-    m_comboListTrickMode1.insert(7, "Send MIDI Msg");
+    m_comboListTrickMode1.insert(1, "Jump to Song");
+    //m_comboListTrickMode1.insert(2, "Momentary new Song");
+    //m_comboListTrickMode1.insert(3, "Latch Add Loop");
+    //m_comboListTrickMode1.insert(4, "Momentary Add Loop");
+    m_comboListTrickMode1.insert(2, "Latch Footswitch");
+    m_comboListTrickMode1.insert(3, "Momentary Footswitch");
+    //m_comboListTrickMode1.insert(7, "Send MIDI Msg");
 
     m_comboListTrickMode2.clear();
     m_comboListTrickMode2.insert(0, "OFF");
-    m_comboListTrickMode2.insert(1, "Latch new Song");
-    m_comboListTrickMode2.insert(2, "Momentary new Song");
-    m_comboListTrickMode2.insert(3, "Latch Add Loop");
-    m_comboListTrickMode2.insert(4, "Momentary Add Loop");
-    m_comboListTrickMode2.insert(5, "Latch Footswitch");
-    m_comboListTrickMode2.insert(6, "Momentary Footswitch");
-    m_comboListTrickMode2.insert(7, "Send MIDI Msg");
+    m_comboListTrickMode2.insert(1, "Jump to Song");
+    //m_comboListTrickMode2.insert(2, "Momentary new Song");
+    //m_comboListTrickMode2.insert(3, "Latch Add Loop");
+    //m_comboListTrickMode2.insert(4, "Momentary Add Loop");
+    m_comboListTrickMode2.insert(2, "Latch Footswitch");
+    m_comboListTrickMode2.insert(3, "Momentary Footswitch");
+    //m_comboListTrickMode2.insert(7, "Send MIDI Msg");
 
 
 
     // ////////////////////////////////////////////////////////
     //temp - load dummy config for testing
-    loadDummyConfig();
+    //loadDummyConfig();
 
 
 }
@@ -1990,6 +1990,7 @@ void MyObject1::updateComboBoxes(void)
     else if(myApp->ramSong.lcdBacklight == BACKLIGHT_WHITE) ComboBacklight_index = 7;
     else ComboBacklight_index = 0;    //on error -OFF
 
+    /*
     // Trick shot 1
     if(myApp->ramSong.trickMode[0] == TRICK_MODE_NONE) ComboTrickMode1_index = 0;
     else if(myApp->ramSong.trickMode[0] == TRICK_MODE_SONG) ComboTrickMode1_index = 1;
@@ -2010,6 +2011,21 @@ void MyObject1::updateComboBoxes(void)
     else if(myApp->ramSong.trickMode[1] == TRICK_MODE_FSW_LATCH) ComboTrickMode2_index = 5;
     else if(myApp->ramSong.trickMode[1] == TRICK_MODE_FSW_MOMENT) ComboTrickMode2_index = 6;
     else if(myApp->ramSong.trickMode[1] == TRICK_MODE_MIDI_MSG) ComboTrickMode2_index = 7;
+    else ComboTrickMode2_index = 0;    //on error -OFF
+    */
+
+    // Trick shot 1
+    if(myApp->ramSong.trickMode[0] == TRICK_MODE_NONE) ComboTrickMode1_index = 0;
+    else if(myApp->ramSong.trickMode[0] == TRICK_MODE_SONG) ComboTrickMode1_index = 1;
+    else if(myApp->ramSong.trickMode[0] == TRICK_MODE_FSW_LATCH) ComboTrickMode1_index = 2;
+    else if(myApp->ramSong.trickMode[0] == TRICK_MODE_FSW_MOMENT) ComboTrickMode1_index = 3;
+    else ComboTrickMode1_index = 0;    //on error -OFF
+
+    // Trick shot 2 (Dive bomb)
+    if(myApp->ramSong.trickMode[1] == TRICK_MODE_NONE) ComboTrickMode2_index = 0;
+    else if(myApp->ramSong.trickMode[1] == TRICK_MODE_SONG) ComboTrickMode2_index = 1;
+    else if(myApp->ramSong.trickMode[1] == TRICK_MODE_FSW_LATCH) ComboTrickMode2_index = 2;
+    else if(myApp->ramSong.trickMode[1] == TRICK_MODE_FSW_MOMENT) ComboTrickMode2_index = 3;
     else ComboTrickMode2_index = 0;    //on error -OFF
 
     //Update the string lists
