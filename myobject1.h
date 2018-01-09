@@ -115,6 +115,7 @@ class MyObject1 : public QObject
     Q_PROPERTY(QString AuxName3 READ getAuxName3 NOTIFY ConfigChanged)
     Q_PROPERTY(QString AuxName4 READ getAuxName4 NOTIFY ConfigChanged)
 
+    Q_PROPERTY(QString strStatus READ getstrStatus NOTIFY ConfigChanged)
 
 public:
     explicit MyObject1(QObject *parent = 0);
@@ -130,6 +131,8 @@ public:
     bool bleWriteReady = false;
 
     QByteArray m_RecvData;
+
+    QString m_strStatus;    //comm status displayed message
 
     const QStringList comboList0();
     int combo0Index() { return Combo0_index;  }
@@ -330,6 +333,8 @@ public slots:
     QString getAuxName2(void) const;
     QString getAuxName3(void) const;
     QString getAuxName4(void) const;
+
+    QString getstrStatus(void) const;
 
     void onMainBacklightChanged(QString);
     void onCurrentSongChanged(QString);

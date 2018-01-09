@@ -301,11 +301,11 @@ Item
                     }
                     Text
                     {
-                        id: text1
+                        id: textStatus
                         x:2
                         y:textLabelSettingsTitle.y + 20
-                        text: qsTr("Backlight: ")
-                        visible: false
+                        text: theObject.strStatus;// qsTr("Status: -- ")
+                        visible: true
                         font.pixelSize: parent.height*0.0175//18//16//12
                     }
                     /*
@@ -315,7 +315,7 @@ Item
                         text: theObject.BacklightMain
                         anchors.left: text1.right
                         y:text1.y
-                        width: parent.width/2//250//150
+                        width: parent.width - parent.width/4
                         height: 20//16
                         visible: false
                         font.pixelSize: parent.height*0.0175//20//16
@@ -342,7 +342,7 @@ Item
                         text: theObject.currentSong
                         anchors.left: text2.right
                         y:text2.y
-                        width: parent.width/2//250//150
+                        width: parent.width - parent.width/4
                         height: 20//16
                         visible: false
                         font.pixelSize: parent.height*0.0175//20//16
@@ -1439,7 +1439,7 @@ Item
                             anchors.left: textLabelMatrix0.right
                             anchors.bottom: textLabelMatrix0.bottom
                             anchors.bottomMargin: -3
-                            width: parent.width/2//parent.width/2//250//150
+                            width: parent.width - parent.width/4
                             model: theObject.comboList0
                             editable: false
                             onCurrentIndexChanged:
@@ -1468,7 +1468,7 @@ Item
                             anchors.left: textLabelMatrix1.right
                             anchors.bottom: textLabelMatrix1.bottom
                             anchors.bottomMargin: -3
-                            width: parent.width/2//250//150
+                            width: parent.width - parent.width/4
                             visible: false
                             model: theObject.comboList1
                             editable: false
@@ -1498,7 +1498,7 @@ Item
                             anchors.bottom: textLabelMatrix2.bottom
                             anchors.bottomMargin: -3
                             visible: false
-                            width: parent.width/2//250//150
+                            width: parent.width - parent.width/4
                             model: theObject.comboList2
                             editable: false
                             onCurrentIndexChanged:
@@ -1527,7 +1527,7 @@ Item
                             anchors.bottom: textLabelMatrix3.bottom
                             visible: false
                             anchors.bottomMargin: -3
-                            width: parent.width/2//250//150
+                            width: parent.width - parent.width/4
                             model: theObject.comboList3
                             editable: false
                             onCurrentIndexChanged:
@@ -1556,7 +1556,7 @@ Item
                             anchors.bottom: textLabelMatrix4.bottom
                             anchors.bottomMargin: -3
                             visible: false
-                            width: parent.width/2//250//150
+                            width: parent.width - parent.width/4
                             model: theObject.comboList4
                             editable: false
                             onCurrentIndexChanged:
@@ -1585,7 +1585,7 @@ Item
                             visible: false
                             anchors.bottom: textLabelMatrix5.bottom
                             anchors.bottomMargin: -3
-                            width: parent.width/2//250//150
+                            width: parent.width - parent.width/4
                             model: theObject.comboList5
                             editable: false
                             onCurrentIndexChanged:
@@ -1614,7 +1614,7 @@ Item
                             visible: false
                             anchors.bottom: textLabelMatrix6.bottom
                             anchors.bottomMargin: -3
-                            width: parent.width/2//250//150
+                            width: parent.width - parent.width/4
                             model: theObject.comboList6
                             editable: false
                             onCurrentIndexChanged:
@@ -1643,7 +1643,7 @@ Item
                             visible: false
                             anchors.bottom: textLabelMatrix7.bottom
                             anchors.bottomMargin: -3
-                            width: parent.width/2//250//150
+                            width: parent.width - parent.width/4
                             model: theObject.comboList7
                             editable: false
                             onCurrentIndexChanged:
@@ -1673,7 +1673,7 @@ Item
                             anchors.left: textLabelMatrix8.right
                             anchors.bottom: textLabelMatrix8.bottom
                             anchors.bottomMargin: -3
-                            width: parent.width/2//250//150
+                            width: parent.width - parent.width/4
                             visible: false
                             model: theObject.comboList8
                             editable: false
@@ -1704,7 +1704,7 @@ Item
                             anchors.bottom: textLabelMatrix9.bottom
                             visible: false
                             anchors.bottomMargin: -3
-                            width: parent.width/2//250//150
+                            width: parent.width - parent.width/4
                             model: theObject.comboList9
                             editable: false
                             onCurrentIndexChanged:
@@ -1733,7 +1733,7 @@ Item
                             anchors.bottom: textLabelMatrix10.bottom
                             visible: false
                             anchors.bottomMargin: -3
-                            width: parent.width/2//250//150
+                            width: parent.width - parent.width/4
                             model: theObject.comboList10
                             editable: false
                             onCurrentIndexChanged:
@@ -1761,7 +1761,7 @@ Item
                             anchors.left: textLabelMatrix11.right
                             anchors.bottom: textLabelMatrix11.bottom
                             anchors.bottomMargin: -3
-                            width: parent.width/2//250//150
+                            width: parent.width - parent.width/4
                             visible: false
                             model: theObject.comboList11
                             editable: false
@@ -1930,7 +1930,7 @@ Item
                             anchors.left: textLabelMidiMode.right
                             anchors.bottom: textLabelMidiMode.bottom
                             anchors.bottomMargin: -3
-                            width: parent.width/2//250//150
+                            width: parent.width - parent.width/4
                             model: theObject.comboListMidiMode
                             editable: false
                             onCurrentIndexChanged:
@@ -2083,7 +2083,7 @@ Item
                             anchors.left: textLabelSongBacklight.right
                             anchors.bottom: textLabelSongBacklight.bottom
                             anchors.bottomMargin: -3
-                            width: parent.width/2//250//150
+                            width: parent.width - parent.width/4
                             model: theObject.comboListBacklight
                             editable: false
                             onCurrentIndexChanged:
@@ -2112,7 +2112,7 @@ Item
                             anchors.left: textLabelTrickMode.right
                             anchors.bottom: textLabelTrickMode.bottom
                             anchors.bottomMargin: -3
-                            width: parent.width/2//250//1
+                            width: parent.width - parent.width/4
                             model: theObject.comboListTrickMode1
                             editable: false
                             onCurrentIndexChanged:
@@ -2199,7 +2199,7 @@ Item
                             anchors.left: textLabelDiveBombMode.right
                             anchors.bottom: textLabelDiveBombMode.bottom
                             anchors.bottomMargin: -3
-                            width: parent.width/2//250//1
+                            width: parent.width - parent.width/4
                             model: theObject.comboListTrickMode2
                             editable: false
                             onCurrentIndexChanged:

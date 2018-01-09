@@ -40,7 +40,7 @@ MyObject1::MyObject1(QObject *parent) : QObject(parent)
     m_comboListTrickMode2.insert(3, "Momentary Footswitch");
     //m_comboListTrickMode2.insert(7, "Send MIDI Msg");
 
-
+    m_strStatus = "Status: Waiting for connect...";
 
     // ////////////////////////////////////////////////////////
     //temp - load dummy config for testing
@@ -63,7 +63,7 @@ void MyObject1::foo(QString MAC, QString name)
 void MyObject1::bleConnected()
 {
     qDebug() << "bleConnected()";
-
+    m_strStatus = "Status: Device connected...";
 
     bleCentral->discoverServices();
     connect(bleCentral, SIGNAL(serviceDiscovered(QBluetoothUuid)), this, SLOT(addService(QBluetoothUuid)));
@@ -94,6 +94,8 @@ void MyObject1::addService(QBluetoothUuid uuid)
     }
 
     qDebug() << "Service Created: " << uuid2;
+    m_strStatus = "Status: Getting Device Info...";
+    emit ConfigChanged();
 
 }
 void MyObject1::discoveryDone()
@@ -193,6 +195,8 @@ void MyObject1::bleServiceChanged(QLowEnergyService::ServiceState a)
     m_timerBLE->start(2000); //mSec
     */
 
+    //m_strStatus = "Status: Connected!!  Getting pedal config...";
+    m_strStatus = "Status: BLE active......";
 
     //myApp->sendStatus();
     myApp->sendRequestForConfigBlock();
@@ -203,7 +207,6 @@ void MyObject1::readBLE(void)
 {
     qDebug() << "readBLE(): readCharacteristic <- " << bleIncludedChars.value(0).uuid().toString();
     service->readCharacteristic(bleIncludedChars.value(0));
-
 }
 
 void MyObject1::dataReadCB(QLowEnergyCharacteristic c, QByteArray data)
@@ -217,6 +220,11 @@ void MyObject1::dataReadCB(QLowEnergyCharacteristic c, QByteArray data)
 
     //emit SongChanged();     //temp?? Where should I put this round about way of updating data Qt?  This is the ONLY place it works, but NOT CORRECT!!
 
+    /*
+    if(m_strStatus != "Status: BLE active......") m_strStatus = "Status: BLE active......";
+    else m_strStatus != "Status: BLE active...   ";
+    emit ConfigChanged();
+    */
 
     //temp -= READ AGAIN
     //to do: this should be called on a timer?
@@ -1765,6 +1773,10 @@ void MyObject1::onAuxName4Changed(QString str)
             strcpy((char*)myApp->ramSettings.auxOutName[3], buffer );
         }
     }
+}
+QString MyObject1::getstrStatus(void) const
+{
+    return m_strStatus;
 }
 
 

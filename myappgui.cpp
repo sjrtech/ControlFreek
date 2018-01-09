@@ -375,7 +375,7 @@ void MyAppGui::receiveConfigBlock(unsigned char* packet)
 }
 void MyAppGui::receiveStatus(unsigned char* packet)
 {
-    //if we didn't change it - set the local "song" numbe to what the Status says (if we set it, there may be old packets comin in, we shuld ignore)
+    //if we didn't change it - set the local "song" number to what the Status says (if we set it, there may be old packets comin in, we should ignore)
     if(m_mode == MODE_CHANGE_SONG)
     {
         //does Song in status match what we set??
