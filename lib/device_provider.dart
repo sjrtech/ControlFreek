@@ -119,6 +119,7 @@ class DeviceProvider extends ChangeNotifier {
   // ─── Device actions ───────────────────────────────────────────────────────────
 
   void updateSongToDevice() {
+    debugPrint('updateSongToDevice: isConnected=$isConnected song=${settings.currentSong}');
     if (!isConnected) return;
     _proto.updateSongToDevice();
     statusMessage = 'Sending song…';

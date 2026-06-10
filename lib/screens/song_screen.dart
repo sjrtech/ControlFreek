@@ -70,27 +70,7 @@ class SongScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 8),
               children: [
                 _section('Song Info'),
-                _strField('Song Name', song.name, (v) { song.name = v; notify(); }, maxLen: 31),
-                _strField('Part', song.partname, (v) { song.partname = v; notify(); }, maxLen: 31),
-                _section('Footswitches'),
-                _FswRow(
-                  initialValue: song.footswitch,
-                  names: List.generate(6, (i) {
-                    final n = settings.getFswName(i);
-                    return n.isNotEmpty ? n : 'Fsw ${i + 1}';
-                  }),
-                  onChange: (v) { song.footswitch = v; notify(); },
-                ),
-                _section('Backlight'),
-                _colorField('Color', song.backlight, (v) { song.backlight = v; notify(); }),
-                _section('Trick Shot'),
-                _dropField('Mode', song.trickMode.clamp(0, _trickModeNames.length - 1),
-                    _trickModeNames, (v) { song.trickMode = v; notify(); }),
-                _numField('Data', song.trickData, (v) { song.trickData = v; notify(); }),
-                _section('Dive Bomb'),
-                _dropField('Mode', song.diveBombMode.clamp(0, _trickModeNames.length - 1),
-                    _trickModeNames, (v) { song.diveBombMode = v; notify(); }),
-                _numField('Data', song.diveBombData, (v) { song.diveBombData = v; notify(); }),
+                _NameFieldsBox(song: song, notify: notify),
                 _section('Matrix'),
                 _matrixDropField(0, 'Main Out ←', song, settings, notify),
                 for (int i = 0; i < 7; i++)
@@ -99,6 +79,24 @@ class SongScreen extends StatelessWidget {
                 for (int i = 0; i < 4; i++)
                   if (settings.getAuxName(i).isNotEmpty)
                     _matrixDropField(i + 8, '${settings.getAuxName(i)} ←', song, settings, notify),
+                _section('Footswitch Outputs (FORCE ON):'),
+                _FswRow(
+                  initialValue: song.footswitch,
+                  names: List.generate(6, (i) {
+                    final n = settings.getFswName(i);
+                    return n.isNotEmpty ? n : 'Fsw ${i + 1}';
+                  }),
+                  onChange: (v) { song.footswitch = v; notify(); },
+                ),
+                _colorField('Backlight(song):', song.backlight, (v) { song.backlight = v; notify(); }),
+                _section('Trick Shot'),
+                _dropField('Mode', song.trickMode.clamp(0, _trickModeNames.length - 1),
+                    _trickModeNames, (v) { song.trickMode = v; notify(); }),
+                _numField('Data', song.trickData, (v) { song.trickData = v; notify(); }),
+                _section('Dive Bomb'),
+                _dropField('Mode', song.diveBombMode.clamp(0, _trickModeNames.length - 1),
+                    _trickModeNames, (v) { song.diveBombMode = v; notify(); }),
+                _numField('Data', song.diveBombData, (v) { song.diveBombData = v; notify(); }),
                 const SizedBox(height: 80),
               ],
             ),
@@ -126,8 +124,8 @@ class SongScreen extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8)),
                       ),
-                      child: const Text('Update Song',
-                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                      child: const Text('Update to Device',
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -154,26 +152,83 @@ Widget _section(String title) => Padding(
       child: Text(
         title,
         style: const TextStyle(
-            fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey),
+            fontSize: 15, fontWeight: FontWeight.bold, color: Colors.grey),
       ),
     );
 
-Widget _strField(String label, String value, void Function(String) onChange,
-        {int maxLen = 31}) =>
-    _FieldRow(
-      label: label,
-      child: TextFormField(
-        initialValue: value,
-        maxLength: maxLen,
-        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-        decoration: const InputDecoration(
-          isDense: true,
-          counterText: '',
-          border: InputBorder.none,
-        ),
-        onChanged: onChange,
+class _NameFieldsBox extends StatelessWidget {
+  final SongModel song;
+  final VoidCallback notify;
+
+  const _NameFieldsBox({required this.song, required this.notify});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      child: Row(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 28,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text('Name line 1:', style: const TextStyle(fontSize: 15, color: Colors.grey)),
+                ),
+              ),
+              SizedBox(
+                height: 28,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text('Name line 2:', style: const TextStyle(fontSize: 15, color: Colors.grey)),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: Column(
+                children: [
+                  _inputField(song.name, (v) { song.name = v; notify(); }),
+                  _inputField(song.partname, (v) { song.partname = v; notify(); }),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
+  }
+
+  Widget _inputField(String value, void Function(String) onChange) =>
+      SizedBox(
+        height: 28,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: TextFormField(
+            initialValue: value,
+            maxLength: 31,
+            style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+            decoration: const InputDecoration(
+              isDense: true,
+              counterText: '',
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.zero,
+            ),
+            onChanged: onChange,
+          ),
+        ),
+      );
+}
+
 
 Widget _numField(String label, int value, void Function(int) onChange) =>
     _FieldRow(
@@ -183,7 +238,7 @@ Widget _numField(String label, int value, void Function(int) onChange) =>
         keyboardType: TextInputType.number,
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         maxLength: 3,
-        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+        style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
         decoration: const InputDecoration(
           isDense: true,
           counterText: '',
@@ -203,7 +258,7 @@ Widget _colorField(String label, int rawByte, void Function(int) onChange) =>
         value: _backlightIndex(rawByte),
         isExpanded: true,
         underline: const SizedBox(),
-        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
+        style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.white),
         items: [
           for (int i = 0; i < _colorNames.length; i++)
             DropdownMenuItem(value: i, child: Text(_colorNames[i])),
@@ -222,7 +277,7 @@ Widget _dropField(
         value: value,
         isExpanded: true,
         underline: const SizedBox(),
-        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
+        style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.white),
         items: [
           for (int i = 0; i < options.length; i++)
             DropdownMenuItem(value: i, child: Text(options[i])),
@@ -244,7 +299,7 @@ Widget _matrixDropField(
       value: selIdx,
       isExpanded: true,
       underline: const SizedBox(),
-      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
+      style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.white),
       items: [
         for (int i = 0; i < opts.length; i++)
           DropdownMenuItem(value: i, child: Text(opts[i].name)),
@@ -298,7 +353,7 @@ class _FswRowState extends State<_FswRow> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(widget.names[i],
-                    style: const TextStyle(fontSize: 10, color: Colors.grey)),
+                    style: const TextStyle(fontSize: 13, color: Colors.grey)),
                 Checkbox(
                   value: (_value >> i) & 1 == 1,
                   onChanged: (v) {
@@ -331,7 +386,7 @@ class _LocalBackupBar extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text('LOCAL BACKUP',
-              style: TextStyle(fontSize: 11, color: Colors.grey.shade500)),
+              style: TextStyle(fontSize: 14, color: Colors.grey.shade500)),
           const SizedBox(height: 4),
           Row(
             children: [
@@ -411,7 +466,7 @@ class _FieldRow extends StatelessWidget {
           SizedBox(
             width: 120,
             child: Text(label,
-                style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                style: const TextStyle(fontSize: 15, color: Colors.grey)),
           ),
           Expanded(child: child),
         ],
