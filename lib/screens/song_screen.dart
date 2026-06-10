@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -140,6 +142,7 @@ class SongScreen extends StatelessWidget {
               ),
             ),
           ),
+          _LocalBackupBar(),
         ],
       ),
     );
@@ -308,6 +311,81 @@ class _FswRowState extends State<_FswRow> {
                 ),
               ],
             ),
+        ],
+      ),
+    );
+  }
+}
+
+class _LocalBackupBar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final p = context.read<DeviceProvider>();
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+      decoration: BoxDecoration(
+        border: Border(top: BorderSide(color: Colors.grey.shade700, width: 1)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text('LOCAL BACKUP',
+              style: TextStyle(fontSize: 11, color: Colors.grey.shade500)),
+          const SizedBox(height: 4),
+          Row(
+            children: [
+              Expanded(
+                child: OutlinedButton(
+                  child: const Text('Backup Song'),
+                  onPressed: () async {
+                    try {
+                      final path = await p.saveSong();
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Saved to $path')),
+                        );
+                      }
+                    } catch (e) {
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Backup failed: $e')),
+                        );
+                      }
+                    }
+                  },
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: OutlinedButton(
+                  child: const Text('Restore Song'),
+                  onPressed: () async {
+                    final result = await FilePicker.platform.pickFiles(
+                      type: FileType.custom,
+                      allowedExtensions: ['cfk'],
+                    );
+                    if (result == null) return;
+                    try {
+                      final bytes = await File(result.files.single.path!).readAsBytes();
+                      p.restoreSongFromBytes(bytes);
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Song restored')),
+                        );
+                      }
+                    } catch (e) {
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Restore failed: $e')),
+                        );
+                      }
+                    }
+                  },
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );

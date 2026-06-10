@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:path_provider/path_provider.dart';
 import 'ble_service.dart';
 import 'protocol.dart';
 import 'models.dart';
@@ -139,6 +141,26 @@ class DeviceProvider extends ChangeNotifier {
   void prevSong() {
     if (!isConnected) return;
     _proto.gotoPreviousSong();
+    notifyListeners();
+  }
+
+  // ─── Local backup ─────────────────────────────────────────────────────────────
+
+  Future<String> saveSong() async {
+    final dir = await getApplicationDocumentsDirectory();
+    final songNum = settings.currentSong.toString().padLeft(3, '0');
+    final path = '${dir.path}/song_$songNum.cfk';
+    await File(path).writeAsBytes(song.bytes);
+    statusMessage = 'Song backed up to $path';
+    notifyListeners();
+    return path;
+  }
+
+  void restoreSongFromBytes(Uint8List data) {
+    final len = data.length < kSongSize ? data.length : kSongSize;
+    song.bytes.setRange(0, len, data);
+    songLoadCount++;
+    statusMessage = 'Song restored from backup';
     notifyListeners();
   }
 
