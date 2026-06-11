@@ -120,6 +120,7 @@ class SongScreen extends StatelessWidget {
                       onPressed: p.isConnected ? p.updateSongToDevice : null,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF1c56f3),
+                        foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8)),
@@ -213,10 +214,14 @@ class _NameFieldsBox extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: TextFormField(
-            initialValue: value,
+            initialValue: value.toUpperCase(),
             maxLength: 31,
             style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
+            textAlign: TextAlign.left,
+            inputFormatters: [
+              TextInputFormatter.withFunction((oldValue, newValue) =>
+                  newValue.copyWith(text: newValue.text.toUpperCase())),
+            ],
             decoration: const InputDecoration(
               isDense: true,
               counterText: '',
