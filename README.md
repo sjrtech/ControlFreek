@@ -1,17 +1,4 @@
-# stompbox_scanner
+# ControlFreek
+What is Control Freek? An electric guitar effects pedal controller.  
+Similar in function to Boss(tm) ES-8, BUT the Control Freek uses two pieces: a breakout box and a stompbox to allow the effects pedals to be mounted on a shelf or rack drawer AT ARMS REACH - WITHOUT BENDING OVER TO TURN KNOBS and still providing foot switch controls.
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
