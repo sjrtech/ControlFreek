@@ -78,7 +78,7 @@ class DeviceProvider extends ChangeNotifier {
     notifyListeners();
 
     _autoConnectTimer?.cancel();
-    _autoConnectTimer = Timer(const Duration(seconds: 5), _onScanTimeout);
+    _autoConnectTimer = Timer(const Duration(seconds: 15), _onScanTimeout);
 
     try {
       await _ble.startScan();

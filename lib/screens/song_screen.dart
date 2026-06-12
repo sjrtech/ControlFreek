@@ -17,7 +17,32 @@ int _backlightIndex(int raw) {
   return i >= 0 ? i : 0;
 }
 
-const _trickModeNames = ['Off', 'Jump to Song', 'Latch Footswitch', 'Momentary Footswitch'];
+// Convert the 2-bit-per-channel backlight byte to a pastel Flutter Color.
+// Bits[5:4]=R, [3:2]=G, [1:0]=B; each 2-bit value → 0/85/170/255.
+// Off (0) → light gray. Colors are blended 70% toward white for readability.
+Color _backlightToColor(int raw) {
+  final r = ((raw >> 4) & 0x3) * 85;
+  final g = ((raw >> 2) & 0x3) * 85;
+  final b = (raw & 0x3) * 85;
+  if (r == 0 && g == 0 && b == 0) return Colors.grey.shade200;
+  return Color.fromRGBO(
+    r + ((255 - r) * 0.7).round(),
+    g + ((255 - g) * 0.7).round(),
+    b + ((255 - b) * 0.7).round(),
+    1.0,
+  );
+}
+
+const _trickModeNames = [
+  'Off',              // 0
+  'Song - Latch',     // 1
+  'Song - Momentary', // 2
+  'Loop - Latch',     // 3
+  'Loop - Momentary', // 4
+  'FSW - Latch',      // 5
+  'FSW - Momentary',  // 6
+  'MIDI Message',     // 7
+];
 
 // Matrix source byte values: 0=not used, 1=MAIN IN, 2=Loop1, 4=Loop2, ..., 128=Loop7
 const _loopSourceValues = [2, 4, 8, 16, 32, 64, 128];
@@ -71,17 +96,18 @@ class SongScreen extends StatelessWidget {
               key: ValueKey(p.songLoadCount),
               padding: const EdgeInsets.symmetric(vertical: 8),
               children: [
-                _section('Song Info'),
+                _dividerSection('SONG NAME'),
                 _NameFieldsBox(song: song, notify: notify),
-                _section('Matrix'),
-                _matrixDropField(0, 'Main Out ←', song, settings, notify),
+                _dividerSection('LOOPS'),
+                _matrixDropField(0, 'Main Out ←', song, settings, notify, divider: false, labelAlign: TextAlign.right),
                 for (int i = 0; i < 7; i++)
                   if (settings.getLoopName(i).isNotEmpty)
-                    _matrixDropField(i + 1, '${settings.getLoopName(i)} ←', song, settings, notify),
+                    _matrixDropField(i + 1, '${settings.getLoopName(i)} ←', song, settings, notify, divider: false, labelAlign: TextAlign.right),
+                _dividerSection('AUX'),
                 for (int i = 0; i < 4; i++)
                   if (settings.getAuxName(i).isNotEmpty)
-                    _matrixDropField(i + 8, '${settings.getAuxName(i)} ←', song, settings, notify),
-                _section('Footswitch Outputs (FORCE ON):'),
+                    _matrixDropField(i + 8, '${settings.getAuxName(i)} ←', song, settings, notify, divider: false, labelAlign: TextAlign.right),
+                _dividerSection('FOOTSWITCH'),
                 _FswRow(
                   initialValue: song.footswitch,
                   names: List.generate(6, (i) {
@@ -90,15 +116,18 @@ class SongScreen extends StatelessWidget {
                   }),
                   onChange: (v) { song.footswitch = v; notify(); },
                 ),
-                _colorField('Backlight(song):', song.backlight, (v) { song.backlight = v; notify(); }),
-                _section('Trick Shot'),
+                _dividerSection('BACKLIGHT'),
+                _colorField('', song.backlight, (v) { song.backlight = v; notify(); }),
+                _dividerSection('TRICK SHOT'),
                 _dropField('Mode', song.trickMode.clamp(0, _trickModeNames.length - 1),
                     _trickModeNames, (v) { song.trickMode = v; notify(); }),
-                _numField('Data', song.trickData, (v) { song.trickData = v; notify(); }),
-                _section('Dive Bomb'),
+                ..._trickDataWidgets(song.trickMode, song.trickData, settings,
+                    notify, (v) { song.trickData = v; }),
+                _dividerSection('DIVE BOMB'),
                 _dropField('Mode', song.diveBombMode.clamp(0, _trickModeNames.length - 1),
                     _trickModeNames, (v) { song.diveBombMode = v; notify(); }),
-                _numField('Data', song.diveBombData, (v) { song.diveBombData = v; notify(); }),
+                ..._trickDataWidgets(song.diveBombMode, song.diveBombData, settings,
+                    notify, (v) { song.diveBombData = v; }),
                 const SizedBox(height: 80),
               ],
             ),
@@ -150,14 +179,28 @@ class SongScreen extends StatelessWidget {
   }
 }
 
-Widget _section(String title) => Padding(
+Widget _dividerSection(String title) => Padding(
       padding: const EdgeInsets.fromLTRB(12, 14, 12, 2),
-      child: Text(
-        title,
-        style: const TextStyle(
-            fontSize: 15, fontWeight: FontWeight.bold, color: Colors.grey),
+      child: Row(
+        children: [
+          const Expanded(child: Divider(color: Colors.grey)),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Text(
+              title,
+              style: const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey,
+                letterSpacing: 6,
+              ),
+            ),
+          ),
+          const Expanded(child: Divider(color: Colors.grey)),
+        ],
       ),
     );
+
 
 class _NameFieldsBox extends StatelessWidget {
   final SongModel song;
@@ -167,45 +210,51 @@ class _NameFieldsBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final boxWidth = MediaQuery.of(context).size.width * 0.35;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      child: Row(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 28,
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text('Name line 1:', style: const TextStyle(fontSize: 15, color: Colors.grey)),
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Center(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 28,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text('Name line 1:', style: const TextStyle(fontSize: 15, color: Colors.grey)),
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 28,
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text('Name line 2:', style: const TextStyle(fontSize: 15, color: Colors.grey)),
+                SizedBox(
+                  height: 28,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text('Name line 2:', style: const TextStyle(fontSize: 15, color: Colors.grey)),
+                  ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Column(
-                children: [
-                  _inputField(song.name, (v) { song.name = v; notify(); }),
-                  _inputField(song.partname, (v) { song.partname = v; notify(); }),
-                ],
+              ],
+            ),
+            const SizedBox(width: 8),
+            SizedBox(
+              width: boxWidth,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: _backlightToColor(song.backlight),
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Column(
+                  children: [
+                    _inputField(song.name, (v) { song.name = v; notify(); }),
+                    _inputField(song.partname, (v) { song.partname = v; notify(); }),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -218,7 +267,8 @@ class _NameFieldsBox extends StatelessWidget {
           child: TextFormField(
             initialValue: value.toUpperCase(),
             maxLength: 31,
-            style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.black),
+            cursorColor: Colors.black,
             textAlign: TextAlign.left,
             inputFormatters: [
               TextInputFormatter.withFunction((oldValue, newValue) {
@@ -300,12 +350,14 @@ Widget _dropField(
     );
 
 Widget _matrixDropField(
-  int matIdx, String label, SongModel song, SettingsModel s, VoidCallback notify,
+  int matIdx, String label, SongModel song, SettingsModel s, VoidCallback notify, {bool divider = true, TextAlign labelAlign = TextAlign.left}
 ) {
   final opts = _buildMatrixOptions(matIdx, s);
   final selIdx = _matrixDropIdx(song.getMatrix(matIdx), opts);
   return _FieldRow(
     label: label,
+    divider: divider,
+    labelAlign: labelAlign,
     child: DropdownButton<int>(
       value: selIdx,
       isExpanded: true,
@@ -323,6 +375,66 @@ Widget _matrixDropField(
       },
     ),
   );
+}
+
+List<Widget> _trickDataWidgets(
+  int mode, int data, SettingsModel settings, VoidCallback notify, void Function(int) set,
+) {
+  switch (mode) {
+    case 1:
+    case 2: // Song latch / momentary — song number 1-120
+      return [_numField('Song #', data.clamp(1, 120), (v) { set(v.clamp(1, 120)); notify(); })];
+
+    case 3:
+    case 4: // Loop latch / momentary — dropdown of named loops
+      final loops = <({String name, int index})>[];
+      for (int i = 0; i < 7; i++) {
+        final n = settings.getLoopName(i);
+        if (n.isNotEmpty) loops.add((name: n, index: i));
+      }
+      if (loops.isEmpty) return [];
+      final selIdx = loops.indexWhere((l) => l.index == data.clamp(0, 6));
+      final safeIdx = selIdx < 0 ? 0 : selIdx;
+      return [
+        _FieldRow(
+          label: 'Loop',
+          child: DropdownButton<int>(
+            value: safeIdx,
+            isExpanded: true,
+            underline: const SizedBox(),
+            style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.white),
+            items: [
+              for (int i = 0; i < loops.length; i++)
+                DropdownMenuItem(value: i, child: Text(loops[i].name)),
+            ],
+            onChanged: (i) { if (i != null) { set(loops[i].index); notify(); } },
+          ),
+        ),
+      ];
+
+    case 5:
+    case 6: // FSW latch / momentary — 6-bit checkboxes
+      return [
+        _FswRow(
+          initialValue: data,
+          names: List.generate(6, (i) {
+            final n = settings.getFswName(i);
+            return n.isNotEmpty ? n : 'Fsw ${i + 1}';
+          }),
+          onChange: (v) { set(v); notify(); },
+        ),
+      ];
+
+    case 7: // MIDI message slot 1-4
+      return [
+        _dropField('Msg #', (data.clamp(1, 4) - 1),
+            ['Msg 1', 'Msg 2', 'Msg 3', 'Msg 4'],
+            (v) { set(v + 1); notify(); }),
+      ];
+
+    default: // Off — no data needed
+      return [];
+  }
 }
 
 class _FswRow extends StatefulWidget {
@@ -353,9 +465,6 @@ class _FswRowState extends State<_FswRow> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: Colors.grey.shade800, width: 0.5)),
-      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -461,23 +570,28 @@ class _LocalBackupBar extends StatelessWidget {
 class _FieldRow extends StatelessWidget {
   final String label;
   final Widget child;
+  final bool divider;
+  final TextAlign labelAlign;
 
-  const _FieldRow({required this.label, required this.child});
+  const _FieldRow({required this.label, required this.child, this.divider = false, this.labelAlign = TextAlign.left});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      decoration: BoxDecoration(
+      decoration: divider ? BoxDecoration(
         border: Border(
             bottom: BorderSide(color: Colors.grey.shade800, width: 0.5)),
-      ),
+      ) : null,
       child: Row(
         children: [
           SizedBox(
             width: 120,
-            child: Text(label,
-                style: const TextStyle(fontSize: 15, color: Colors.grey)),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: Text(label, textAlign: labelAlign,
+                  style: const TextStyle(fontSize: 15, color: Colors.grey)),
+            ),
           ),
           Expanded(child: child),
         ],
