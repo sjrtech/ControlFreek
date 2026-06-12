@@ -7,11 +7,13 @@ class BleDeviceInfo {
   final BluetoothDevice device;
   final String name;
   final String address;
+  final int rssi;
 
   const BleDeviceInfo({
     required this.device,
     required this.name,
     required this.address,
+    required this.rssi,
   });
 }
 
@@ -56,11 +58,14 @@ class BleService {
             : platformName.isNotEmpty
                 ? platformName
                 : r.device.remoteId.str;
-        _seen[r.device.remoteId.str] = BleDeviceInfo(
-          device: r.device,
-          name: name,
-          address: r.device.remoteId.str,
-        );
+        if (r.rssi != 0) {
+          _seen[r.device.remoteId.str] = BleDeviceInfo(
+            device: r.device,
+            name: name,
+            address: r.device.remoteId.str,
+            rssi: r.rssi,
+          );
+        }
       }
       _scanCtrl.add(_seen.values.toList());
     });

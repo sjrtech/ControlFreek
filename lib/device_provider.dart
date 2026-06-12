@@ -26,6 +26,9 @@ class DeviceProvider extends ChangeNotifier {
 
   StreamSubscription<List<BleDeviceInfo>>? _scanSub;
   StreamSubscription<Uint8List>? _dataSub;
+  Timer? _autoConnectTimer;
+  Timer? _retryTimer;
+  bool _autoConnecting = false;
 
   DeviceProvider() {
     _proto = Protocol(
@@ -44,6 +47,14 @@ class DeviceProvider extends ChangeNotifier {
 
     _scanSub = _ble.scanResults.listen((results) {
       scanResults = results;
+      if (!_autoConnecting) {
+        final match = results.where((d) => d.name.startsWith('BRK_v'));
+        if (match.isNotEmpty) {
+          _autoConnecting = true;
+          _autoConnectTimer?.cancel();
+          connectToDevice(match.first.device);
+        }
+      }
       notifyListeners();
     });
   }
@@ -60,17 +71,36 @@ class DeviceProvider extends ChangeNotifier {
     bleState = BleState.scanning;
     scanResults = [];
     statusMessage = 'Scanning…';
+    _autoConnecting = false;
     notifyListeners();
+
+    _autoConnectTimer?.cancel();
+    _autoConnectTimer = Timer(const Duration(seconds: 5), _onScanTimeout);
+
     try {
       await _ble.startScan();
     } catch (e) {
+      _autoConnectTimer?.cancel();
       bleState = BleState.disconnected;
       statusMessage = 'Scan error: $e';
       notifyListeners();
     }
   }
 
+  Future<void> _onScanTimeout() async {
+    await _ble.stopScan();
+    if (bleState == BleState.scanning) {
+      bleState = BleState.disconnected;
+      statusMessage = 'Device not found — retrying…';
+      notifyListeners();
+    }
+    _retryTimer?.cancel();
+    _retryTimer = Timer(const Duration(seconds: 3), startScan);
+  }
+
   Future<void> stopScan() async {
+    _autoConnectTimer?.cancel();
+    _retryTimer?.cancel();
     await _ble.stopScan();
     if (bleState == BleState.scanning) {
       bleState = BleState.disconnected;
@@ -99,9 +129,13 @@ class DeviceProvider extends ChangeNotifier {
 
       _proto.sendRequestForConfigBlock();
     } catch (e) {
+      _autoConnecting = false;
       bleState = BleState.disconnected;
       statusMessage = 'Connection failed: $e';
       notifyListeners();
+      // retry scan after a failed connection attempt
+      _retryTimer?.cancel();
+      _retryTimer = Timer(const Duration(seconds: 3), startScan);
     }
   }
 
@@ -169,6 +203,8 @@ class DeviceProvider extends ChangeNotifier {
 
   @override
   void dispose() {
+    _autoConnectTimer?.cancel();
+    _retryTimer?.cancel();
     _scanSub?.cancel();
     _dataSub?.cancel();
     _ble.dispose();

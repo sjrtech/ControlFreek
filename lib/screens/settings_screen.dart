@@ -150,6 +150,7 @@ class _UpdateButton extends StatelessWidget {
             onPressed: enabled ? onPressed : null,
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF1c56f3),
+              foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8)),
