@@ -37,6 +37,7 @@ class StompboxApp extends StatelessWidget {
           surface: Color(0xFF1a1a1a),
         ),
         scaffoldBackgroundColor: const Color(0xFF121212),
+        canvasColor: const Color(0xFF0D1B3E),
         appBarTheme: const AppBarTheme(
           backgroundColor: Color(0xFF1c56f3),
           foregroundColor: Colors.white,
@@ -63,12 +64,22 @@ class _MainShell extends StatefulWidget {
 class _MainShellState extends State<_MainShell> {
   int _tab = 0;
   int _lastSongLoadCount = 0;
+  late final PageController _pageController;
 
   static const _screens = [
     ScanScreen(),
     SettingsScreen(),
     SongScreen(),
   ];
+
+  bool get _isMobile =>
+      !kIsWeb && (Platform.isAndroid || Platform.isIOS);
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+  }
 
   @override
   void didChangeDependencies() {
@@ -79,6 +90,7 @@ class _MainShellState extends State<_MainShell> {
   @override
   void dispose() {
     context.read<DeviceProvider>().removeListener(_onProviderChange);
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -86,17 +98,38 @@ class _MainShellState extends State<_MainShell> {
     final p = context.read<DeviceProvider>();
     if (p.songLoadCount != _lastSongLoadCount) {
       _lastSongLoadCount = p.songLoadCount;
-      setState(() => _tab = 2);
+      _setTab(2);
+    }
+  }
+
+  void _setTab(int index) {
+    setState(() => _tab = index);
+    if (_isMobile && _pageController.hasClients) {
+      _pageController.animateToPage(
+        index,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_isMobile) {
+      return Scaffold(
+        body: PageView(
+          controller: _pageController,
+          onPageChanged: (i) => setState(() => _tab = i),
+          children: _screens,
+        ),
+      );
+    }
+
     return Scaffold(
       body: IndexedStack(index: _tab, children: _screens),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _tab,
-        onTap: (i) => setState(() => _tab = i),
+        onTap: _setTab,
         items: const [
           BottomNavigationBarItem(
               icon: Icon(Icons.bluetooth), label: 'Connect'),

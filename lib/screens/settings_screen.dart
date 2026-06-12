@@ -29,17 +29,17 @@ class SettingsScreen extends StatelessWidget {
                 // _section('General'),
                 // _numField('Backlight', s.backlight, (v) => s.backlight = v),
                 // _numField('Current Song', s.currentSong, (v) => s.currentSong = v),
-                _section('Loop Names'),
+                _dividerSection('LOOPS'),
                 for (int i = 0; i < 7; i++)
-                  _strField('Loop ${i + 1} Name:', s.getLoopName(i),
+                  _strField('Loop ${i + 1}:', s.getLoopName(i),
                       (v) => s.setLoopName(i, v)),
-                _section('Aux Output Names'),
+                _dividerSection('AUX'),
                 for (int i = 0; i < 4; i++)
-                  _strField('Aux${i + 1} Name:', s.getAuxName(i),
+                  _strField('Aux ${i + 1}:', s.getAuxName(i),
                       (v) => s.setAuxName(i, v)),
-                _section('Footswitch Names'),
+                _dividerSection('FOOTSWITCH'),
                 for (int i = 0; i < 6; i++)
-                  _strField('Fsw${i + 1} Name:', s.getFswName(i),
+                  _strField('Fsw ${i + 1}:', s.getFswName(i),
                       (v) => s.setFswName(i, v)),
                 const SizedBox(height: 80),
               ],

@@ -103,7 +103,7 @@ class SongScreen extends StatelessWidget {
                 for (int i = 0; i < 7; i++)
                   if (settings.getLoopName(i).isNotEmpty)
                     _matrixDropField(i + 1, '${settings.getLoopName(i)} ←', song, settings, notify, divider: false, labelAlign: TextAlign.right),
-                _dividerSection('AUX'),
+                _dividerSection('AUX', topPadding: 0),
                 for (int i = 0; i < 4; i++)
                   if (settings.getAuxName(i).isNotEmpty)
                     _matrixDropField(i + 8, '${settings.getAuxName(i)} ←', song, settings, notify, divider: false, labelAlign: TextAlign.right),
@@ -119,13 +119,11 @@ class SongScreen extends StatelessWidget {
                 _dividerSection('BACKLIGHT'),
                 _colorField('', song.backlight, (v) { song.backlight = v; notify(); }),
                 _dividerSection('TRICK SHOT'),
-                _dropField('Mode', song.trickMode.clamp(0, _trickModeNames.length - 1),
-                    _trickModeNames, (v) { song.trickMode = v; notify(); }),
+                _trickModeDropField('Mode', song.trickMode, (v) { song.trickMode = v; notify(); }),
                 ..._trickDataWidgets(song.trickMode, song.trickData, settings,
                     notify, (v) { song.trickData = v; }),
                 _dividerSection('DIVE BOMB'),
-                _dropField('Mode', song.diveBombMode.clamp(0, _trickModeNames.length - 1),
-                    _trickModeNames, (v) { song.diveBombMode = v; notify(); }),
+                _trickModeDropField('Mode', song.diveBombMode, (v) { song.diveBombMode = v; notify(); }),
                 ..._trickDataWidgets(song.diveBombMode, song.diveBombData, settings,
                     notify, (v) { song.diveBombData = v; }),
                 const SizedBox(height: 80),
@@ -179,8 +177,8 @@ class SongScreen extends StatelessWidget {
   }
 }
 
-Widget _dividerSection(String title) => Padding(
-      padding: const EdgeInsets.fromLTRB(12, 14, 12, 2),
+Widget _dividerSection(String title, {double topPadding = 14}) => Padding(
+      padding: EdgeInsets.fromLTRB(12, topPadding, 12, 2),
       child: Row(
         children: [
           const Expanded(child: Divider(color: Colors.grey)),
@@ -312,6 +310,16 @@ Widget _numField(String label, int value, void Function(int) onChange) =>
       ),
     );
 
+Widget _colorSwatch(int colorValue) => Container(
+      width: 22,
+      height: 22,
+      decoration: BoxDecoration(
+        color: _backlightToColor(colorValue),
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(color: Colors.grey.shade600),
+      ),
+    );
+
 Widget _colorField(String label, int rawByte, void Function(int) onChange) =>
     _FieldRow(
       label: label,
@@ -319,10 +327,19 @@ Widget _colorField(String label, int rawByte, void Function(int) onChange) =>
         value: _backlightIndex(rawByte),
         isExpanded: true,
         underline: const SizedBox(),
-        style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.white),
         items: [
           for (int i = 0; i < _colorNames.length; i++)
-            DropdownMenuItem(value: i, child: Text(_colorNames[i])),
+            DropdownMenuItem(
+              value: i,
+              child: Row(
+                children: [
+                  _colorSwatch(_colorValues[i]),
+                  const SizedBox(width: 10),
+                  Text(_colorNames[i],
+                      style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.white)),
+                ],
+              ),
+            ),
         ],
         onChanged: (i) {
           if (i != null) onChange(_colorValues[i]);
@@ -346,6 +363,42 @@ Widget _dropField(
         onChanged: (v) {
           if (v != null) onChange(v);
         },
+      ),
+    );
+
+const _trickModeIcons = [
+  Icons.do_not_disturb,      // 0 Off
+  Icons.music_note,          // 1 Song - Latch
+  Icons.music_note,          // 2 Song - Momentary
+  Icons.loop,                // 3 Loop - Latch
+  Icons.loop,                // 4 Loop - Momentary
+  Icons.toggle_on,           // 5 FSW - Latch
+  Icons.radio_button_checked,// 6 FSW - Momentary
+  Icons.piano,               // 7 MIDI Message
+];
+
+Widget _trickModeDropField(String label, int value, void Function(int) onChange) =>
+    _FieldRow(
+      label: label,
+      child: DropdownButton<int>(
+        value: value.clamp(0, _trickModeNames.length - 1),
+        isExpanded: true,
+        underline: const SizedBox(),
+        items: [
+          for (int i = 0; i < _trickModeNames.length; i++)
+            DropdownMenuItem(
+              value: i,
+              child: Row(
+                children: [
+                  Icon(_trickModeIcons[i], size: 18, color: Colors.lightBlueAccent),
+                  const SizedBox(width: 8),
+                  Text(_trickModeNames[i],
+                      style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.white)),
+                ],
+              ),
+            ),
+        ],
+        onChanged: (v) { if (v != null) onChange(v); },
       ),
     );
 
@@ -578,7 +631,7 @@ class _FieldRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
       decoration: divider ? BoxDecoration(
         border: Border(
             bottom: BorderSide(color: Colors.grey.shade800, width: 0.5)),
