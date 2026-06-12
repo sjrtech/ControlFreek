@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../device_provider.dart';
+import 'scan_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -16,6 +17,7 @@ class SettingsScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('System Settings'),
         backgroundColor: const Color(0xFF1c56f3),
+        actions: bleAppBarActions(p),
       ),
       body: Column(
         children: [

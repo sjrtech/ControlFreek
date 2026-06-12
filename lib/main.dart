@@ -62,12 +62,33 @@ class _MainShell extends StatefulWidget {
 
 class _MainShellState extends State<_MainShell> {
   int _tab = 0;
+  int _lastSongLoadCount = 0;
 
   static const _screens = [
     ScanScreen(),
     SettingsScreen(),
     SongScreen(),
   ];
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    context.read<DeviceProvider>().addListener(_onProviderChange);
+  }
+
+  @override
+  void dispose() {
+    context.read<DeviceProvider>().removeListener(_onProviderChange);
+    super.dispose();
+  }
+
+  void _onProviderChange() {
+    final p = context.read<DeviceProvider>();
+    if (p.songLoadCount != _lastSongLoadCount) {
+      _lastSongLoadCount = p.songLoadCount;
+      setState(() => _tab = 2);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

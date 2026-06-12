@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../device_provider.dart';
 import '../models.dart';
+import 'scan_screen.dart';
 
 // 2 bits per channel: R=bits[5:4], G=bits[3:2], B=bits[1:0]
 // Values from ControlFreek myappgui.h
@@ -61,6 +62,7 @@ class SongScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Song ${settings.currentSong}'),
         backgroundColor: const Color(0xFF1c56f3),
+        actions: bleAppBarActions(p),
       ),
       body: Column(
         children: [

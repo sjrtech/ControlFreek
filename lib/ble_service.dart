@@ -152,6 +152,11 @@ class BleService {
 
   bool get isConnected => _device?.isConnected ?? false;
 
+  Future<int> readRssi() async {
+    if (_device == null) return 0;
+    return await _device!.readRssi();
+  }
+
   void dispose() {
     _polling = false;
     _scanSub?.cancel();

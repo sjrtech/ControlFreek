@@ -28,7 +28,10 @@ class DeviceProvider extends ChangeNotifier {
   StreamSubscription<Uint8List>? _dataSub;
   Timer? _autoConnectTimer;
   Timer? _retryTimer;
+  Timer? _rssiTimer;
   bool _autoConnecting = false;
+
+  int rssi = 0; // 0 = no reading
 
   DeviceProvider() {
     _proto = Protocol(
@@ -89,13 +92,16 @@ class DeviceProvider extends ChangeNotifier {
 
   Future<void> _onScanTimeout() async {
     await _ble.stopScan();
+    final retry = !kIsWeb && !Platform.isLinux;
     if (bleState == BleState.scanning) {
       bleState = BleState.disconnected;
-      statusMessage = 'Device not found — retrying…';
+      statusMessage = retry ? 'Device not found — retrying…' : 'Device not found';
       notifyListeners();
     }
-    _retryTimer?.cancel();
-    _retryTimer = Timer(const Duration(seconds: 3), startScan);
+    if (retry) {
+      _retryTimer?.cancel();
+      _retryTimer = Timer(const Duration(seconds: 3), startScan);
+    }
   }
 
   Future<void> stopScan() async {
@@ -127,19 +133,42 @@ class DeviceProvider extends ChangeNotifier {
       statusMessage = 'Connected — requesting config…';
       notifyListeners();
 
+      _startRssiPolling();
       _proto.sendRequestForConfigBlock();
     } catch (e) {
       _autoConnecting = false;
       bleState = BleState.disconnected;
       statusMessage = 'Connection failed: $e';
       notifyListeners();
-      // retry scan after a failed connection attempt
-      _retryTimer?.cancel();
-      _retryTimer = Timer(const Duration(seconds: 3), startScan);
+      if (!kIsWeb && !Platform.isLinux) {
+        _retryTimer?.cancel();
+        _retryTimer = Timer(const Duration(seconds: 3), startScan);
+      }
     }
   }
 
+  void _startRssiPolling() {
+    _rssiTimer?.cancel();
+    _readRssi();
+    _rssiTimer = Timer.periodic(const Duration(seconds: 5), (_) => _readRssi());
+  }
+
+  Future<void> _readRssi() async {
+    if (bleState != BleState.connected) return;
+    try {
+      rssi = await _ble.readRssi();
+      notifyListeners();
+    } catch (_) {}
+  }
+
+  void _stopRssiPolling() {
+    _rssiTimer?.cancel();
+    _rssiTimer = null;
+    rssi = 0;
+  }
+
   Future<void> disconnect() async {
+    _stopRssiPolling();
     _dataSub?.cancel();
     _dataSub = null;
     await _ble.disconnect();
@@ -205,6 +234,7 @@ class DeviceProvider extends ChangeNotifier {
   void dispose() {
     _autoConnectTimer?.cancel();
     _retryTimer?.cancel();
+    _stopRssiPolling();
     _scanSub?.cancel();
     _dataSub?.cancel();
     _ble.dispose();

@@ -2,6 +2,66 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../device_provider.dart';
 
+IconData _rssiIcon(int rssi) {
+  if (rssi >= -60) return Icons.signal_cellular_4_bar;
+  if (rssi >= -70) return Icons.signal_cellular_alt_2_bar;
+  if (rssi >= -85) return Icons.signal_cellular_alt_1_bar;
+  return Icons.signal_cellular_0_bar;
+}
+
+Color _rssiColor(int rssi) {
+  if (rssi >= -70) return Colors.greenAccent;
+  if (rssi >= -85) return Colors.orange;
+  return Colors.red;
+}
+
+List<Widget> bleAppBarActions(DeviceProvider p) {
+  final connected = p.bleState == BleState.connected;
+  final scanning  = p.bleState == BleState.scanning;
+  return [
+    // Signal / status indicator (non-interactive)
+    if (connected && p.rssi != 0)
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4),
+        child: Icon(_rssiIcon(p.rssi), color: _rssiColor(p.rssi), size: 20),
+      )
+    else if (connected)
+      const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 4),
+        child: Icon(Icons.signal_cellular_0_bar, color: Colors.grey, size: 20),
+      )
+    else if (scanning)
+      const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 4),
+        child: Icon(Icons.radar, color: Colors.white70, size: 20),
+      )
+    else
+      const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 4),
+        child: Icon(Icons.signal_cellular_off, color: Colors.grey, size: 20),
+      ),
+    // BLE action button
+    if (connected)
+      IconButton(
+        icon: const Icon(Icons.bluetooth_disabled),
+        tooltip: 'Disconnect',
+        onPressed: p.disconnect,
+      )
+    else if (scanning)
+      IconButton(
+        icon: const Icon(Icons.stop_circle_outlined),
+        tooltip: 'Stop scan',
+        onPressed: p.stopScan,
+      )
+    else
+      IconButton(
+        icon: const Icon(Icons.bluetooth_searching),
+        tooltip: 'Scan',
+        onPressed: p.startScan,
+      ),
+  ];
+}
+
 class ScanScreen extends StatefulWidget {
   const ScanScreen({super.key});
 
@@ -29,26 +89,7 @@ class _ScanScreenState extends State<ScanScreen> {
       appBar: AppBar(
         title: const Text('Stompbox Scanner'),
         backgroundColor: const Color(0xFF1c56f3),
-        actions: [
-          if (connected)
-            IconButton(
-              icon: const Icon(Icons.bluetooth_disabled),
-              tooltip: 'Disconnect',
-              onPressed: p.disconnect,
-            )
-          else if (scanning)
-            IconButton(
-              icon: const Icon(Icons.stop_circle_outlined),
-              tooltip: 'Stop scan',
-              onPressed: p.stopScan,
-            )
-          else
-            IconButton(
-              icon: const Icon(Icons.bluetooth_searching),
-              tooltip: 'Scan',
-              onPressed: p.startScan,
-            ),
-        ],
+        actions: bleAppBarActions(p),
       ),
       body: Column(
         children: [
