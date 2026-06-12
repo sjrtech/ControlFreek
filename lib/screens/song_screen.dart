@@ -219,8 +219,12 @@ class _NameFieldsBox extends StatelessWidget {
             style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
             textAlign: TextAlign.left,
             inputFormatters: [
-              TextInputFormatter.withFunction((oldValue, newValue) =>
-                  newValue.copyWith(text: newValue.text.toUpperCase())),
+              TextInputFormatter.withFunction((oldValue, newValue) {
+                final filtered = newValue.text
+                    .toUpperCase()
+                    .replaceAll(RegExp(r'[^\x20-\x5F]'), '');
+                return newValue.copyWith(text: filtered);
+              }),
             ],
             decoration: const InputDecoration(
               isDense: true,
