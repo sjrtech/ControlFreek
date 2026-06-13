@@ -117,6 +117,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     final p = context.watch<DeviceProvider>();
     final s = p.settings;
+    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
 
     Widget fswCell(int i) => Container(
       key: _fieldKeys['fsw_$i'],
@@ -174,6 +175,32 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
     );
 
+    Widget auxGrid() => Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(child: Column(children: [auxCell(0), auxCell(1)])),
+          const SizedBox(width: 12),
+          Expanded(child: Column(children: [auxCell(2), auxCell(3)])),
+        ],
+      ),
+    );
+
+    Widget fswGrid() => Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(child: Column(children: [fswCell(0), fswCell(1)])),
+          const SizedBox(width: 8),
+          Expanded(child: Column(children: [fswCell(2), fswCell(3)])),
+          const SizedBox(width: 8),
+          Expanded(child: Column(children: [fswCell(4), fswCell(5)])),
+        ],
+      ),
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: appBarTitle('Breakout Setup', icon: Icons.settings_input_component),
@@ -197,32 +224,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          _dividerSection('AUX OUTPUTS'),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                            child: Row(
+                          if (isLandscape) ...[
+                            _dividerSection('AUX & FOOTSWITCH OUTPUTS'),
+                            Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Expanded(child: Column(children: [auxCell(0), auxCell(1)])),
-                                const SizedBox(width: 12),
-                                Expanded(child: Column(children: [auxCell(2), auxCell(3)])),
+                                Expanded(child: auxGrid()),
+                                const VerticalDivider(width: 1),
+                                Expanded(child: fswGrid()),
                               ],
                             ),
-                          ),
-                          _dividerSection('FOOTSWITCHES'),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(child: Column(children: [fswCell(0), fswCell(1)])),
-                                const SizedBox(width: 8),
-                                Expanded(child: Column(children: [fswCell(2), fswCell(3)])),
-                                const SizedBox(width: 8),
-                                Expanded(child: Column(children: [fswCell(4), fswCell(5)])),
-                              ],
-                            ),
-                          ),
+                          ] else ...[
+                            _dividerSection('AUX OUTPUTS'),
+                            auxGrid(),
+                            _dividerSection('FOOTSWITCHES'),
+                            fswGrid(),
+                          ],
                         ],
                       ),
                     ),
