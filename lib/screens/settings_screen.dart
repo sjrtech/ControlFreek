@@ -17,7 +17,7 @@ class SettingsScreen extends StatelessWidget {
       appBar: AppBar(
         title: appBarTitle('Breakout Setup', icon: Icons.settings_input_component),
         backgroundColor: const Color(0xFF1A3A7A),
-        actions: bleAppBarActions(p),
+        actions: bleAppBarActions(p, context),
       ),
       body: Column(
         children: [

@@ -87,7 +87,7 @@ class SongScreen extends StatelessWidget {
       appBar: AppBar(
         title: appBarTitle('Song', icon: Icons.music_note),
         backgroundColor: const Color(0xFF1A3A7A),
-        actions: bleAppBarActions(p),
+        actions: bleAppBarActions(p, context),
       ),
       body: Stack(
         children: [
@@ -109,10 +109,12 @@ class SongScreen extends StatelessWidget {
                         _NameFieldsBox(song: song, notify: notify, songNumber: p.displayedSongNumber),
                         _dividerSection('LOOPS'),
                         ..._buildLoopChain(song, settings, notify),
-                        _dividerSection('AUX', topPadding: 0),
-                        for (int i = 0; i < 4; i++)
-                          if (settings.getAuxName(i).isNotEmpty)
-                            _matrixDropField(i + 8, '${settings.getAuxName(i)} ←', song, settings, notify, divider: false, labelAlign: TextAlign.right),
+                        if (List.generate(4, (i) => settings.getAuxName(i)).any((n) => n.isNotEmpty)) ...[
+                          _dividerSection('AUX', topPadding: 0),
+                          for (int i = 0; i < 4; i++)
+                            if (settings.getAuxName(i).isNotEmpty)
+                              _matrixDropField(i + 8, '${settings.getAuxName(i)} ←', song, settings, notify, divider: false, labelAlign: TextAlign.right),
+                        ],
                         _dividerSection('FOOTSWITCH'),
                         _FswRow(
                           initialValue: song.footswitch,
@@ -526,6 +528,7 @@ List<Widget> _buildLoopChain(SongModel song, SettingsModel s, VoidCallback notif
 
   return widgets;
 }
+
 
 List<Widget> _trickDataWidgets(
   int mode, int data, SettingsModel settings, VoidCallback notify, void Function(int) set,

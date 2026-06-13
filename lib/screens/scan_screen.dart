@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../device_provider.dart';
+import 'help_screen.dart';
 
 Widget appBarTitle(String text, {IconData? icon}) => Row(
   mainAxisSize: MainAxisSize.min,
@@ -34,10 +35,17 @@ Color _rssiColor(int rssi) {
   return Colors.red;
 }
 
-List<Widget> bleAppBarActions(DeviceProvider p) {
+List<Widget> bleAppBarActions(DeviceProvider p, BuildContext context) {
   final connected = p.bleState == BleState.connected;
   final scanning  = p.bleState == BleState.scanning;
   return [
+    IconButton(
+      icon: const Icon(Icons.help_outline),
+      tooltip: 'Help',
+      onPressed: () => Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => const HelpScreen()),
+      ),
+    ),
     // Signal / status indicator (non-interactive)
     if (connected && p.rssi != 0)
       Padding(
@@ -100,7 +108,7 @@ class _ScanScreenState extends State<ScanScreen> {
       appBar: AppBar(
         title: appBarTitle('Scanner', icon: Icons.bluetooth_searching),
         backgroundColor: const Color(0xFF1A3A7A),
-        actions: bleAppBarActions(p),
+        actions: bleAppBarActions(p, context),
       ),
       body: Stack(
         children: [
