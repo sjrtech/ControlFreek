@@ -73,8 +73,14 @@ int _matrixDropIdx(int byteValue, List<_MatOpt> opts) {
   return 0;
 }
 
-class SongScreen extends StatelessWidget {
+class SongScreen extends StatefulWidget {
   const SongScreen({super.key});
+  @override
+  State<SongScreen> createState() => _SongScreenState();
+}
+
+class _SongScreenState extends State<SongScreen> {
+  bool _editingChain = false;
 
   @override
   Widget build(BuildContext context) {
@@ -108,13 +114,52 @@ class SongScreen extends StatelessWidget {
                       children: [
                         _NameFieldsBox(song: song, notify: notify, songNumber: p.displayedSongNumber),
                         _dividerSection('LOOPS'),
-                        _ChainDiagram(song: song, settings: settings, notify: notify),
-                        ..._buildLoopChain(song, settings, notify),
+                        GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () => setState(() => _editingChain = !_editingChain),
+                          child: Column(
+                            children: [
+                              _ChainDiagram(song: song, settings: settings, notify: notify),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 4),
+                                child: Text(
+                                  _editingChain ? 'tap to hide' : 'tap to edit',
+                                  style: TextStyle(fontSize: 9, color: Colors.grey.shade600, letterSpacing: 0.5),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        if (_editingChain) ..._buildLoopChain(song, settings, notify),
                         if (List.generate(4, (i) => settings.getAuxName(i)).any((n) => n.isNotEmpty)) ...[
                           _dividerSection('AUX OUTPUTS', topPadding: 0),
                           for (int i = 0; i < 4; i++)
-                            if (settings.getAuxName(i).isNotEmpty)
-                              _matrixDropField(i + 8, '${settings.getAuxName(i)} ←', song, settings, notify, divider: false, labelAlign: TextAlign.right),
+                            if (settings.getAuxName(i).isNotEmpty) ...[
+                              if (song.getMatrix(i + 8) != 0)
+                                GestureDetector(
+                                  behavior: HitTestBehavior.opaque,
+                                  onTap: () => setState(() => _editingChain = !_editingChain),
+                                  child: Column(
+                                    children: [
+                                      _AuxChainDiagram(
+                                        auxName: settings.getAuxName(i),
+                                        auxMatIdx: i + 8,
+                                        song: song,
+                                        settings: settings,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(bottom: 4),
+                                        child: Text(
+                                          _editingChain ? 'tap to hide' : 'tap to edit',
+                                          style: TextStyle(fontSize: 9, color: Colors.grey.shade600, letterSpacing: 0.5),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              if (_editingChain)
+                                _matrixDropField(i + 8, '${settings.getAuxName(i)} ←', song, settings, notify, divider: false, labelAlign: TextAlign.right),
+                            ],
                         ],
                         _dividerSection('FOOTSWITCHES'),
                         _FswRow(
@@ -536,35 +581,6 @@ List<({int matIdx, String label})> _getChainOrder(SongModel song, SettingsModel 
   return fwd.reversed.toList();
 }
 
-void _showSourcePicker(BuildContext context, int matIdx, SongModel song, SettingsModel s, VoidCallback notify) {
-  final opts = _buildMatrixOptions(matIdx, s);
-  final current = song.getMatrix(matIdx);
-  showDialog<void>(
-    context: context,
-    builder: (ctx) => SimpleDialog(
-      backgroundColor: const Color(0xFF1A3A7A),
-      title: const Text('Select Source', style: TextStyle(color: Color(0xFFBCC8DC), fontSize: 16)),
-      children: [
-        for (int i = 0; i < opts.length; i++)
-          SimpleDialogOption(
-            onPressed: () {
-              song.setMatrix(matIdx, opts[i].value);
-              notify();
-              Navigator.of(ctx).pop();
-            },
-            child: Text(
-              opts[i].name,
-              style: TextStyle(
-                color: opts[i].value == current ? Colors.white : const Color(0xFFBCC8DC),
-                fontWeight: opts[i].value == current ? FontWeight.bold : FontWeight.normal,
-                fontSize: 16,
-              ),
-            ),
-          ),
-      ],
-    ),
-  );
-}
 
 class _ChainDiagram extends StatelessWidget {
   final SongModel song;
@@ -629,9 +645,6 @@ class _ChainDiagram extends StatelessWidget {
                     _ChainBox(
                       label: items[i].label,
                       wrap: wrap,
-                      onTap: items[i].matIdx < 0
-                          ? null
-                          : () => _showSourcePicker(context, items[i].matIdx, song, settings, notify),
                     ),
                   ],
                 ],
@@ -647,18 +660,14 @@ class _ChainDiagram extends StatelessWidget {
 class _ChainBox extends StatelessWidget {
   final String label;
   final bool wrap;
-  final VoidCallback? onTap;
 
-  const _ChainBox({required this.label, this.wrap = false, this.onTap});
+  const _ChainBox({required this.label, this.wrap = false});
 
   @override
   Widget build(BuildContext context) {
     final displayLabel =
         (wrap && label.contains(' ')) ? label.replaceAll(' ', '\n') : label;
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(5),
-      child: Container(
+    return Container(
         height: 34,
         constraints: const BoxConstraints(minWidth: 28),
         decoration: BoxDecoration(
@@ -676,7 +685,6 @@ class _ChainBox extends StatelessWidget {
           ),
           style: const TextStyle(fontSize: 8, color: Colors.grey, height: 1.1),
         ),
-      ),
     );
   }
 }
@@ -732,6 +740,91 @@ class _ChainArrowPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_ChainArrowPainter old) => old.hasX != hasX;
+}
+
+// ─── AUX chain diagram ────────────────────────────────────────────────────────
+
+class _AuxChainDiagram extends StatelessWidget {
+  final String auxName;
+  final int auxMatIdx;
+  final SongModel song;
+  final SettingsModel settings;
+
+  const _AuxChainDiagram({
+    required this.auxName,
+    required this.auxMatIdx,
+    required this.song,
+    required this.settings,
+  });
+
+  List<String> _buildItems() {
+    final auxSrc = song.getMatrix(auxMatIdx);
+    if (auxSrc == 0) return [];
+
+    // Trace backward from AUX source through each loop's source until MAIN IN
+    final chain = <String>[];
+    int src = auxSrc;
+    final visited = <int>{};
+    while (true) {
+      final i = _loopSourceValues.indexOf(src);
+      if (i < 0 || visited.contains(i)) break; // src == MAIN IN or cycle
+      visited.add(i);
+      final n = settings.getLoopName(i);
+      chain.add(n.isNotEmpty ? n : 'Loop ${i + 1}');
+      src = song.getMatrix(i + 1);
+    }
+
+    return ['MAIN IN', ...chain.reversed, auxName];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final items = _buildItems();
+    if (items.isEmpty) return const SizedBox.shrink();
+
+    const boxH = 34.0;
+    const arrowW = 18.0;
+    const hPad = 8.0;
+    const minBoxW = 28.0;
+    const labelStyle = TextStyle(fontSize: 8, height: 1.1);
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(12, 2, 12, 0),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          double naturalTotal = (items.length - 1) * arrowW;
+          for (final label in items) {
+            final tp = TextPainter(
+              text: TextSpan(text: label, style: labelStyle),
+              textDirection: TextDirection.ltr,
+              maxLines: 1,
+            )..layout();
+            final w = tp.size.width + hPad;
+            naturalTotal += w < minBoxW ? minBoxW : w;
+          }
+          final wrap = naturalTotal > constraints.maxWidth;
+
+          return SizedBox(
+            height: boxH,
+            width: constraints.maxWidth,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  for (int i = 0; i < items.length; i++) ...[
+                    if (i > 0) const _ChainArrow(width: arrowW),
+                    _ChainBox(label: items[i], wrap: wrap),
+                  ],
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
 }
 
 // ─── Chain rows ───────────────────────────────────────────────────────────────
