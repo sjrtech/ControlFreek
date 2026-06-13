@@ -338,8 +338,10 @@ class _NameFieldsBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final boxWidth = screenWidth * 0.55;
-    final rowHeight = screenWidth * 0.124;
+    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+    final scale = isLandscape ? 0.5 : 1.0;
+    final boxWidth = screenWidth * 0.55 * scale;
+    final rowHeight = screenWidth * 0.124 * scale;
     final dur = const Duration(milliseconds: 300);
     final labelColor = disabled ? Colors.grey.shade700 : Colors.grey;
     final boxColor = disabled
@@ -380,7 +382,7 @@ class _NameFieldsBox extends StatelessWidget {
               width: boxWidth,
               child: AnimatedContainer(
                 duration: dur,
-                height: screenWidth * 0.28,
+                height: screenWidth * 0.28 * scale,
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
                   color: boxColor,
@@ -398,7 +400,7 @@ class _NameFieldsBox extends StatelessWidget {
                           child: Text(
                             '$songNumber',
                             style: TextStyle(
-                              fontSize: 128,
+                              fontSize: 128 * scale,
                               fontWeight: FontWeight.bold,
                               color: Colors.black.withValues(alpha: 0.16),
                               height: 1,
