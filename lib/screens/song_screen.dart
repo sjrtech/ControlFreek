@@ -34,14 +34,10 @@ Color _backlightToColor(int raw) {
 }
 
 const _trickModeNames = [
-  'Off',              // 0
-  'Song - Latch',     // 1
-  'Song - Momentary', // 2
-  'Loop - Latch',     // 3
-  'Loop - Momentary', // 4
-  'FSW - Latch',      // 5
-  'FSW - Momentary',  // 6
-  'MIDI Message',     // 7
+  'Off',             // 0
+  'Song',            // 1 — jump to a song and back
+  'FSW - Latch',     // 2
+  'FSW - Momentary', // 3
 ];
 
 // Matrix source byte values: 0=not used, 1=MAIN IN, 2=Loop1, 4=Loop2, ..., 128=Loop7
@@ -672,34 +668,12 @@ Widget _colorField(String label, int rawByte, void Function(int) onChange) =>
       ),
     );
 
-Widget _dropField(
-        String label, int value, List<String> options, void Function(int) onChange) =>
-    _FieldRow(
-      label: label,
-      child: DropdownButton<int>(
-        value: value,
-        isExpanded: true,
-        underline: const SizedBox(),
-        style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.white),
-        items: [
-          for (int i = 0; i < options.length; i++)
-            DropdownMenuItem(value: i, child: Text(options[i])),
-        ],
-        onChanged: (v) {
-          if (v != null) onChange(v);
-        },
-      ),
-    );
 
 const _trickModeIcons = [
-  Icons.do_not_disturb,      // 0 Off
-  Icons.music_note,          // 1 Song - Latch
-  Icons.music_note,          // 2 Song - Momentary
-  Icons.loop,                // 3 Loop - Latch
-  Icons.loop,                // 4 Loop - Momentary
-  Icons.toggle_on,           // 5 FSW - Latch
-  Icons.radio_button_checked,// 6 FSW - Momentary
-  Icons.piano,               // 7 MIDI Message
+  Icons.do_not_disturb,       // 0 Off
+  Icons.music_note,           // 1 Song
+  Icons.toggle_on,            // 2 FSW - Latch
+  Icons.radio_button_checked, // 3 FSW - Momentary
 ];
 
 Widget _trickModeDropField(String label, int value, void Function(int) onChange) =>
@@ -1094,39 +1068,11 @@ List<Widget> _trickDataWidgets(
   int mode, int data, SettingsModel settings, VoidCallback notify, void Function(int) set,
 ) {
   switch (mode) {
-    case 1:
-    case 2: // Song latch / momentary — song number 1-120
+    case 1: // Song — pick a song number 1-120
       return [_numField('Song #', data.clamp(1, 120), (v) { set(v.clamp(1, 120)); notify(); })];
 
-    case 3:
-    case 4: // Loop latch / momentary — dropdown of named loops
-      final loops = <({String name, int index})>[];
-      for (int i = 0; i < 7; i++) {
-        final n = settings.getLoopName(i);
-        if (n.isNotEmpty) loops.add((name: n, index: i));
-      }
-      if (loops.isEmpty) return [];
-      final selIdx = loops.indexWhere((l) => l.index == data.clamp(0, 6));
-      final safeIdx = selIdx < 0 ? 0 : selIdx;
-      return [
-        _FieldRow(
-          label: 'Loop',
-          child: DropdownButton<int>(
-            value: safeIdx,
-            isExpanded: true,
-            underline: const SizedBox(),
-            style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.white),
-            items: [
-              for (int i = 0; i < loops.length; i++)
-                DropdownMenuItem(value: i, child: Text(loops[i].name)),
-            ],
-            onChanged: (i) { if (i != null) { set(loops[i].index); notify(); } },
-          ),
-        ),
-      ];
-
-    case 5:
-    case 6: // FSW latch / momentary — 6-bit checkboxes
+    case 2:
+    case 3: // FSW latch / momentary — 6-bit checkboxes for footswitches
       return [
         _FswRow(
           initialValue: data,
@@ -1136,13 +1082,6 @@ List<Widget> _trickDataWidgets(
           }),
           onChange: (v) { set(v); notify(); },
         ),
-      ];
-
-    case 7: // MIDI message slot 1-4
-      return [
-        _dropField('Msg #', (data.clamp(1, 4) - 1),
-            ['Msg 1', 'Msg 2', 'Msg 3', 'Msg 4'],
-            (v) { set(v + 1); notify(); }),
       ];
 
     default: // Off — no data needed

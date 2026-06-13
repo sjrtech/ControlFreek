@@ -9,14 +9,12 @@ const int kModeWriteSong = 3;
 const int kModeWriteConfig = 4;
 const int kModeChangeSong = 5;
 
-// Trick mode constants
+// Trick mode constants — must match firmware TRICK_MODE_* defines in myappgui.h
+// Loop and MIDI modes were removed from the firmware (commented out).
 const int kTrickModeNone = 0;
 const int kTrickModeSong = 1;
-const int kTrickModeLoopLatch = 2;
-const int kTrickModeLoopMoment = 3;
-const int kTrickModeFswLatch = 4;
-const int kTrickModeFswMoment = 5;
-const int kTrickModeMidiMsg = 6;
+const int kTrickModeFswLatch = 2;
+const int kTrickModeFswMoment = 3;
 
 /// Direct Dart port of myappgui.cpp — packet encode/decode and transfer state machine.
 ///
