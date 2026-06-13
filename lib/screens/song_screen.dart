@@ -82,13 +82,22 @@ class SongScreen extends StatefulWidget {
 class _SongScreenState extends State<SongScreen> {
   bool _editingChain = false;
   bool _showAdvanced = false;
+  bool _hasUnsavedChanges = false;
+  int _lastSongLoadCount = -1;
 
   @override
   Widget build(BuildContext context) {
     final p = context.watch<DeviceProvider>();
+    if (p.songLoadCount != _lastSongLoadCount) {
+      _lastSongLoadCount = p.songLoadCount;
+      _hasUnsavedChanges = false;
+    }
     final song = p.song;
     final settings = p.settings;
-    final notify = p.notifyLocalSongChanged;
+    final notify = () {
+      if (!_hasUnsavedChanges) setState(() => _hasUnsavedChanges = true);
+      p.notifyLocalSongChanged();
+    };
 
     return Scaffold(
       appBar: AppBar(
@@ -238,7 +247,12 @@ class _SongScreenState extends State<SongScreen> {
                       child: OutlinedButton.icon(
                         icon: const Icon(Icons.arrow_back),
                         label: const Text('Prev'),
-                        onPressed: p.isConnected ? () {
+                        onPressed: p.isConnected ? () async {
+                          if (_hasUnsavedChanges) {
+                            final cont = await _showUnsavedChangesDialog(context);
+                            if (!cont || !mounted) return;
+                            setState(() => _hasUnsavedChanges = false);
+                          }
                           HapticFeedback.mediumImpact();
                           p.prevSong();
                         } : null,
@@ -248,7 +262,10 @@ class _SongScreenState extends State<SongScreen> {
                     Expanded(
                       flex: 2,
                       child: ElevatedButton(
-                        onPressed: p.isConnected ? p.updateSongToDevice : null,
+                        onPressed: p.isConnected ? () {
+                          p.updateSongToDevice();
+                          setState(() => _hasUnsavedChanges = false);
+                        } : null,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF1A3A7A),
                           foregroundColor: const Color(0xFFBCC8DC),
@@ -272,7 +289,12 @@ class _SongScreenState extends State<SongScreen> {
                       child: OutlinedButton.icon(
                         icon: const Icon(Icons.arrow_forward),
                         label: const Text('Next'),
-                        onPressed: p.isConnected ? () {
+                        onPressed: p.isConnected ? () async {
+                          if (_hasUnsavedChanges) {
+                            final cont = await _showUnsavedChangesDialog(context);
+                            if (!cont || !mounted) return;
+                            setState(() => _hasUnsavedChanges = false);
+                          }
                           HapticFeedback.mediumImpact();
                           p.nextSong();
                         } : null,
@@ -301,6 +323,99 @@ class _SongScreenState extends State<SongScreen> {
         ],
       )),
     );
+  }
+
+  Future<bool> _showUnsavedChangesDialog(BuildContext ctx) async {
+    final result = await showGeneralDialog<bool>(
+      context: ctx,
+      barrierDismissible: true,
+      barrierLabel: 'Dismiss',
+      barrierColor: Colors.black.withValues(alpha: 0.75),
+      transitionDuration: const Duration(milliseconds: 280),
+      transitionBuilder: (context, anim, _, child) => ScaleTransition(
+        scale: CurvedAnimation(parent: anim, curve: Curves.easeOutBack),
+        child: FadeTransition(opacity: anim, child: child),
+      ),
+      pageBuilder: (context, _, _) => Center(
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 28),
+            decoration: BoxDecoration(
+              color: const Color(0xFF0D1B3E),
+              borderRadius: BorderRadius.circular(18),
+              border: Border.all(color: Colors.amber.shade600, width: 1.5),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.amber.withValues(alpha: 0.18),
+                  blurRadius: 32,
+                  spreadRadius: 6,
+                ),
+                const BoxShadow(color: Colors.black54, blurRadius: 16),
+              ],
+            ),
+            padding: const EdgeInsets.fromLTRB(24, 28, 24, 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.warning_amber_rounded,
+                    color: Colors.amber.shade400, size: 52),
+                const SizedBox(height: 14),
+                Text(
+                  'CHANGES DETECTED',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 4,
+                    color: Colors.amber.shade300,
+                  ),
+                ),
+                const SizedBox(height: 14),
+                const Text(
+                  'You have unsaved edits that have not been sent to the device.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 14, color: Color(0xFFBCC8DC), height: 1.5),
+                ),
+                const SizedBox(height: 24),
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.arrow_back, size: 17),
+                  label: const Text('GO BACK TO UPDATE',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, letterSpacing: 1.5)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF1A3A7A),
+                    foregroundColor: const Color(0xFFBCC8DC),
+                    minimumSize: const Size.fromHeight(44),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                  ),
+                  onPressed: () => Navigator.of(context).pop(false),
+                ),
+                const SizedBox(height: 10),
+                OutlinedButton.icon(
+                  icon: Icon(Icons.skip_next,
+                      size: 17, color: Colors.red.shade300),
+                  label: Text('CONTINUE & LOSE CHANGES',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.2,
+                          color: Colors.red.shade300)),
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide(color: Colors.red.shade700),
+                    minimumSize: const Size.fromHeight(44),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                  ),
+                  onPressed: () => Navigator.of(context).pop(true),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+    return result ?? false;
   }
 }
 
