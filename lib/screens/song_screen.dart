@@ -90,10 +90,10 @@ class _SongScreenState extends State<SongScreen> {
     }
     final song = p.song;
     final settings = p.settings;
-    final notify = () {
+    void notify() {
       if (!_hasUnsavedChanges) setState(() => _hasUnsavedChanges = true);
       p.notifyLocalSongChanged();
-    };
+    }
 
     return Scaffold(
       appBar: AppBar(
