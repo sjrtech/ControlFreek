@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math' as math;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -75,11 +76,47 @@ class SongScreen extends StatefulWidget {
   State<SongScreen> createState() => _SongScreenState();
 }
 
-class _SongScreenState extends State<SongScreen> {
+class _SongScreenState extends State<SongScreen> with SingleTickerProviderStateMixin {
   bool _editingChain = false;
   bool _showAdvanced = false;
   bool _hasUnsavedChanges = false;
   int _lastSongLoadCount = -1;
+
+  late AnimationController _shimmerCtrl;
+  final _shimmerRng = math.Random();
+  bool _shimmerRtl = false;
+  double _shimmerWidth = 1.1;
+
+  @override
+  void initState() {
+    super.initState();
+    _shimmerCtrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    );
+  }
+
+  void _runShimmer() {
+    if (!_showAdvanced || !mounted) return;
+    setState(() {
+      _shimmerRtl = _shimmerRng.nextBool();
+      _shimmerWidth = 0.7 + _shimmerRng.nextDouble() * 1.0;
+    });
+    _shimmerCtrl.duration = Duration(milliseconds: 700 + _shimmerRng.nextInt(700));
+    _shimmerCtrl.forward(from: 0).then((_) {
+      if (!mounted || !_showAdvanced) return;
+      Future.delayed(
+        Duration(milliseconds: 800 + _shimmerRng.nextInt(2400)),
+        _runShimmer,
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    _shimmerCtrl.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -184,25 +221,78 @@ class _SongScreenState extends State<SongScreen> {
                     ])),
                     // ADVANCED toggle: always interactive
                     InkWell(
-                      onTap: () => setState(() => _showAdvanced = !_showAdvanced),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                        child: Row(children: [
-                          const Expanded(child: Divider(color: Colors.grey, thickness: 0.4)),
+                      onTap: () {
+                        setState(() => _showAdvanced = !_showAdvanced);
+                        if (_showAdvanced) {
+                          _runShimmer();
+                        } else {
+                          _shimmerCtrl.stop();
+                          _shimmerCtrl.reset();
+                        }
+                      },
+                      child: Stack(
+                        children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Row(mainAxisSize: MainAxisSize.min, children: [
-                              Text('ADVANCED', style: TextStyle(fontSize: 16, letterSpacing: 2, color: Colors.grey.shade500)),
-                              const SizedBox(width: 6),
-                              AnimatedRotation(
-                                turns: _showAdvanced ? 0.5 : 0,
-                                duration: const Duration(milliseconds: 200),
-                                child: Icon(Icons.keyboard_arrow_down, size: 24, color: Colors.grey.shade500),
+                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                            child: Row(children: [
+                              const Expanded(child: Divider(color: Colors.grey, thickness: 0.4)),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade600.withValues(alpha: 0.35),
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(color: Colors.grey.shade500.withValues(alpha: 0.4), width: 0.5),
+                                ),
+                                child: Row(mainAxisSize: MainAxisSize.min, children: [
+                                  Text('ADVANCED', style: TextStyle(fontSize: 16, letterSpacing: 2, color: Colors.black, fontWeight: FontWeight.bold)),
+                                  const SizedBox(width: 6),
+                                  AnimatedRotation(
+                                    turns: _showAdvanced ? 0.5 : 0,
+                                    duration: const Duration(milliseconds: 200),
+                                    child: Icon(Icons.keyboard_arrow_down, size: 28, color: Colors.black),
+                                  ),
+                                ]),
                               ),
+                              const Expanded(child: Divider(color: Colors.grey, thickness: 0.4)),
                             ]),
                           ),
-                          const Expanded(child: Divider(color: Colors.grey, thickness: 0.4)),
-                        ]),
+                          if (_showAdvanced)
+                            Positioned.fill(
+                              child: IgnorePointer(
+                                child: AnimatedBuilder(
+                                  animation: _shimmerCtrl,
+                                  builder: (_, _) {
+                                    final t = _shimmerCtrl.value;
+                                    final cx = _shimmerRtl
+                                        ? 1.5 - t * 3.2   // right → left
+                                        : -1.5 + t * 3.2; // left → right
+                                    return ShaderMask(
+                                      blendMode: BlendMode.dstIn,
+                                      shaderCallback: (bounds) => const LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: [Colors.transparent, Colors.white, Colors.white, Colors.transparent],
+                                        stops: [0.0, 0.25, 0.75, 1.0],
+                                      ).createShader(bounds),
+                                      child: DecoratedBox(
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            begin: Alignment(cx - _shimmerWidth, 0),
+                                            end: Alignment(cx + _shimmerWidth, 0),
+                                            colors: [
+                                              Colors.transparent,
+                                              Colors.white.withValues(alpha: 0.10),
+                                              Colors.transparent,
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                        ],
                       ),
                     ),
                     // Advanced content: dim when disconnected
