@@ -50,11 +50,13 @@ class DeviceProvider extends ChangeNotifier {
         songLoadCount++;
         songLoading = false;
         connectionLoading = false;
+        _saveCache();
         notifyListeners();
       },
       onConfigComplete: () {
         statusMessage = 'Config loaded — song ${_proto.ramSettings.currentSong}';
         configLoadCount++;
+        _saveCache();
         notifyListeners();
       },
     );
@@ -72,8 +74,11 @@ class DeviceProvider extends ChangeNotifier {
       notifyListeners();
     });
 
-    // Kick off initial scan on app start
-    WidgetsBinding.instance.addPostFrameCallback((_) => startScan());
+    // Kick off initial scan on app start, and load cached data for demo use
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadCache();
+      startScan();
+    });
   }
 
   // ─── Accessors ────────────────────────────────────────────────────────────────
@@ -229,6 +234,36 @@ class DeviceProvider extends ChangeNotifier {
     songLoading = true;
     _proto.gotoPreviousSong();
     notifyListeners();
+  }
+
+  // ─── Cache (persist last BLE data across app restarts) ───────────────────────
+
+  Future<void> _saveCache() async {
+    try {
+      final dir = await getApplicationDocumentsDirectory();
+      await File('${dir.path}/_cache_settings.bin').writeAsBytes(settings.bytes);
+      await File('${dir.path}/_cache_song.bin').writeAsBytes(song.bytes);
+      await File('${dir.path}/_cache_songnum.txt')
+          .writeAsString(displayedSongNumber.toString());
+    } catch (_) {}
+  }
+
+  Future<void> _loadCache() async {
+    try {
+      final dir = await getApplicationDocumentsDirectory();
+      final sf = File('${dir.path}/_cache_settings.bin');
+      final pf = File('${dir.path}/_cache_song.bin');
+      final nf = File('${dir.path}/_cache_songnum.txt');
+      if (!sf.existsSync() || !pf.existsSync()) return;
+      settings.bytes.setRange(0, kSettingsSize, await sf.readAsBytes());
+      song.bytes.setRange(0, kSongSize, await pf.readAsBytes());
+      if (nf.existsSync()) {
+        displayedSongNumber = int.tryParse(await nf.readAsString()) ?? 0;
+      }
+      configLoadCount++;
+      songLoadCount++;
+      notifyListeners();
+    } catch (_) {}
   }
 
   // ─── Local backup ─────────────────────────────────────────────────────────────

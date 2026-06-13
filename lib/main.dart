@@ -31,7 +31,7 @@ class StompboxApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Stompbox Scanner',
+      title: 'Control Freek',
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
         colorScheme: const ColorScheme.dark(
