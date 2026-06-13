@@ -108,10 +108,7 @@ class SongScreen extends StatelessWidget {
                       children: [
                         _NameFieldsBox(song: song, notify: notify, songNumber: p.displayedSongNumber),
                         _dividerSection('LOOPS'),
-                        _matrixDropField(0, 'Main Out ←', song, settings, notify, divider: false, labelAlign: TextAlign.right),
-                        for (int i = 0; i < 7; i++)
-                          if (settings.getLoopName(i).isNotEmpty)
-                            _matrixDropField(i + 1, '${settings.getLoopName(i)} ←', song, settings, notify, divider: false, labelAlign: TextAlign.right),
+                        ..._buildLoopChain(song, settings, notify),
                         _dividerSection('AUX', topPadding: 0),
                         for (int i = 0; i < 4; i++)
                           if (settings.getAuxName(i).isNotEmpty)
@@ -488,6 +485,46 @@ Widget _matrixDropField(
       },
     ),
   );
+}
+
+List<Widget> _buildLoopChain(SongModel song, SettingsModel s, VoidCallback notify) {
+  final widgets = <Widget>[];
+
+  widgets.add(KeyedSubtree(
+    key: const ValueKey(0),
+    child: _matrixDropField(0, 'Main Out ←', song, s, notify, divider: false, labelAlign: TextAlign.right),
+  ));
+
+  int currentSource = song.getMatrix(0);
+  final visited = <int>{};
+
+  while (true) {
+    final loopIdx = _loopSourceValues.indexOf(currentSource);
+    if (loopIdx < 0 || visited.contains(loopIdx)) break;
+    visited.add(loopIdx);
+    final matIdx = loopIdx + 1;
+    final name = s.getLoopName(loopIdx);
+    final displayName = name.isNotEmpty ? name : 'Loop ${loopIdx + 1}';
+    widgets.add(KeyedSubtree(
+      key: ValueKey(matIdx),
+      child: _matrixDropField(matIdx, '$displayName ←', song, s, notify, divider: false, labelAlign: TextAlign.right),
+    ));
+    currentSource = song.getMatrix(matIdx);
+  }
+
+  // Append any named loops not reached by the chain
+  for (int i = 0; i < 7; i++) {
+    if (visited.contains(i)) continue;
+    final name = s.getLoopName(i);
+    if (name.isEmpty) continue;
+    final matIdx = i + 1;
+    widgets.add(KeyedSubtree(
+      key: ValueKey(matIdx),
+      child: _matrixDropField(matIdx, '$name ←', song, s, notify, divider: false, labelAlign: TextAlign.right),
+    ));
+  }
+
+  return widgets;
 }
 
 List<Widget> _trickDataWidgets(
