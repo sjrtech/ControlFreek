@@ -1179,12 +1179,30 @@ class _LocalBackupButtons extends StatelessWidget {
               child: const Text('Restore Song'),
               onPressed: () async {
                 final result = await FilePicker.platform.pickFiles(
-                  type: FileType.custom,
-                  allowedExtensions: ['cfk'],
+                  type: FileType.any,
                 );
-                if (result == null) return;
+                if (result == null) {
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('No backup file selected. Use "Backup Song" to create a .cfk file first.'),
+                        duration: Duration(seconds: 4),
+                      ),
+                    );
+                  }
+                  return;
+                }
+                final path = result.files.single.path;
+                if (path == null || !path.endsWith('.cfk')) {
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Please select a .cfk file')),
+                    );
+                  }
+                  return;
+                }
                 try {
-                  final bytes = await File(result.files.single.path!).readAsBytes();
+                  final bytes = await File(path).readAsBytes();
                   p.restoreSongFromBytes(bytes);
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -1198,6 +1216,7 @@ class _LocalBackupButtons extends StatelessWidget {
                     );
                   }
                 }
+
               },
             ),
           ),
