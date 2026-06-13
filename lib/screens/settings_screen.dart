@@ -118,6 +118,62 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final p = context.watch<DeviceProvider>();
     final s = p.settings;
 
+    Widget fswCell(int i) => Container(
+      key: _fieldKeys['fsw_$i'],
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: _colorDot(const Color(0xFF4499FF), i + 1),
+          ),
+          Expanded(
+            child: TextFormField(
+              focusNode: _focusNodes['fsw_$i']!,
+              initialValue: s.getFswName(i),
+              maxLength: 11,
+              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+              decoration: const InputDecoration(
+                isDense: true,
+                counterText: '',
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.symmetric(vertical: 2),
+              ),
+              onChanged: (v) => s.setFswName(i, v),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    Widget auxCell(int i) => Container(
+      key: _fieldKeys['aux_$i'],
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: _colorDot(const Color(0xFFFFD700), i + 1),
+          ),
+          Expanded(
+            child: TextFormField(
+              focusNode: _focusNodes['aux_$i']!,
+              initialValue: s.getAuxName(i),
+              maxLength: 11,
+              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+              decoration: const InputDecoration(
+                isDense: true,
+                counterText: '',
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.symmetric(vertical: 2),
+              ),
+              onChanged: (v) => s.setAuxName(i, v),
+            ),
+          ),
+        ],
+      ),
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: appBarTitle('Breakout Setup', icon: Icons.settings_input_component),
@@ -127,10 +183,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: CarbonBackground(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 12),
-              child: _BreakoutImage(activeField: _activeField, onPortTap: _onPortTap),
-            ),
             Expanded(
               child: ListView(
                 controller: _scrollController,
@@ -145,24 +197,107 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          _dividerSection('LOOPS'),
-                          for (int i = 0; i < 7; i++)
-                            _strField('Loop ${i + 1}:', s.getLoopName(i),
-                                (v) => s.setLoopName(i, v),
-                                focusNode: _focusNodes['loop_$i']!,
-                                rowKey: _fieldKeys['loop_$i']!),
                           _dividerSection('AUX OUTPUTS'),
-                          for (int i = 0; i < 4; i++)
-                            _strField('Aux ${i + 1}:', s.getAuxName(i),
-                                (v) => s.setAuxName(i, v),
-                                focusNode: _focusNodes['aux_$i']!,
-                                rowKey: _fieldKeys['aux_$i']!),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(child: Column(children: [auxCell(0), auxCell(1)])),
+                                const SizedBox(width: 12),
+                                Expanded(child: Column(children: [auxCell(2), auxCell(3)])),
+                              ],
+                            ),
+                          ),
                           _dividerSection('FOOTSWITCHES'),
-                          for (int i = 0; i < 6; i++)
-                            _strField('Fsw ${i + 1}:', s.getFswName(i),
-                                (v) => s.setFswName(i, v),
-                                focusNode: _focusNodes['fsw_$i']!,
-                                rowKey: _fieldKeys['fsw_$i']!),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(child: Column(children: [fswCell(0), fswCell(1)])),
+                                const SizedBox(width: 8),
+                                Expanded(child: Column(children: [fswCell(2), fswCell(3)])),
+                                const SizedBox(width: 8),
+                                Expanded(child: Column(children: [fswCell(4), fswCell(5)])),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 12),
+                    child: _BreakoutImage(activeField: _activeField, onPortTap: _onPortTap),
+                  ),
+                  IgnorePointer(
+                    ignoring: kDisableWhenDisconnected && !p.isConnected,
+                    child: AnimatedOpacity(
+                      opacity: kDisableWhenDisconnected && !p.isConnected ? 0.35 : 1.0,
+                      duration: const Duration(milliseconds: 300),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          _dividerSection('LOOPS'),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 0, top: 4, bottom: 4),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 35),
+                                  child: Row(
+                                    children: [
+                                      for (int i = 0; i < 7; i++) ...[
+                                        if (i > 0) const SizedBox(width: 2),
+                                        Expanded(child: Center(child: _colorDot(const Color(0xFF44DD88), i + 1))),
+                                      ],
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 30),
+                                LayoutBuilder(
+                                  builder: (context, constraints) {
+                                    final cellW = (constraints.maxWidth - 35) / 7;
+                                    return SizedBox(
+                                      height: 80,
+                                      child: Stack(
+                                        clipBehavior: Clip.none,
+                                        children: [
+                                          for (int i = 0; i < 7; i++)
+                                            Positioned(
+                                              left: i * cellW + cellW / 2 + 15,
+                                              top: -35,
+                                              width: 150,
+                                              child: Container(
+                                                key: _fieldKeys['loop_$i'],
+                                                child: Transform.rotate(
+                                                  angle: math.pi / 4,
+                                                  alignment: Alignment.topLeft,
+                                                  child: TextFormField(
+                                                    focusNode: _focusNodes['loop_$i']!,
+                                                    initialValue: s.getLoopName(i),
+                                                    maxLength: 11,
+                                                    style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                                                    decoration: const InputDecoration(
+                                                      isDense: true,
+                                                      counterText: '',
+                                                      border: InputBorder.none,
+                                                      contentPadding: EdgeInsets.symmetric(vertical: 2),
+                                                    ),
+                                                    onChanged: (v) => s.setLoopName(i, v),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
                           const SizedBox(height: 80),
                         ],
                       ),
@@ -453,55 +588,22 @@ Widget _dividerSection(String title, {double topPadding = 6}) => Padding(
       ),
     );
 
-Widget _strField(
-  String label,
-  String value,
-  void Function(String) onChange, {
-  required FocusNode focusNode,
-  required GlobalKey rowKey,
-}) =>
-    _FieldRow(
-      key: rowKey,
-      label: label,
-      child: TextFormField(
-        focusNode: focusNode,
-        initialValue: value,
-        maxLength: 11,
-        style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-        decoration: const InputDecoration(
-          isDense: true,
-          counterText: '',
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.symmetric(vertical: 2),
+Widget _colorDot(Color color, int number) => Container(
+      width: 25,
+      height: 25,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: color.withValues(alpha: 0.2),
+        border: Border.all(color: color, width: 1.5),
+      ),
+      child: Center(
+        child: Text(
+          '$number',
+          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
         ),
-        onChanged: onChange,
       ),
     );
 
-class _FieldRow extends StatelessWidget {
-  final String label;
-  final Widget child;
-
-  const _FieldRow({super.key, required this.label, required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    final leftPad = MediaQuery.of(context).size.width * 0.25;
-    return Container(
-      padding: EdgeInsets.only(left: leftPad, right: 12, top: 0, bottom: 0),
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 12),
-            child: Text(label,
-                style: const TextStyle(fontSize: 15, color: Colors.grey)),
-          ),
-          Expanded(child: child),
-        ],
-      ),
-    );
-  }
-}
 
 class _UpdateButton extends StatelessWidget {
   final String label;
