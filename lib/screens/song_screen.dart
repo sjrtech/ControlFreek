@@ -550,9 +550,8 @@ class _NameFieldsBox extends StatelessWidget {
         : _backlightToColor(song.backlight);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Center(
-        child: Row(
+      padding: const EdgeInsets.fromLTRB(30, 4, 4, 4),
+      child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             AnimatedOpacity(
@@ -565,20 +564,20 @@ class _NameFieldsBox extends StatelessWidget {
                     height: rowHeight,
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: Text('Name line 1:', style: TextStyle(fontSize: 10, color: labelColor)),
+                      child: Text('Name line 1:', style: TextStyle(fontSize: 13, color: labelColor)),
                     ),
                   ),
                   SizedBox(
                     height: rowHeight,
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: Text('Name line 2:', style: TextStyle(fontSize: 10, color: labelColor)),
+                      child: Text('Name line 2:', style: TextStyle(fontSize: 13, color: labelColor)),
                     ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: 3),
             SizedBox(
               width: boxWidth,
               child: AnimatedContainer(
@@ -663,7 +662,6 @@ class _NameFieldsBox extends StatelessWidget {
             ),
           ],
         ),
-      ),
     );
   }
 

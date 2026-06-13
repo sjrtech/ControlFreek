@@ -244,9 +244,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 12),
-                    child: _BreakoutImage(activeField: _activeField, onPortTap: _onPortTap),
+                  IgnorePointer(
+                    ignoring: kDisableWhenDisconnected && !p.isConnected,
+                    child: AnimatedOpacity(
+                      opacity: kDisableWhenDisconnected && !p.isConnected ? 0.35 : 1.0,
+                      duration: const Duration(milliseconds: 300),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 12),
+                        child: _BreakoutImage(activeField: _activeField, onPortTap: _onPortTap),
+                      ),
+                    ),
                   ),
                   IgnorePointer(
                     ignoring: kDisableWhenDisconnected && !p.isConnected,
@@ -257,65 +264,104 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           _dividerSection('LOOPS'),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 0, top: 4, bottom: 4),
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 35),
-                                  child: Row(
-                                    children: [
-                                      for (int i = 0; i < 7; i++) ...[
-                                        if (i > 0) const SizedBox(width: 2),
-                                        Expanded(child: Center(child: _colorDot(const Color(0xFF44DD88), i + 1))),
+                          if (isLandscape)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                              child: Row(
+                                children: [
+                                  for (int i = 0; i < 7; i++) ...[
+                                    if (i > 0) const SizedBox(width: 6),
+                                    Expanded(
+                                      child: Container(
+                                        key: _fieldKeys['loop_$i'],
+                                        child: Row(
+                                          children: [
+                                            _colorDot(const Color(0xFF44DD88), i + 1),
+                                            const SizedBox(width: 4),
+                                            Expanded(
+                                              child: TextFormField(
+                                                focusNode: _focusNodes['loop_$i']!,
+                                                initialValue: s.getLoopName(i),
+                                                maxLength: 11,
+                                                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                                decoration: const InputDecoration(
+                                                  isDense: true,
+                                                  counterText: '',
+                                                  border: InputBorder.none,
+                                                  contentPadding: EdgeInsets.symmetric(vertical: 2),
+                                                ),
+                                                onChanged: (v) => s.setLoopName(i, v),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ],
+                              ),
+                            )
+                          else ...[
+                            Padding(
+                              padding: const EdgeInsets.only(left: 0, top: 4, bottom: 4),
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 35),
+                                    child: Row(
+                                      children: [
+                                        for (int i = 0; i < 7; i++) ...[
+                                          if (i > 0) const SizedBox(width: 2),
+                                          Expanded(child: Center(child: _colorDot(const Color(0xFF44DD88), i + 1))),
+                                        ],
                                       ],
-                                    ],
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(height: 30),
-                                LayoutBuilder(
-                                  builder: (context, constraints) {
-                                    final cellW = (constraints.maxWidth - 35) / 7;
-                                    return SizedBox(
-                                      height: 80,
-                                      child: Stack(
-                                        clipBehavior: Clip.none,
-                                        children: [
-                                          for (int i = 0; i < 7; i++)
-                                            Positioned(
-                                              left: i * cellW + cellW / 2 + 15,
-                                              top: -35,
-                                              width: 150,
-                                              child: Container(
-                                                key: _fieldKeys['loop_$i'],
-                                                child: Transform.rotate(
-                                                  angle: math.pi / 4,
-                                                  alignment: Alignment.topLeft,
-                                                  child: TextFormField(
-                                                    focusNode: _focusNodes['loop_$i']!,
-                                                    initialValue: s.getLoopName(i),
-                                                    maxLength: 11,
-                                                    style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                                                    decoration: const InputDecoration(
-                                                      isDense: true,
-                                                      counterText: '',
-                                                      border: InputBorder.none,
-                                                      contentPadding: EdgeInsets.symmetric(vertical: 2),
+                                  const SizedBox(height: 30),
+                                  LayoutBuilder(
+                                    builder: (context, constraints) {
+                                      final cellW = (constraints.maxWidth - 35) / 7;
+                                      return SizedBox(
+                                        height: 80,
+                                        child: Stack(
+                                          clipBehavior: Clip.none,
+                                          children: [
+                                            for (int i = 0; i < 7; i++)
+                                              Positioned(
+                                                left: i * cellW + cellW / 2 + 15,
+                                                top: -35,
+                                                width: 150,
+                                                child: Container(
+                                                  key: _fieldKeys['loop_$i'],
+                                                  child: Transform.rotate(
+                                                    angle: math.pi / 4,
+                                                    alignment: Alignment.topLeft,
+                                                    child: TextFormField(
+                                                      focusNode: _focusNodes['loop_$i']!,
+                                                      initialValue: s.getLoopName(i),
+                                                      maxLength: 11,
+                                                      style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                                                      decoration: const InputDecoration(
+                                                        isDense: true,
+                                                        counterText: '',
+                                                        border: InputBorder.none,
+                                                        contentPadding: EdgeInsets.symmetric(vertical: 2),
+                                                      ),
+                                                      onChanged: (v) => s.setLoopName(i, v),
                                                     ),
-                                                    onChanged: (v) => s.setLoopName(i, v),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ],
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 80),
+                            const SizedBox(height: 80),
+                          ],
                         ],
                       ),
                     ),
