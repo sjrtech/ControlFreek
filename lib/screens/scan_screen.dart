@@ -33,7 +33,7 @@ List<Widget> bleAppBarActions(DeviceProvider p) {
     else if (scanning)
       const Padding(
         padding: EdgeInsets.symmetric(horizontal: 4),
-        child: Icon(Icons.radar, color: Colors.white70, size: 20),
+        child: Icon(Icons.radar, color: Color(0xFFBCC8DC), size: 20),
       )
     else
       const Padding(
@@ -71,14 +71,6 @@ class ScanScreen extends StatefulWidget {
 
 class _ScanScreenState extends State<ScanScreen> {
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<DeviceProvider>().startScan();
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     final p = context.watch<DeviceProvider>();
     final scanning = p.bleState == BleState.scanning;
@@ -87,8 +79,8 @@ class _ScanScreenState extends State<ScanScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Stompbox Scanner'),
-        backgroundColor: const Color(0xFF1c56f3),
+        title: const Text('Scanner'),
+        backgroundColor: const Color(0xFF1A3A7A),
         actions: bleAppBarActions(p),
       ),
       body: Column(

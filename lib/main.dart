@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'device_provider.dart';
 import 'screens/scan_screen.dart';
 import 'screens/settings_screen.dart';
@@ -10,6 +11,7 @@ import 'screens/song_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  FlutterBluePlus.setLogLevel(LogLevel.none, color: false);
   if (!kIsWeb && (Platform.isLinux || Platform.isWindows || Platform.isMacOS)) {
     await windowManager.ensureInitialized();
     await windowManager.setSize(const Size(450, 900));
@@ -39,8 +41,8 @@ class StompboxApp extends StatelessWidget {
         scaffoldBackgroundColor: const Color(0xFF121212),
         canvasColor: const Color(0xFF0D1B3E),
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFF1c56f3),
-          foregroundColor: Colors.white,
+          backgroundColor: Color(0xFF1A3A7A),
+          foregroundColor: Color(0xFFBCC8DC),
           elevation: 0,
         ),
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
@@ -65,6 +67,7 @@ class _MainShellState extends State<_MainShell> {
   int _tab = 0;
   int _lastSongLoadCount = 0;
   late final PageController _pageController;
+  bool _providerListening = false;
 
   static const _screens = [
     ScanScreen(),
@@ -84,7 +87,10 @@ class _MainShellState extends State<_MainShell> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    context.read<DeviceProvider>().addListener(_onProviderChange);
+    if (!_providerListening) {
+      _providerListening = true;
+      context.read<DeviceProvider>().addListener(_onProviderChange);
+    }
   }
 
   @override
@@ -95,6 +101,7 @@ class _MainShellState extends State<_MainShell> {
   }
 
   void _onProviderChange() {
+    if (!mounted) return;
     final p = context.read<DeviceProvider>();
     if (p.songLoadCount != _lastSongLoadCount) {
       _lastSongLoadCount = p.songLoadCount;
@@ -116,11 +123,14 @@ class _MainShellState extends State<_MainShell> {
   @override
   Widget build(BuildContext context) {
     if (_isMobile) {
-      return Scaffold(
-        body: PageView(
-          controller: _pageController,
-          onPageChanged: (i) => setState(() => _tab = i),
-          children: _screens,
+      return PopScope(
+        canPop: false,
+        child: Scaffold(
+          body: PageView(
+            controller: _pageController,
+            onPageChanged: (i) => setState(() => _tab = i),
+            children: _screens,
+          ),
         ),
       );
     }

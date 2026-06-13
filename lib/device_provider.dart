@@ -1,11 +1,15 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'ble_service.dart';
 import 'protocol.dart';
 import 'models.dart';
+
+/// Set to true to gray-out and disable all song/setup controls when disconnected.
+const bool kDisableWhenDisconnected = true;
 
 enum BleState { disconnected, scanning, connecting, connected }
 
@@ -30,6 +34,7 @@ class DeviceProvider extends ChangeNotifier {
   Timer? _retryTimer;
   Timer? _rssiTimer;
   bool _autoConnecting = false;
+  bool _userDisconnected = false;
 
   int rssi = 0; // 0 = no reading
 
@@ -50,7 +55,7 @@ class DeviceProvider extends ChangeNotifier {
 
     _scanSub = _ble.scanResults.listen((results) {
       scanResults = results;
-      if (!_autoConnecting) {
+      if (!_autoConnecting && !_userDisconnected) {
         final match = results.where((d) => d.name.startsWith('BRK_v'));
         if (match.isNotEmpty) {
           _autoConnecting = true;
@@ -60,6 +65,9 @@ class DeviceProvider extends ChangeNotifier {
       }
       notifyListeners();
     });
+
+    // Kick off initial scan on app start
+    WidgetsBinding.instance.addPostFrameCallback((_) => startScan());
   }
 
   // ─── Accessors ────────────────────────────────────────────────────────────────
@@ -75,6 +83,7 @@ class DeviceProvider extends ChangeNotifier {
     scanResults = [];
     statusMessage = 'Scanning…';
     _autoConnecting = false;
+    _userDisconnected = false;
     notifyListeners();
 
     _autoConnectTimer?.cancel();
@@ -157,7 +166,7 @@ class DeviceProvider extends ChangeNotifier {
     if (bleState != BleState.connected) return;
     try {
       rssi = await _ble.readRssi();
-      notifyListeners();
+      WidgetsBinding.instance.addPostFrameCallback((_) => notifyListeners());
     } catch (_) {}
   }
 
@@ -168,9 +177,13 @@ class DeviceProvider extends ChangeNotifier {
   }
 
   Future<void> disconnect() async {
+    _userDisconnected = true;
+    _autoConnectTimer?.cancel();
+    _retryTimer?.cancel();
     _stopRssiPolling();
     _dataSub?.cancel();
     _dataSub = null;
+    await _ble.stopScan();
     await _ble.disconnect();
     bleState = BleState.disconnected;
     statusMessage = 'Disconnected';

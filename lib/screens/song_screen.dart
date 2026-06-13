@@ -85,8 +85,15 @@ class SongScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Song ${settings.currentSong}'),
-        backgroundColor: const Color(0xFF1c56f3),
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.music_note, size: 20),
+            const SizedBox(width: 6),
+            Text('Song ${settings.currentSong}'),
+          ],
+        ),
+        backgroundColor: const Color(0xFF1A3A7A),
         actions: bleAppBarActions(p),
       ),
       body: Column(
@@ -96,81 +103,104 @@ class SongScreen extends StatelessWidget {
               key: ValueKey(p.songLoadCount),
               padding: const EdgeInsets.symmetric(vertical: 8),
               children: [
-                _dividerSection('SONG NAME'),
-                _NameFieldsBox(song: song, notify: notify),
-                _dividerSection('LOOPS'),
-                _matrixDropField(0, 'Main Out ←', song, settings, notify, divider: false, labelAlign: TextAlign.right),
-                for (int i = 0; i < 7; i++)
-                  if (settings.getLoopName(i).isNotEmpty)
-                    _matrixDropField(i + 1, '${settings.getLoopName(i)} ←', song, settings, notify, divider: false, labelAlign: TextAlign.right),
-                _dividerSection('AUX', topPadding: 0),
-                for (int i = 0; i < 4; i++)
-                  if (settings.getAuxName(i).isNotEmpty)
-                    _matrixDropField(i + 8, '${settings.getAuxName(i)} ←', song, settings, notify, divider: false, labelAlign: TextAlign.right),
-                _dividerSection('FOOTSWITCH'),
-                _FswRow(
-                  initialValue: song.footswitch,
-                  names: List.generate(6, (i) {
-                    final n = settings.getFswName(i);
-                    return n.isNotEmpty ? n : 'Fsw ${i + 1}';
-                  }),
-                  onChange: (v) { song.footswitch = v; notify(); },
+                IgnorePointer(
+                  ignoring: kDisableWhenDisconnected && !p.isConnected,
+                  child: AnimatedOpacity(
+                    opacity: kDisableWhenDisconnected && !p.isConnected ? 0.35 : 1.0,
+                    duration: const Duration(milliseconds: 300),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        _dividerSection('SONG NAME'),
+                        _NameFieldsBox(song: song, notify: notify),
+                        _dividerSection('LOOPS'),
+                        _matrixDropField(0, 'Main Out ←', song, settings, notify, divider: false, labelAlign: TextAlign.right),
+                        for (int i = 0; i < 7; i++)
+                          if (settings.getLoopName(i).isNotEmpty)
+                            _matrixDropField(i + 1, '${settings.getLoopName(i)} ←', song, settings, notify, divider: false, labelAlign: TextAlign.right),
+                        _dividerSection('AUX', topPadding: 0),
+                        for (int i = 0; i < 4; i++)
+                          if (settings.getAuxName(i).isNotEmpty)
+                            _matrixDropField(i + 8, '${settings.getAuxName(i)} ←', song, settings, notify, divider: false, labelAlign: TextAlign.right),
+                        _dividerSection('FOOTSWITCH'),
+                        _FswRow(
+                          initialValue: song.footswitch,
+                          names: List.generate(6, (i) {
+                            final n = settings.getFswName(i);
+                            return n.isNotEmpty ? n : 'Fsw ${i + 1}';
+                          }),
+                          onChange: (v) { song.footswitch = v; notify(); },
+                        ),
+                        _dividerSection('BACKLIGHT'),
+                        _colorField('', song.backlight, (v) { song.backlight = v; notify(); }),
+                        _dividerSection('TRICK SHOT'),
+                        _trickModeDropField('Mode', song.trickMode, (v) { song.trickMode = v; notify(); }),
+                        ..._trickDataWidgets(song.trickMode, song.trickData, settings,
+                            notify, (v) { song.trickData = v; }),
+                        _dividerSection('DIVE BOMB'),
+                        _trickModeDropField('Mode', song.diveBombMode, (v) { song.diveBombMode = v; notify(); }),
+                        ..._trickDataWidgets(song.diveBombMode, song.diveBombData, settings,
+                            notify, (v) { song.diveBombData = v; }),
+                        _dividerSection('LOCAL BACKUP'),
+                        _LocalBackupButtons(),
+                        const SizedBox(height: 24),
+                      ],
+                    ),
+                  ),
                 ),
-                _dividerSection('BACKLIGHT'),
-                _colorField('', song.backlight, (v) { song.backlight = v; notify(); }),
-                _dividerSection('TRICK SHOT'),
-                _trickModeDropField('Mode', song.trickMode, (v) { song.trickMode = v; notify(); }),
-                ..._trickDataWidgets(song.trickMode, song.trickData, settings,
-                    notify, (v) { song.trickData = v; }),
-                _dividerSection('DIVE BOMB'),
-                _trickModeDropField('Mode', song.diveBombMode, (v) { song.diveBombMode = v; notify(); }),
-                ..._trickDataWidgets(song.diveBombMode, song.diveBombData, settings,
-                    notify, (v) { song.diveBombData = v; }),
-                const SizedBox(height: 80),
               ],
             ),
           ),
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton.icon(
-                      icon: const Icon(Icons.arrow_back),
-                      label: const Text('Prev'),
-                      onPressed: p.isConnected ? p.prevSong : null,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    flex: 2,
-                    child: ElevatedButton(
-                      onPressed: p.isConnected ? p.updateSongToDevice : null,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF1c56f3),
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
+          ColoredBox(
+            color: const Color(0xFF0D1B3E),
+            child: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(12, 8, 12, 20),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton.icon(
+                        icon: const Icon(Icons.arrow_back),
+                        label: const Text('Prev'),
+                        onPressed: p.isConnected ? p.prevSong : null,
                       ),
-                      child: const Text('Update to Device',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                     ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: OutlinedButton.icon(
-                      icon: const Icon(Icons.arrow_forward),
-                      label: const Text('Next'),
-                      onPressed: p.isConnected ? p.nextSong : null,
+                    const SizedBox(width: 8),
+                    Expanded(
+                      flex: 2,
+                      child: ElevatedButton(
+                        onPressed: p.isConnected ? p.updateSongToDevice : null,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF1A3A7A),
+                          foregroundColor: const Color(0xFFBCC8DC),
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                        ),
+                        child: const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.settings_input_component, size: 18),
+                            SizedBox(width: 8),
+                            Text('Update Song',
+                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: OutlinedButton.icon(
+                        icon: const Icon(Icons.arrow_forward),
+                        label: const Text('Next'),
+                        onPressed: p.isConnected ? p.nextSong : null,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-          _LocalBackupBar(),
         ],
       ),
     );
@@ -545,74 +575,62 @@ class _FswRowState extends State<_FswRow> {
   }
 }
 
-class _LocalBackupBar extends StatelessWidget {
+class _LocalBackupButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final p = context.read<DeviceProvider>();
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-      decoration: BoxDecoration(
-        border: Border(top: BorderSide(color: Colors.grey.shade700, width: 1)),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      child: Row(
         children: [
-          Text('LOCAL BACKUP',
-              style: TextStyle(fontSize: 14, color: Colors.grey.shade500)),
-          const SizedBox(height: 4),
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton(
-                  child: const Text('Backup Song'),
-                  onPressed: () async {
-                    try {
-                      final path = await p.saveSong();
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Saved to $path')),
-                        );
-                      }
-                    } catch (e) {
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Backup failed: $e')),
-                        );
-                      }
-                    }
-                  },
-                ),
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: OutlinedButton(
-                  child: const Text('Restore Song'),
-                  onPressed: () async {
-                    final result = await FilePicker.platform.pickFiles(
-                      type: FileType.custom,
-                      allowedExtensions: ['cfk'],
+          Expanded(
+            child: OutlinedButton(
+              child: const Text('Backup Song'),
+              onPressed: () async {
+                try {
+                  final path = await p.saveSong();
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Saved to $path')),
                     );
-                    if (result == null) return;
-                    try {
-                      final bytes = await File(result.files.single.path!).readAsBytes();
-                      p.restoreSongFromBytes(bytes);
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Song restored')),
-                        );
-                      }
-                    } catch (e) {
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Restore failed: $e')),
-                        );
-                      }
-                    }
-                  },
-                ),
-              ),
-            ],
+                  }
+                } catch (e) {
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Backup failed: $e')),
+                    );
+                  }
+                }
+              },
+            ),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: OutlinedButton(
+              child: const Text('Restore Song'),
+              onPressed: () async {
+                final result = await FilePicker.platform.pickFiles(
+                  type: FileType.custom,
+                  allowedExtensions: ['cfk'],
+                );
+                if (result == null) return;
+                try {
+                  final bytes = await File(result.files.single.path!).readAsBytes();
+                  p.restoreSongFromBytes(bytes);
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Song restored')),
+                    );
+                  }
+                } catch (e) {
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Restore failed: $e')),
+                    );
+                  }
+                }
+              },
+            ),
           ),
         ],
       ),
