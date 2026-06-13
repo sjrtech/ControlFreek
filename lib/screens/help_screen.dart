@@ -15,9 +15,9 @@ class HelpScreen extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
-      body: const Center(
+      body: CarbonBackground(child: const Center(
         child: Text('Help coming soon', style: TextStyle(color: Colors.grey)),
-      ),
+      )),
     );
   }
 }

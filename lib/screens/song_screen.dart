@@ -96,7 +96,7 @@ class _SongScreenState extends State<SongScreen> {
         backgroundColor: const Color(0xFF1A3A7A),
         actions: bleAppBarActions(p, context),
       ),
-      body: Stack(
+      body: CarbonBackground(child: Stack(
         children: [
           Column(
         children: [
@@ -118,11 +118,10 @@ class _SongScreenState extends State<SongScreen> {
                     ),
                   );
                   return <Widget>[
-                    // Song name + LOOPS divider (data entry — dim when disconnected)
-                    dw(Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                      _NameFieldsBox(song: song, notify: notify, songNumber: p.displayedSongNumber),
-                      _dividerSection('MAIN LOOP'),
-                    ])),
+                    Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                      _NameFieldsBox(song: song, notify: notify, songNumber: p.displayedSongNumber, disabled: disabled),
+                      dw(_dividerSection('MAIN LOOP')),
+                    ]),
                     // Main chain: always interactive
                     GestureDetector(
                       behavior: HitTestBehavior.opaque,
@@ -300,7 +299,7 @@ class _SongScreenState extends State<SongScreen> {
               ),
             ),
         ],
-      ),
+      )),
     );
   }
 }
@@ -332,63 +331,128 @@ class _NameFieldsBox extends StatelessWidget {
   final SongModel song;
   final VoidCallback notify;
   final int songNumber;
+  final bool disabled;
 
-  const _NameFieldsBox({required this.song, required this.notify, required this.songNumber});
+  const _NameFieldsBox({required this.song, required this.notify, required this.songNumber, this.disabled = false});
 
   @override
   Widget build(BuildContext context) {
-    final boxWidth = MediaQuery.of(context).size.width * 0.35;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final boxWidth = screenWidth * 0.55;
+    final rowHeight = screenWidth * 0.124;
+    final dur = const Duration(milliseconds: 300);
+    final labelColor = disabled ? Colors.grey.shade700 : Colors.grey;
+    final boxColor = disabled
+        ? Color.lerp(_backlightToColor(song.backlight), const Color(0xFF0E0E0E), 0.65)!
+        : _backlightToColor(song.backlight);
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Center(
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 28,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text('Name line 1:', style: const TextStyle(fontSize: 15, color: Colors.grey)),
+            AnimatedOpacity(
+              opacity: disabled ? 0.35 : 1.0,
+              duration: dur,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: rowHeight,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text('Name line 1:', style: TextStyle(fontSize: 10, color: labelColor)),
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 28,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text('Name line 2:', style: const TextStyle(fontSize: 15, color: Colors.grey)),
+                  SizedBox(
+                    height: rowHeight,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text('Name line 2:', style: TextStyle(fontSize: 10, color: labelColor)),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             const SizedBox(width: 8),
             SizedBox(
               width: boxWidth,
-              child: Container(
+              child: AnimatedContainer(
+                duration: dur,
+                height: screenWidth * 0.28,
+                clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
-                  color: _backlightToColor(song.backlight),
+                  color: boxColor,
                   border: Border.all(color: Colors.grey),
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Stack(
-                  alignment: Alignment.center,
                   children: [
-                    Text(
-                      '$songNumber',
-                      style: TextStyle(
-                        fontSize: 90,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black.withValues(alpha: 0.16),
-                        height: 1,
+                    // Watermark number — centered in box
+                    Positioned.fill(
+                      child: AnimatedOpacity(
+                        opacity: disabled ? 0.35 : 1.0,
+                        duration: dur,
+                        child: Center(
+                          child: Text(
+                            '$songNumber',
+                            style: TextStyle(
+                              fontSize: 128,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black.withValues(alpha: 0.16),
+                              height: 1,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                    Column(
-                      children: [
-                        _inputField(song.name, (v) { song.name = v; notify(); }),
-                        _inputField(song.partname, (v) { song.partname = v; notify(); }),
-                      ],
+                    // "- CONTROL FREEK -" label
+                    Positioned(
+                      top: rowHeight * 0.05 + 10,
+                      left: 8,
+                      right: 8,
+                      child: AnimatedOpacity(
+                        opacity: disabled ? 0.35 : 1.0,
+                        duration: dur,
+                        child: Text(
+                          '- CONTROL FREEK -',
+                          style: TextStyle(
+                            fontSize: rowHeight * 0.261,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            height: 1.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                    // Name line 1
+                    Positioned(
+                      top: rowHeight * 0.40 - 7,
+                      left: 0,
+                      right: 0,
+                      child: IgnorePointer(
+                        ignoring: disabled,
+                        child: AnimatedOpacity(
+                          opacity: disabled ? 0.35 : 1.0,
+                          duration: dur,
+                          child: _inputField(song.name, (v) { song.name = v; notify(); }, rowHeight),
+                        ),
+                      ),
+                    ),
+                    // Name line 2
+                    Positioned(
+                      top: rowHeight * 1.40 - 20,
+                      left: 0,
+                      right: 0,
+                      child: IgnorePointer(
+                        ignoring: disabled,
+                        child: AnimatedOpacity(
+                          opacity: disabled ? 0.35 : 1.0,
+                          duration: dur,
+                          child: _inputField(song.partname, (v) { song.partname = v; notify(); }, rowHeight),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -400,17 +464,18 @@ class _NameFieldsBox extends StatelessWidget {
     );
   }
 
-  Widget _inputField(String value, void Function(String) onChange) =>
+  Widget _inputField(String value, void Function(String) onChange, double rowHeight) =>
       SizedBox(
-        height: 28,
+        height: rowHeight,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: TextFormField(
             initialValue: value.toUpperCase(),
             maxLength: 31,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+            style: TextStyle(fontSize: rowHeight * 0.668, fontWeight: FontWeight.bold, color: Colors.black),
             cursorColor: Colors.black,
             textAlign: TextAlign.left,
+            textAlignVertical: TextAlignVertical.top,
             inputFormatters: [
               TextInputFormatter.withFunction((oldValue, newValue) {
                 final filtered = newValue.text

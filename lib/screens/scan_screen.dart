@@ -1,7 +1,57 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../device_provider.dart';
 import 'help_screen.dart';
+
+// ─── Carbon fiber background ─────────────────────────────────────────────────
+
+class _TexturePainter extends CustomPainter {
+  const _TexturePainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()..strokeWidth = 1.0;
+
+    for (double y = 0; y < size.height; y++) {
+      // Overlapping sine waves at different frequencies simulate fine brush marks
+      final v = (math.sin(y * 0.5)  * 0.40 +
+                 math.sin(y * 1.3)  * 0.30 +
+                 math.sin(y * 3.7)  * 0.20 +
+                 math.sin(y * 0.09) * 0.10).abs();
+      final b = (12 + v * 22).round().clamp(10, 38);
+      paint.color = Color.fromARGB(255, b, b, b);
+      canvas.drawLine(Offset(0, y), Offset(size.width, y), paint);
+    }
+
+    // Subtle vignette — slightly darker at edges, lighter toward centre
+    final bounds = Rect.fromLTWH(0, 0, size.width, size.height);
+    canvas.drawRect(
+      bounds,
+      Paint()
+        ..shader = RadialGradient(
+          colors: [Colors.transparent, Colors.black.withValues(alpha: 0.35)],
+          stops: const [0.55, 1.0],
+        ).createShader(bounds),
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter old) => false;
+}
+
+class CarbonBackground extends StatelessWidget {
+  final Widget child;
+  const CarbonBackground({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context) => CustomPaint(
+        painter: const _TexturePainter(),
+        child: child,
+      );
+}
+
+// ─── App bar helpers ──────────────────────────────────────────────────────────
 
 Widget appBarTitle(String text, {IconData? icon}) => Row(
   mainAxisSize: MainAxisSize.min,
@@ -110,7 +160,7 @@ class _ScanScreenState extends State<ScanScreen> {
         backgroundColor: const Color(0xFF1A3A7A),
         actions: bleAppBarActions(p, context),
       ),
-      body: Stack(
+      body: CarbonBackground(child: Stack(
         children: [
           Column(
         children: [
@@ -195,7 +245,7 @@ class _ScanScreenState extends State<ScanScreen> {
               ),
             ),
         ],
-      ),
+      )),
     );
   }
 }

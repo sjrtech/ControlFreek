@@ -38,7 +38,7 @@ class StompboxApp extends StatelessWidget {
           primary: Color(0xFF1c56f3),
           surface: Color(0xFF1a1a1a),
         ),
-        scaffoldBackgroundColor: const Color(0xFF121212),
+        scaffoldBackgroundColor: const Color(0xFF0E0E0E),
         canvasColor: const Color(0xFF0D1B3E),
         appBarTheme: const AppBarTheme(
           backgroundColor: Color(0xFF1A3A7A),

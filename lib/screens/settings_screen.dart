@@ -19,7 +19,7 @@ class SettingsScreen extends StatelessWidget {
         backgroundColor: const Color(0xFF1A3A7A),
         actions: bleAppBarActions(p, context),
       ),
-      body: Column(
+      body: CarbonBackground(child: Column(
         children: [
           Expanded(
             child: ListView(
@@ -60,7 +60,7 @@ class SettingsScreen extends StatelessWidget {
             onPressed: p.updateConfigToDevice,
           ),
         ],
-      ),
+      )),
     );
   }
 }
