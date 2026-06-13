@@ -108,14 +108,15 @@ class SongScreen extends StatelessWidget {
                       children: [
                         _NameFieldsBox(song: song, notify: notify, songNumber: p.displayedSongNumber),
                         _dividerSection('LOOPS'),
+                        _ChainDiagram(song: song, settings: settings, notify: notify),
                         ..._buildLoopChain(song, settings, notify),
                         if (List.generate(4, (i) => settings.getAuxName(i)).any((n) => n.isNotEmpty)) ...[
-                          _dividerSection('AUX', topPadding: 0),
+                          _dividerSection('AUX OUTPUTS', topPadding: 0),
                           for (int i = 0; i < 4; i++)
                             if (settings.getAuxName(i).isNotEmpty)
                               _matrixDropField(i + 8, '${settings.getAuxName(i)} ←', song, settings, notify, divider: false, labelAlign: TextAlign.right),
                         ],
-                        _dividerSection('FOOTSWITCH'),
+                        _dividerSection('FOOTSWITCHES'),
                         _FswRow(
                           initialValue: song.footswitch,
                           names: List.generate(6, (i) {
@@ -488,6 +489,252 @@ Widget _matrixDropField(
     ),
   );
 }
+
+// ─── Chain diagram ────────────────────────────────────────────────────────────
+
+List<({int matIdx, String label})> _getChainOrder(SongModel song, SettingsModel s) {
+  if (song.getMatrix(0) != 0) {
+    // Main Out has a source — follow backwards from Main Out
+    final chain = <({int matIdx, String label})>[];
+    int src = song.getMatrix(0);
+    final visited = <int>{};
+    while (true) {
+      final i = _loopSourceValues.indexOf(src);
+      if (i < 0 || visited.contains(i)) break;
+      visited.add(i);
+      final n = s.getLoopName(i);
+      chain.add((matIdx: i + 1, label: n.isNotEmpty ? n : 'Loop ${i + 1}'));
+      src = song.getMatrix(i + 1);
+    }
+    return chain; // [Loop3, Loop1, ...] — reversed in display for signal flow
+  }
+
+  // Main Out not used — forward traversal from the loop that sources MAIN IN
+  int? curr;
+  for (int i = 0; i < 7; i++) {
+    if (song.getMatrix(i + 1) == 1) { curr = i; break; }
+  }
+  if (curr == null) return [];
+
+  final fwd = <({int matIdx, String label})>[];
+  final visited = <int>{};
+  while (curr != null) {
+    if (visited.contains(curr)) break;
+    visited.add(curr);
+    final n = s.getLoopName(curr);
+    fwd.add((matIdx: curr + 1, label: n.isNotEmpty ? n : 'Loop ${curr + 1}'));
+    final outVal = _loopSourceValues[curr];
+    curr = null;
+    for (int i = 0; i < 7; i++) {
+      if (!visited.contains(i) && song.getMatrix(i + 1) == outVal) {
+        curr = i;
+        break;
+      }
+    }
+  }
+  // fwd is signal-flow order [Loop1, Loop3] — reverse so display's .reversed gives correct order
+  return fwd.reversed.toList();
+}
+
+void _showSourcePicker(BuildContext context, int matIdx, SongModel song, SettingsModel s, VoidCallback notify) {
+  final opts = _buildMatrixOptions(matIdx, s);
+  final current = song.getMatrix(matIdx);
+  showDialog<void>(
+    context: context,
+    builder: (ctx) => SimpleDialog(
+      backgroundColor: const Color(0xFF1A3A7A),
+      title: const Text('Select Source', style: TextStyle(color: Color(0xFFBCC8DC), fontSize: 16)),
+      children: [
+        for (int i = 0; i < opts.length; i++)
+          SimpleDialogOption(
+            onPressed: () {
+              song.setMatrix(matIdx, opts[i].value);
+              notify();
+              Navigator.of(ctx).pop();
+            },
+            child: Text(
+              opts[i].name,
+              style: TextStyle(
+                color: opts[i].value == current ? Colors.white : const Color(0xFFBCC8DC),
+                fontWeight: opts[i].value == current ? FontWeight.bold : FontWeight.normal,
+                fontSize: 16,
+              ),
+            ),
+          ),
+      ],
+    ),
+  );
+}
+
+class _ChainDiagram extends StatelessWidget {
+  final SongModel song;
+  final SettingsModel settings;
+  final VoidCallback notify;
+
+  const _ChainDiagram({required this.song, required this.settings, required this.notify});
+
+  @override
+  Widget build(BuildContext context) {
+    final chain = _getChainOrder(song, settings);
+    final noSource = song.getMatrix(0) == 0;
+
+    // Signal-flow order: MAIN IN → [loops] → MAIN OUT
+    // matIdx -1 = MAIN IN (not tappable)
+    final items = [
+      (matIdx: -1, label: 'MAIN IN'),
+      ...chain.reversed.map((e) => (matIdx: e.matIdx, label: e.label)),
+      (matIdx: 0, label: 'MAIN OUT'),
+    ];
+
+    const boxH = 34.0;
+    const arrowW = 18.0;
+    const hPad = 8.0;
+    const minBoxW = 28.0;
+    const labelStyle = TextStyle(fontSize: 8, height: 1.1);
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(12, 2, 12, 4),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          // Measure natural single-line width of each box
+          double naturalTotal = (items.length - 1) * arrowW;
+          for (final item in items) {
+            final tp = TextPainter(
+              text: TextSpan(text: item.label, style: labelStyle),
+              textDirection: TextDirection.ltr,
+              maxLines: 1,
+            )..layout();
+            final w = tp.size.width + hPad;
+            naturalTotal += w < minBoxW ? minBoxW : w;
+          }
+
+          // Only wrap labels that contain a space, and only when overflow occurs
+          final wrap = naturalTotal > constraints.maxWidth;
+
+          return SizedBox(
+            height: boxH,
+            width: constraints.maxWidth,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  for (int i = 0; i < items.length; i++) ...[
+                    if (i > 0)
+                      _ChainArrow(
+                        width: arrowW,
+                        hasX: noSource && i == items.length - 1,
+                      ),
+                    _ChainBox(
+                      label: items[i].label,
+                      wrap: wrap,
+                      onTap: items[i].matIdx < 0
+                          ? null
+                          : () => _showSourcePicker(context, items[i].matIdx, song, settings, notify),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _ChainBox extends StatelessWidget {
+  final String label;
+  final bool wrap;
+  final VoidCallback? onTap;
+
+  const _ChainBox({required this.label, this.wrap = false, this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final displayLabel =
+        (wrap && label.contains(' ')) ? label.replaceAll(' ', '\n') : label;
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(5),
+      child: Container(
+        height: 34,
+        constraints: const BoxConstraints(minWidth: 28),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey.shade700, width: 0.75),
+          borderRadius: BorderRadius.circular(5),
+        ),
+        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(horizontal: 4),
+        child: Text(
+          displayLabel,
+          textAlign: TextAlign.center,
+          textHeightBehavior: const TextHeightBehavior(
+            applyHeightToFirstAscent: false,
+            applyHeightToLastDescent: false,
+          ),
+          style: const TextStyle(fontSize: 8, color: Colors.grey, height: 1.1),
+        ),
+      ),
+    );
+  }
+}
+
+class _ChainArrow extends StatelessWidget {
+  final double width;
+  final bool hasX;
+
+  const _ChainArrow({required this.width, this.hasX = false});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: width,
+      height: 34,
+      child: CustomPaint(painter: _ChainArrowPainter(hasX: hasX)),
+    );
+  }
+}
+
+class _ChainArrowPainter extends CustomPainter {
+  final bool hasX;
+  const _ChainArrowPainter({this.hasX = false});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final midY = size.height / 2;
+    final linePaint = Paint()
+      ..color = Colors.grey.shade700
+      ..strokeWidth = 0.75
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round;
+
+    canvas.drawLine(Offset(0, midY), Offset(size.width, midY), linePaint);
+
+    // Arrowhead pointing right
+    const ah = 3.0;
+    canvas.drawLine(Offset(size.width, midY), Offset(size.width - ah, midY - ah), linePaint);
+    canvas.drawLine(Offset(size.width, midY), Offset(size.width - ah, midY + ah), linePaint);
+
+    if (hasX) {
+      const xr = 3.5;
+      final cx = size.width / 2;
+      final xPaint = Paint()
+        ..color = Colors.red.shade400
+        ..strokeWidth = 1.0
+        ..style = PaintingStyle.stroke
+        ..strokeCap = StrokeCap.round;
+      canvas.drawLine(Offset(cx - xr, midY - xr), Offset(cx + xr, midY + xr), xPaint);
+      canvas.drawLine(Offset(cx + xr, midY - xr), Offset(cx - xr, midY + xr), xPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(_ChainArrowPainter old) => old.hasX != hasX;
+}
+
+// ─── Chain rows ───────────────────────────────────────────────────────────────
 
 List<Widget> _buildLoopChain(SongModel song, SettingsModel s, VoidCallback notify) {
   final widgets = <Widget>[];

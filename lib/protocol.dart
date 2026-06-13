@@ -232,6 +232,13 @@ class Protocol {
     _sendBlockSetConfig();
   }
 
+  void gotoSong(int songNum) {
+    if (songNum < 1 || songNum > 120) return;
+    _mode = kModeChangeSong;
+    ramSettings.currentSong = songNum;
+    sendStatus();
+  }
+
   void gotoNextSong() {
     _mode = kModeChangeSong;
     if (ramSettings.currentSong < 120) ramSettings.currentSong++;

@@ -54,9 +54,16 @@ class DeviceProvider extends ChangeNotifier {
         notifyListeners();
       },
       onConfigComplete: () {
-        statusMessage = 'Config loaded — song ${_proto.ramSettings.currentSong}';
         configLoadCount++;
         _saveCache();
+        // Navigate to last displayed song if different from device's current song
+        if (displayedSongNumber > 0 &&
+            displayedSongNumber != _proto.ramSettings.currentSong) {
+          statusMessage = 'Config loaded — loading song $displayedSongNumber…';
+          _proto.gotoSong(displayedSongNumber);
+        } else {
+          statusMessage = 'Config loaded — song ${_proto.ramSettings.currentSong}';
+        }
         notifyListeners();
       },
     );

@@ -38,11 +38,11 @@ class SettingsScreen extends StatelessWidget {
                         for (int i = 0; i < 7; i++)
                           _strField('Loop ${i + 1}:', s.getLoopName(i),
                               (v) => s.setLoopName(i, v)),
-                        _dividerSection('AUX'),
+                        _dividerSection('AUX OUTPUTS'),
                         for (int i = 0; i < 4; i++)
                           _strField('Aux ${i + 1}:', s.getAuxName(i),
                               (v) => s.setAuxName(i, v)),
-                        _dividerSection('FOOTSWITCH'),
+                        _dividerSection('FOOTSWITCHES'),
                         for (int i = 0; i < 6; i++)
                           _strField('Fsw ${i + 1}:', s.getFswName(i),
                               (v) => s.setFswName(i, v)),
