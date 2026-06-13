@@ -85,18 +85,13 @@ class SongScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.music_note, size: 20),
-            const SizedBox(width: 6),
-            Text('Song ${settings.currentSong}'),
-          ],
-        ),
+        title: appBarTitle('Song', icon: Icons.music_note),
         backgroundColor: const Color(0xFF1A3A7A),
         actions: bleAppBarActions(p),
       ),
-      body: Column(
+      body: Stack(
+        children: [
+          Column(
         children: [
           Expanded(
             child: ListView(
@@ -111,8 +106,7 @@ class SongScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        _dividerSection('SONG NAME'),
-                        _NameFieldsBox(song: song, notify: notify),
+                        _NameFieldsBox(song: song, notify: notify, songNumber: p.displayedSongNumber),
                         _dividerSection('LOOPS'),
                         _matrixDropField(0, 'Main Out ←', song, settings, notify, divider: false, labelAlign: TextAlign.right),
                         for (int i = 0; i < 7; i++)
@@ -162,7 +156,10 @@ class SongScreen extends StatelessWidget {
                       child: OutlinedButton.icon(
                         icon: const Icon(Icons.arrow_back),
                         label: const Text('Prev'),
-                        onPressed: p.isConnected ? p.prevSong : null,
+                        onPressed: p.isConnected ? () {
+                          HapticFeedback.mediumImpact();
+                          p.prevSong();
+                        } : null,
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -193,7 +190,10 @@ class SongScreen extends StatelessWidget {
                       child: OutlinedButton.icon(
                         icon: const Icon(Icons.arrow_forward),
                         label: const Text('Next'),
-                        onPressed: p.isConnected ? p.nextSong : null,
+                        onPressed: p.isConnected ? () {
+                          HapticFeedback.mediumImpact();
+                          p.nextSong();
+                        } : null,
                       ),
                     ),
                   ],
@@ -201,6 +201,21 @@ class SongScreen extends StatelessWidget {
               ),
             ),
           ),
+        ],
+          ),
+          if (p.songLoading)
+            const Positioned.fill(
+              child: Center(
+                child: SizedBox(
+                  width: 120,
+                  height: 120,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 6,
+                    color: Colors.white38,
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );
@@ -233,8 +248,9 @@ Widget _dividerSection(String title, {double topPadding = 14}) => Padding(
 class _NameFieldsBox extends StatelessWidget {
   final SongModel song;
   final VoidCallback notify;
+  final int songNumber;
 
-  const _NameFieldsBox({required this.song, required this.notify});
+  const _NameFieldsBox({required this.song, required this.notify, required this.songNumber});
 
   @override
   Widget build(BuildContext context) {
@@ -273,10 +289,24 @@ class _NameFieldsBox extends StatelessWidget {
                   border: Border.all(color: Colors.grey),
                   borderRadius: BorderRadius.circular(4),
                 ),
-                child: Column(
+                child: Stack(
+                  alignment: Alignment.center,
                   children: [
-                    _inputField(song.name, (v) { song.name = v; notify(); }),
-                    _inputField(song.partname, (v) { song.partname = v; notify(); }),
+                    Text(
+                      '$songNumber',
+                      style: TextStyle(
+                        fontSize: 90,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black.withValues(alpha: 0.16),
+                        height: 1,
+                      ),
+                    ),
+                    Column(
+                      children: [
+                        _inputField(song.name, (v) { song.name = v; notify(); }),
+                        _inputField(song.partname, (v) { song.partname = v; notify(); }),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -295,7 +325,7 @@ class _NameFieldsBox extends StatelessWidget {
           child: TextFormField(
             initialValue: value.toUpperCase(),
             maxLength: 31,
-            style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.black),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
             cursorColor: Colors.black,
             textAlign: TextAlign.left,
             inputFormatters: [

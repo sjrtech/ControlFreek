@@ -27,6 +27,9 @@ class DeviceProvider extends ChangeNotifier {
   // screens key their ListView on this so fields refresh with new data.
   int songLoadCount = 0;
   int configLoadCount = 0;
+  bool songLoading = false;
+  bool connectionLoading = false;
+  int displayedSongNumber = 0;
 
   StreamSubscription<List<BleDeviceInfo>>? _scanSub;
   StreamSubscription<Uint8List>? _dataSub;
@@ -42,8 +45,11 @@ class DeviceProvider extends ChangeNotifier {
     _proto = Protocol(
       writeData: _ble.write,
       onSongComplete: () {
-        statusMessage = 'Song ${_proto.ramSettings.currentSong} loaded';
+        displayedSongNumber = _proto.ramSettings.currentSong;
+        statusMessage = 'Song $displayedSongNumber loaded';
         songLoadCount++;
+        songLoading = false;
+        connectionLoading = false;
         notifyListeners();
       },
       onConfigComplete: () {
@@ -128,6 +134,7 @@ class DeviceProvider extends ChangeNotifier {
 
   Future<void> connectToDevice(BluetoothDevice device) async {
     bleState = BleState.connecting;
+    connectionLoading = true;
     statusMessage = 'Connecting…';
     notifyListeners();
     try {
@@ -146,6 +153,7 @@ class DeviceProvider extends ChangeNotifier {
       _proto.sendRequestForConfigBlock();
     } catch (e) {
       _autoConnecting = false;
+      connectionLoading = false;
       bleState = BleState.disconnected;
       statusMessage = 'Connection failed: $e';
       notifyListeners();
@@ -211,12 +219,14 @@ class DeviceProvider extends ChangeNotifier {
 
   void nextSong() {
     if (!isConnected) return;
+    songLoading = true;
     _proto.gotoNextSong();
     notifyListeners();
   }
 
   void prevSong() {
     if (!isConnected) return;
+    songLoading = true;
     _proto.gotoPreviousSong();
     notifyListeners();
   }

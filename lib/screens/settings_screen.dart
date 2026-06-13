@@ -15,14 +15,7 @@ class SettingsScreen extends StatelessWidget {
     // whenever a new config is received from the device.
     return Scaffold(
       appBar: AppBar(
-        title: const Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.settings_input_component, size: 20),
-            SizedBox(width: 6),
-            Text('Breakout Setup'),
-          ],
-        ),
+        title: appBarTitle('Breakout Setup', icon: Icons.settings_input_component),
         backgroundColor: const Color(0xFF1A3A7A),
         actions: bleAppBarActions(p),
       ),

@@ -2,6 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../device_provider.dart';
 
+Widget appBarTitle(String text, {IconData? icon}) => Row(
+  mainAxisSize: MainAxisSize.min,
+  children: [
+    if (icon != null) ...[
+      Icon(icon, size: 17, color: const Color(0xFFBCC8DC)),
+      const SizedBox(width: 8),
+    ],
+    Text(
+      text.toUpperCase(),
+      style: const TextStyle(
+        fontSize: 20,
+        letterSpacing: 6,
+        color: Color(0xFFBCC8DC),
+        fontWeight: FontWeight.w600,
+      ),
+    ),
+  ],
+);
+
 IconData _rssiIcon(int rssi) {
   if (rssi >= -60) return Icons.signal_cellular_4_bar;
   if (rssi >= -70) return Icons.signal_cellular_alt_2_bar;
@@ -79,11 +98,13 @@ class _ScanScreenState extends State<ScanScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Scanner'),
+        title: appBarTitle('Scanner', icon: Icons.bluetooth_searching),
         backgroundColor: const Color(0xFF1A3A7A),
         actions: bleAppBarActions(p),
       ),
-      body: Column(
+      body: Stack(
+        children: [
+          Column(
         children: [
           // ── Status banner ────────────────────────────────────────────────────
           if (scanning) _ScanBanner(),
@@ -108,18 +129,12 @@ class _ScanScreenState extends State<ScanScreen> {
                         const Icon(
                           Icons.bluetooth_connected,
                           size: 72,
-                          color: Color(0xFF1c56f3),
+                          color: Color(0xFF1A3A7A),
                         ),
                         const SizedBox(height: 16),
                         Text(
                           p.statusMessage,
                           style: Theme.of(context).textTheme.titleMedium,
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 8),
-                        const Text(
-                          'Use Settings and Song tabs to configure the device.',
-                          style: TextStyle(color: Colors.grey),
                           textAlign: TextAlign.center,
                         ),
                       ],
@@ -141,7 +156,7 @@ class _ScanScreenState extends State<ScanScreen> {
                       return ListTile(
                         leading: const Icon(
                           Icons.bluetooth,
-                          color: Color(0xFF1c56f3),
+                          color: Color(0xFF1A3A7A),
                         ),
                         title: Text(
                           dev.name,
@@ -156,6 +171,21 @@ class _ScanScreenState extends State<ScanScreen> {
                     },
                   ),
           ),
+        ],
+          ),
+          if (p.connectionLoading)
+            const Positioned.fill(
+              child: Center(
+                child: SizedBox(
+                  width: 120,
+                  height: 120,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 6,
+                    color: Colors.white38,
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );
@@ -180,7 +210,7 @@ class _ScanBannerState extends State<_ScanBanner>
       duration: const Duration(milliseconds: 1000),
     )..repeat(reverse: true);
     _color = ColorTween(
-      begin: const Color(0xFF1c56f3),
+      begin: const Color(0xFF1A3A7A),
       end: Colors.white,
     ).animate(_ctrl);
   }
