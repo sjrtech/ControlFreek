@@ -81,6 +81,7 @@ class SongScreen extends StatefulWidget {
 
 class _SongScreenState extends State<SongScreen> {
   bool _editingChain = false;
+  bool _showAdvanced = false;
 
   @override
   Widget build(BuildContext context) {
@@ -104,63 +105,105 @@ class _SongScreenState extends State<SongScreen> {
               key: ValueKey(p.songLoadCount),
               padding: const EdgeInsets.symmetric(vertical: 8),
               children: [
-                IgnorePointer(
-                  ignoring: kDisableWhenDisconnected && !p.isConnected,
-                  child: AnimatedOpacity(
-                    opacity: kDisableWhenDisconnected && !p.isConnected ? 0.35 : 1.0,
-                    duration: const Duration(milliseconds: 300),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        _NameFieldsBox(song: song, notify: notify, songNumber: p.displayedSongNumber),
-                        _dividerSection('LOOPS'),
-                        GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          onTap: () => setState(() => _editingChain = !_editingChain),
-                          child: Column(
-                            children: [
-                              _ChainDiagram(song: song, settings: settings, notify: notify),
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 4),
-                                child: Text(
-                                  _editingChain ? 'tap to hide' : 'tap to edit',
-                                  style: TextStyle(fontSize: 9, color: Colors.grey.shade600, letterSpacing: 0.5),
-                                ),
-                              ),
-                            ],
+                // Helper: dim + block input for data fields when disconnected.
+                // UI-only toggles (chains, ADVANCED header) are NOT wrapped here.
+                ...() {
+                  final disabled = kDisableWhenDisconnected && !p.isConnected;
+                  Widget dw(Widget child) => IgnorePointer(
+                    ignoring: disabled,
+                    child: AnimatedOpacity(
+                      opacity: disabled ? 0.35 : 1.0,
+                      duration: const Duration(milliseconds: 300),
+                      child: child,
+                    ),
+                  );
+                  return <Widget>[
+                    // Song name + LOOPS divider (data entry — dim when disconnected)
+                    dw(Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                      _NameFieldsBox(song: song, notify: notify, songNumber: p.displayedSongNumber),
+                      _dividerSection('MAIN LOOP'),
+                    ])),
+                    // Main chain: always interactive
+                    GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () => setState(() => _editingChain = !_editingChain),
+                      child: Column(children: [
+                        _ChainDiagram(song: song, settings: settings, notify: notify),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 4),
+                          child: Text(
+                            _editingChain ? 'tap to hide controls' : 'tap to view controls',
+                            style: TextStyle(fontSize: 9, color: Colors.grey.shade600, letterSpacing: 0.5),
                           ),
                         ),
-                        if (_editingChain) ..._buildLoopChain(song, settings, notify),
-                        if (List.generate(4, (i) => settings.getAuxName(i)).any((n) => n.isNotEmpty)) ...[
-                          _dividerSection('AUX OUTPUTS', topPadding: 0),
-                          for (int i = 0; i < 4; i++)
-                            if (settings.getAuxName(i).isNotEmpty) ...[
-                              if (song.getMatrix(i + 8) != 0)
-                                GestureDetector(
-                                  behavior: HitTestBehavior.opaque,
-                                  onTap: () => setState(() => _editingChain = !_editingChain),
-                                  child: Column(
-                                    children: [
-                                      _AuxChainDiagram(
-                                        auxName: settings.getAuxName(i),
-                                        auxMatIdx: i + 8,
-                                        song: song,
-                                        settings: settings,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(bottom: 4),
-                                        child: Text(
-                                          _editingChain ? 'tap to hide' : 'tap to edit',
-                                          style: TextStyle(fontSize: 9, color: Colors.grey.shade600, letterSpacing: 0.5),
-                                        ),
-                                      ),
-                                    ],
+                      ]),
+                    ),
+                    // Loop source rows (edit mode): dim when disconnected
+                    if (_editingChain)
+                      dw(Column(crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: _buildLoopChain(song, settings, notify))),
+                    // AUX section
+                    if (List.generate(4, (i) => settings.getAuxName(i)).any((n) => n.isNotEmpty)) ...[
+                      dw(_dividerSection('AUX OUTPUTS', topPadding: 0)),
+                      for (int i = 0; i < 4; i++)
+                        if (settings.getAuxName(i).isNotEmpty) ...[
+                          // AUX chain: always interactive
+                          if (song.getMatrix(i + 8) != 0)
+                            GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: () => setState(() => _editingChain = !_editingChain),
+                              child: Column(children: [
+                                _AuxChainDiagram(
+                                  auxName: settings.getAuxName(i),
+                                  auxMatIdx: i + 8,
+                                  song: song,
+                                  settings: settings,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 4),
+                                  child: Text(
+                                    _editingChain ? 'tap to hide controls' : 'tap to view controls',
+                                    style: TextStyle(fontSize: 9, color: Colors.grey.shade600, letterSpacing: 0.5),
                                   ),
                                 ),
-                              if (_editingChain)
-                                _matrixDropField(i + 8, '${settings.getAuxName(i)} ←', song, settings, notify, divider: false, labelAlign: TextAlign.right),
-                            ],
+                              ]),
+                            ),
+                          // AUX source dropdown (edit mode): dim when disconnected
+                          if (_editingChain)
+                            dw(_matrixDropField(i + 8, '${settings.getAuxName(i)} ←', song, settings, notify, divider: false, labelAlign: TextAlign.right)),
                         ],
+                    ],
+                    // Backlight: dim when disconnected
+                    dw(Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                      _dividerSection('BACKLIGHT'),
+                      _colorField('', song.backlight, (v) { song.backlight = v; notify(); }),
+                    ])),
+                    // ADVANCED toggle: always interactive
+                    InkWell(
+                      onTap: () => setState(() => _showAdvanced = !_showAdvanced),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                        child: Row(children: [
+                          const Expanded(child: Divider(color: Colors.grey, thickness: 0.4)),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Row(mainAxisSize: MainAxisSize.min, children: [
+                              Text('ADVANCED', style: TextStyle(fontSize: 16, letterSpacing: 2, color: Colors.grey.shade500)),
+                              const SizedBox(width: 6),
+                              AnimatedRotation(
+                                turns: _showAdvanced ? 0.5 : 0,
+                                duration: const Duration(milliseconds: 200),
+                                child: Icon(Icons.keyboard_arrow_down, size: 24, color: Colors.grey.shade500),
+                              ),
+                            ]),
+                          ),
+                          const Expanded(child: Divider(color: Colors.grey, thickness: 0.4)),
+                        ]),
+                      ),
+                    ),
+                    // Advanced content: dim when disconnected
+                    if (_showAdvanced)
+                      dw(Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
                         _dividerSection('FOOTSWITCHES'),
                         _FswRow(
                           initialValue: song.footswitch,
@@ -170,23 +213,18 @@ class _SongScreenState extends State<SongScreen> {
                           }),
                           onChange: (v) { song.footswitch = v; notify(); },
                         ),
-                        _dividerSection('BACKLIGHT'),
-                        _colorField('', song.backlight, (v) { song.backlight = v; notify(); }),
                         _dividerSection('TRICK SHOT'),
                         _trickModeDropField('Mode', song.trickMode, (v) { song.trickMode = v; notify(); }),
-                        ..._trickDataWidgets(song.trickMode, song.trickData, settings,
-                            notify, (v) { song.trickData = v; }),
+                        ..._trickDataWidgets(song.trickMode, song.trickData, settings, notify, (v) { song.trickData = v; }),
                         _dividerSection('DIVE BOMB'),
                         _trickModeDropField('Mode', song.diveBombMode, (v) { song.diveBombMode = v; notify(); }),
-                        ..._trickDataWidgets(song.diveBombMode, song.diveBombData, settings,
-                            notify, (v) { song.diveBombData = v; }),
+                        ..._trickDataWidgets(song.diveBombMode, song.diveBombData, settings, notify, (v) { song.diveBombData = v; }),
                         _dividerSection('LOCAL BACKUP'),
                         _LocalBackupButtons(),
-                        const SizedBox(height: 24),
-                      ],
-                    ),
-                  ),
-                ),
+                      ])),
+                    const SizedBox(height: 24),
+                  ];
+                }(),
               ],
             ),
           ),
