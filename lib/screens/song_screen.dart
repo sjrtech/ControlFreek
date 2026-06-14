@@ -553,8 +553,10 @@ class _NameFieldsBox extends StatelessWidget {
         ? Color.lerp(_backlightToColor(song.backlight), const Color(0xFF0E0E0E), 0.65)!
         : _backlightToColor(song.backlight);
 
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(30, 4, 4, 4),
+    Widget content = Padding(
+      padding: isLandscape
+          ? const EdgeInsets.symmetric(horizontal: 4, vertical: 4)
+          : const EdgeInsets.fromLTRB(30, 4, 4, 4),
       child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -667,6 +669,7 @@ class _NameFieldsBox extends StatelessWidget {
           ],
         ),
     );
+    return isLandscape ? Center(child: content) : content;
   }
 
   Widget _inputField(String value, void Function(String) onChange, double rowHeight) =>
