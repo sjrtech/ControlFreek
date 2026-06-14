@@ -231,19 +231,6 @@ class _ScanScreenState extends State<ScanScreen> {
           ),
         ],
           ),
-          if (p.connectionLoading)
-            const Positioned.fill(
-              child: Center(
-                child: SizedBox(
-                  width: 120,
-                  height: 120,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 6,
-                    color: Colors.white38,
-                  ),
-                ),
-              ),
-            ),
         ],
       )),
     );

@@ -64,7 +64,7 @@ class _MainShell extends StatefulWidget {
 }
 
 class _MainShellState extends State<_MainShell> {
-  int _tab = 0;
+  int _tab = 2;
   int _lastSongLoadCount = 0;
   late final PageController _pageController;
   bool _providerListening = false;

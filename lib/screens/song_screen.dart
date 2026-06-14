@@ -393,7 +393,11 @@ class _SongScreenState extends State<SongScreen> with SingleTickerProviderStateM
           ),
         ],
           ),
-          if (p.songLoading)
+          if (p.connectionLoading || p.songLoading)
+            const Positioned.fill(
+              child: ColoredBox(color: Colors.black45),
+            ),
+          if (p.connectionLoading || p.songLoading)
             const Positioned.fill(
               child: Center(
                 child: SizedBox(
@@ -1112,13 +1116,8 @@ class _AuxChainDiagram extends StatelessWidget {
 // ─── Chain rows ───────────────────────────────────────────────────────────────
 
 List<Widget> _buildLoopChain(SongModel song, SettingsModel s, VoidCallback notify) {
-  final widgets = <Widget>[];
-
-  widgets.add(KeyedSubtree(
-    key: const ValueKey(0),
-    child: _matrixDropField(0, 'Main Out ←', song, s, notify, divider: false, labelAlign: TextAlign.right),
-  ));
-
+  // Trace backwards from Main Out to discover the chain, then reverse for signal-flow order
+  final chainMatIdxs = <int>[0]; // 0 = Main Out
   int currentSource = song.getMatrix(0);
   final visited = <int>{};
 
@@ -1126,22 +1125,74 @@ List<Widget> _buildLoopChain(SongModel song, SettingsModel s, VoidCallback notif
     final loopIdx = _loopSourceValues.indexOf(currentSource);
     if (loopIdx < 0 || visited.contains(loopIdx)) break;
     visited.add(loopIdx);
-    final matIdx = loopIdx + 1;
-    final name = s.getLoopName(loopIdx);
-    final displayName = name.isNotEmpty ? name : 'Loop ${loopIdx + 1}';
-    widgets.add(KeyedSubtree(
-      key: ValueKey(matIdx),
-      child: _matrixDropField(matIdx, '$displayName ←', song, s, notify, divider: false, labelAlign: TextAlign.right),
-    ));
-    currentSource = song.getMatrix(matIdx);
+    chainMatIdxs.add(loopIdx + 1);
+    currentSource = song.getMatrix(loopIdx + 1);
   }
 
-  // Append any named loops not reached by the chain
+  // Signal-flow order: first loop (sourcing MAIN IN) → ... → Main Out
+  final signalOrder = chainMatIdxs.reversed.toList();
+  final widgets = <Widget>[];
+
+  for (final matIdx in signalOrder) {
+    final label = matIdx == 0
+        ? 'Main Out ←'
+        : () {
+            final n = s.getLoopName(matIdx - 1);
+            return '${n.isNotEmpty ? n : 'Loop $matIdx'} ←';
+          }();
+    widgets.add(KeyedSubtree(
+      key: ValueKey(matIdx),
+      child: _matrixDropField(matIdx, label, song, s, notify, divider: false, labelAlign: TextAlign.right),
+    ));
+  }
+
+  // Named loops not in the main chain but with a source selected — emit in sub-chain order
+  final extras = <int>{};
+  for (int i = 0; i < 7; i++) {
+    if (visited.contains(i)) continue;
+    if (s.getLoopName(i).isEmpty) continue;
+    if (song.getMatrix(i + 1) == 0) continue;
+    extras.add(i);
+  }
+  if (extras.isNotEmpty) {
+    // Heads: loops whose source is not the output of any other loop in extras
+    final heads = (extras.toList()..sort()).where((i) {
+      final src = song.getMatrix(i + 1);
+      return !extras.any((j) => j != i && _loopSourceValues[j] == src);
+    }).toList();
+
+    final extVisited = <int>{};
+    void addChain(int start) {
+      int? curr = start;
+      while (curr != null && extras.contains(curr) && !extVisited.contains(curr)) {
+        extVisited.add(curr);
+        final matIdx = curr + 1;
+        final n = s.getLoopName(curr);
+        widgets.add(KeyedSubtree(
+          key: ValueKey(matIdx),
+          child: _matrixDropField(matIdx, '${n.isNotEmpty ? n : 'Loop $matIdx'} ←', song, s, notify, divider: false, labelAlign: TextAlign.right),
+        ));
+        final out = _loopSourceValues[curr];
+        curr = null;
+        for (final j in extras) {
+          if (!extVisited.contains(j) && song.getMatrix(j + 1) == out) { curr = j; break; }
+        }
+      }
+    }
+    for (final h in heads) addChain(h);
+    // Any remaining (cycles)
+    for (final i in extras.toList()..sort()) {
+      if (!extVisited.contains(i)) addChain(i);
+    }
+  }
+
+  // Named loops not in any chain and with no source selected
   for (int i = 0; i < 7; i++) {
     if (visited.contains(i)) continue;
     final name = s.getLoopName(i);
     if (name.isEmpty) continue;
     final matIdx = i + 1;
+    if (song.getMatrix(matIdx) != 0) continue;
     widgets.add(KeyedSubtree(
       key: ValueKey(matIdx),
       child: _matrixDropField(matIdx, '$name ←', song, s, notify, divider: false, labelAlign: TextAlign.right),

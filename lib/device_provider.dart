@@ -206,6 +206,8 @@ class DeviceProvider extends ChangeNotifier {
     await _ble.stopScan();
     await _ble.disconnect();
     bleState = BleState.disconnected;
+    connectionLoading = false;
+    songLoading = false;
     statusMessage = 'Disconnected';
     notifyListeners();
   }
