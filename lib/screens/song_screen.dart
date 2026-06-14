@@ -211,7 +211,7 @@ class _SongScreenState extends State<SongScreen> with SingleTickerProviderStateM
                             ),
                           // AUX source dropdown (edit mode): dim when disconnected
                           if (_editingChain)
-                            dw(_matrixDropField(i + 8, '${settings.getAuxName(i)} ←', song, settings, notify, divider: false, labelAlign: TextAlign.right)),
+                            dw(_matrixDropField(i + 8, '→ ${settings.getAuxName(i)}', song, settings, notify, divider: false)),
                         ],
                     ],
                     // Backlight: dim when disconnected
@@ -739,27 +739,33 @@ Widget _colorSwatch(int colorValue) => Container(
 Widget _colorField(String label, int rawByte, void Function(int) onChange) =>
     _FieldRow(
       label: label,
-      child: DropdownButton<int>(
-        value: _backlightIndex(rawByte),
-        isExpanded: true,
-        underline: const SizedBox(),
-        items: [
-          for (int i = 0; i < _colorNames.length; i++)
-            DropdownMenuItem(
-              value: i,
-              child: Row(
-                children: [
-                  _colorSwatch(_colorValues[i]),
-                  const SizedBox(width: 10),
-                  Text(_colorNames[i],
-                      style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.white)),
-                ],
+      child: Directionality(
+        textDirection: TextDirection.rtl,
+        child: DropdownButton<int>(
+          value: _backlightIndex(rawByte),
+          isExpanded: true,
+          underline: const SizedBox(),
+          items: [
+            for (int i = 0; i < _colorNames.length; i++)
+              DropdownMenuItem(
+                value: i,
+                child: Directionality(
+                  textDirection: TextDirection.ltr,
+                  child: Row(
+                    children: [
+                      _colorSwatch(_colorValues[i]),
+                      const SizedBox(width: 10),
+                      Text(_colorNames[i],
+                          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.white)),
+                    ],
+                  ),
+                ),
               ),
-            ),
-        ],
-        onChanged: (i) {
-          if (i != null) onChange(_colorValues[i]);
-        },
+          ],
+          onChanged: (i) {
+            if (i != null) onChange(_colorValues[i]);
+          },
+        ),
       ),
     );
 
@@ -805,21 +811,31 @@ Widget _matrixDropField(
     label: label,
     divider: divider,
     labelAlign: labelAlign,
-    child: DropdownButton<int>(
-      value: selIdx,
-      isExpanded: true,
-      underline: const SizedBox(),
-      style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.white),
-      items: [
-        for (int i = 0; i < opts.length; i++)
-          DropdownMenuItem(value: i, child: Text(opts[i].name)),
-      ],
-      onChanged: (i) {
-        if (i != null) {
-          song.setMatrix(matIdx, opts[i].value);
-          notify();
-        }
-      },
+    reversed: true,
+    child: Directionality(
+      textDirection: TextDirection.rtl,
+      child: DropdownButton<int>(
+        value: selIdx,
+        isExpanded: true,
+        underline: const SizedBox(),
+        style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.white),
+        items: [
+          for (int i = 0; i < opts.length; i++)
+            DropdownMenuItem(
+              value: i,
+              child: Directionality(
+                textDirection: TextDirection.ltr,
+                child: Text(opts[i].name),
+              ),
+            ),
+        ],
+        onChanged: (i) {
+          if (i != null) {
+            song.setMatrix(matIdx, opts[i].value);
+            notify();
+          }
+        },
+      ),
     ),
   );
 }
@@ -1138,14 +1154,14 @@ List<Widget> _buildLoopChain(SongModel song, SettingsModel s, VoidCallback notif
 
   for (final matIdx in signalOrder) {
     final label = matIdx == 0
-        ? 'Main Out ←'
+        ? '→ Main Out'
         : () {
             final n = s.getLoopName(matIdx - 1);
-            return '${n.isNotEmpty ? n : 'Loop $matIdx'} ←';
+            return '→ ${n.isNotEmpty ? n : 'Loop $matIdx'}';
           }();
     widgets.add(KeyedSubtree(
       key: ValueKey(matIdx),
-      child: _matrixDropField(matIdx, label, song, s, notify, divider: false, labelAlign: TextAlign.right),
+      child: _matrixDropField(matIdx, label, song, s, notify, divider: false),
     ));
   }
 
@@ -1173,7 +1189,7 @@ List<Widget> _buildLoopChain(SongModel song, SettingsModel s, VoidCallback notif
         final n = s.getLoopName(curr);
         widgets.add(KeyedSubtree(
           key: ValueKey(matIdx),
-          child: _matrixDropField(matIdx, '${n.isNotEmpty ? n : 'Loop $matIdx'} ←', song, s, notify, divider: false, labelAlign: TextAlign.right),
+          child: _matrixDropField(matIdx, '→ ${n.isNotEmpty ? n : 'Loop $matIdx'}', song, s, notify, divider: false),
         ));
         final out = _loopSourceValues[curr];
         curr = null;
@@ -1182,7 +1198,9 @@ List<Widget> _buildLoopChain(SongModel song, SettingsModel s, VoidCallback notif
         }
       }
     }
-    for (final h in heads) addChain(h);
+    for (final h in heads) {
+      addChain(h);
+    }
     // Any remaining (cycles)
     for (final i in extras.toList()..sort()) {
       if (!extVisited.contains(i)) addChain(i);
@@ -1198,7 +1216,7 @@ List<Widget> _buildLoopChain(SongModel song, SettingsModel s, VoidCallback notif
     if (song.getMatrix(matIdx) != 0) continue;
     widgets.add(KeyedSubtree(
       key: ValueKey(matIdx),
-      child: _matrixDropField(matIdx, '$name ←', song, s, notify, divider: false, labelAlign: TextAlign.right),
+      child: _matrixDropField(matIdx, '→ $name', song, s, notify, divider: false),
     ));
   }
 
@@ -1373,11 +1391,20 @@ class _FieldRow extends StatelessWidget {
   final Widget child;
   final bool divider;
   final TextAlign labelAlign;
+  final bool reversed;
 
-  const _FieldRow({required this.label, required this.child, this.divider = false, this.labelAlign = TextAlign.left});
+  const _FieldRow({required this.label, required this.child, this.divider = false, this.labelAlign = TextAlign.left, this.reversed = false});
 
   @override
   Widget build(BuildContext context) {
+    final labelWidget = SizedBox(
+      width: 120,
+      child: Padding(
+        padding: reversed ? const EdgeInsets.only(left: 8) : const EdgeInsets.only(right: 8),
+        child: Text(label, textAlign: labelAlign,
+            style: const TextStyle(fontSize: 15, color: Colors.grey)),
+      ),
+    );
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
       decoration: divider ? BoxDecoration(
@@ -1385,17 +1412,9 @@ class _FieldRow extends StatelessWidget {
             bottom: BorderSide(color: Colors.grey.shade800, width: 0.5)),
       ) : null,
       child: Row(
-        children: [
-          SizedBox(
-            width: 120,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: Text(label, textAlign: labelAlign,
-                  style: const TextStyle(fontSize: 15, color: Colors.grey)),
-            ),
-          ),
-          Expanded(child: child),
-        ],
+        children: reversed
+            ? [Expanded(flex: 1, child: child), Expanded(flex: 1, child: labelWidget)]
+            : [labelWidget, Expanded(child: child)],
       ),
     );
   }
