@@ -67,6 +67,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   final _scrollController = ScrollController();
   String? _activeField;
+  int _lastConfigLoadCount = -1;
 
   final _focusNodes = <String, FocusNode>{
     for (int i = 0; i < 7; i++) 'loop_$i': FocusNode(),
@@ -78,6 +79,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
     for (int i = 0; i < 7; i++) 'loop_$i': GlobalKey(),
     for (int i = 0; i < 4; i++) 'aux_$i': GlobalKey(),
     for (int i = 0; i < 6; i++) 'fsw_$i': GlobalKey(),
+  };
+
+  final _controllers = <String, TextEditingController>{
+    for (int i = 0; i < 7; i++) 'loop_$i': TextEditingController(),
+    for (int i = 0; i < 4; i++) 'aux_$i': TextEditingController(),
+    for (int i = 0; i < 6; i++) 'fsw_$i': TextEditingController(),
   };
 
   @override
@@ -97,8 +104,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final p = context.read<DeviceProvider>();
+    if (p.configLoadCount != _lastConfigLoadCount) {
+      _lastConfigLoadCount = p.configLoadCount;
+      final s = p.settings;
+      for (int i = 0; i < 7; i++) { _controllers['loop_$i']!.text = s.getLoopName(i); }
+      for (int i = 0; i < 4; i++) { _controllers['aux_$i']!.text = s.getAuxName(i); }
+      for (int i = 0; i < 6; i++) { _controllers['fsw_$i']!.text = s.getFswName(i); }
+    }
+  }
+
+  @override
   void dispose() {
     for (final n in _focusNodes.values) { n.dispose(); }
+    for (final c in _controllers.values) { c.dispose(); }
     _scrollController.dispose();
     super.dispose();
   }
@@ -132,7 +153,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           Expanded(
             child: TextFormField(
               focusNode: _focusNodes['fsw_$i']!,
-              initialValue: s.getFswName(i),
+              controller: _controllers['fsw_$i'],
               maxLength: 11,
               style: TextStyle(fontSize: Platform.isIOS ? 13 : 17, fontWeight: FontWeight.bold),
               decoration: const InputDecoration(
@@ -160,7 +181,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           Expanded(
             child: TextFormField(
               focusNode: _focusNodes['aux_$i']!,
-              initialValue: s.getAuxName(i),
+              controller: _controllers['aux_$i'],
               maxLength: 11,
               style: TextStyle(fontSize: Platform.isIOS ? 13 : 17, fontWeight: FontWeight.bold),
               decoration: const InputDecoration(
@@ -214,7 +235,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
             Expanded(
               child: ListView(
                 controller: _scrollController,
-                key: ValueKey(p.configLoadCount),
                 padding: EdgeInsets.zero,
                 children: [
                   IgnorePointer(
@@ -282,7 +302,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                             Expanded(
                                               child: TextFormField(
                                                 focusNode: _focusNodes['loop_$i']!,
-                                                initialValue: s.getLoopName(i),
+                                                controller: _controllers['loop_$i'],
                                                 maxLength: 11,
                                                 style: TextStyle(fontSize: Platform.isIOS ? 10 : 14, fontWeight: FontWeight.bold),
                                                 decoration: const InputDecoration(
@@ -339,7 +359,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                                     alignment: Alignment.topLeft,
                                                     child: TextFormField(
                                                       focusNode: _focusNodes['loop_$i']!,
-                                                      initialValue: s.getLoopName(i),
+                                                      controller: _controllers['loop_$i'],
                                                       maxLength: 11,
                                                       style: TextStyle(fontSize: Platform.isIOS ? 13 : 17, fontWeight: FontWeight.bold),
                                                       decoration: const InputDecoration(

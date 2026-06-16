@@ -63,7 +63,7 @@ class _MainShell extends StatefulWidget {
   State<_MainShell> createState() => _MainShellState();
 }
 
-class _MainShellState extends State<_MainShell> {
+class _MainShellState extends State<_MainShell> with WindowListener {
   int _tab = 2;
   int _lastSongLoadCount = 0;
   late final PageController _pageController;
@@ -82,6 +82,10 @@ class _MainShellState extends State<_MainShell> {
   void initState() {
     super.initState();
     _pageController = PageController();
+    if (!kIsWeb && (Platform.isLinux || Platform.isWindows || Platform.isMacOS)) {
+      windowManager.addListener(this);
+      windowManager.setPreventClose(true);
+    }
   }
 
   @override
@@ -96,8 +100,18 @@ class _MainShellState extends State<_MainShell> {
   @override
   void dispose() {
     context.read<DeviceProvider>().removeListener(_onProviderChange);
+    if (!kIsWeb && (Platform.isLinux || Platform.isWindows || Platform.isMacOS)) {
+      windowManager.removeListener(this);
+    }
     _pageController.dispose();
     super.dispose();
+  }
+
+  @override
+  void onWindowClose() async {
+    final p = context.read<DeviceProvider>();
+    if (p.isConnected) await p.disconnect();
+    await windowManager.destroy();
   }
 
   void _onProviderChange() {
