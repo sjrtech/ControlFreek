@@ -69,20 +69,16 @@ class _MainShellState extends State<_MainShell> with WindowListener {
   late final PageController _pageController;
   bool _providerListening = false;
 
-  static const _screens = [
-    ScanScreen(),
-    SettingsScreen(),
-    SongScreen(),
-  ];
+  static const _screens = [ScanScreen(), SettingsScreen(), SongScreen()];
 
-  bool get _isMobile =>
-      !kIsWeb && (Platform.isAndroid || Platform.isIOS);
+  bool get _isMobile => !kIsWeb && (Platform.isAndroid || Platform.isIOS);
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
-    if (!kIsWeb && (Platform.isLinux || Platform.isWindows || Platform.isMacOS)) {
+    if (!kIsWeb &&
+        (Platform.isLinux || Platform.isWindows || Platform.isMacOS)) {
       windowManager.addListener(this);
       windowManager.setPreventClose(true);
     }
@@ -100,7 +96,8 @@ class _MainShellState extends State<_MainShell> with WindowListener {
   @override
   void dispose() {
     context.read<DeviceProvider>().removeListener(_onProviderChange);
-    if (!kIsWeb && (Platform.isLinux || Platform.isWindows || Platform.isMacOS)) {
+    if (!kIsWeb &&
+        (Platform.isLinux || Platform.isWindows || Platform.isMacOS)) {
       windowManager.removeListener(this);
     }
     _pageController.dispose();
@@ -156,11 +153,11 @@ class _MainShellState extends State<_MainShell> with WindowListener {
         onTap: _setTab,
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.bluetooth), label: 'Connect'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.settings), label: 'Setup'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.music_note), label: 'Song'),
+            icon: Icon(Icons.bluetooth),
+            label: 'Connect',
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Setup'),
+          BottomNavigationBarItem(icon: Icon(Icons.music_note), label: 'Song'),
         ],
       ),
     );

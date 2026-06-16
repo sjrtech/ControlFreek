@@ -155,7 +155,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               focusNode: _focusNodes['fsw_$i']!,
               controller: _controllers['fsw_$i'],
               maxLength: 11,
-              style: TextStyle(fontSize: Platform.isIOS ? 13 : 17, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: Platform.isIOS ? 9 : 17, fontWeight: FontWeight.bold),
               decoration: const InputDecoration(
                 isDense: true,
                 counterText: '',
@@ -183,7 +183,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               focusNode: _focusNodes['aux_$i']!,
               controller: _controllers['aux_$i'],
               maxLength: 11,
-              style: TextStyle(fontSize: Platform.isIOS ? 13 : 17, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: Platform.isIOS ? 9 : 17, fontWeight: FontWeight.bold),
               decoration: const InputDecoration(
                 isDense: true,
                 counterText: '',
@@ -304,7 +304,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                                 focusNode: _focusNodes['loop_$i']!,
                                                 controller: _controllers['loop_$i'],
                                                 maxLength: 11,
-                                                style: TextStyle(fontSize: Platform.isIOS ? 10 : 14, fontWeight: FontWeight.bold),
+                                                style: TextStyle(fontSize: Platform.isIOS ? 6 : 14, fontWeight: FontWeight.bold),
                                                 decoration: const InputDecoration(
                                                   isDense: true,
                                                   counterText: '',
@@ -361,7 +361,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                                       focusNode: _focusNodes['loop_$i']!,
                                                       controller: _controllers['loop_$i'],
                                                       maxLength: 11,
-                                                      style: TextStyle(fontSize: Platform.isIOS ? 13 : 17, fontWeight: FontWeight.bold),
+                                                      style: TextStyle(fontSize: Platform.isIOS ? 9 : 17, fontWeight: FontWeight.bold),
                                                       decoration: const InputDecoration(
                                                         isDense: true,
                                                         counterText: '',
@@ -660,8 +660,8 @@ Widget _dividerSection(String title, {double topPadding = 6}) => Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: Text(
               title,
-              style: const TextStyle(
-                fontSize: 22,
+              style: TextStyle(
+                fontSize: Platform.isIOS ? 18 : 22,
                 letterSpacing: 6,
                 color: Colors.grey,
               ),
@@ -683,7 +683,7 @@ Widget _colorDot(Color color, int number) => Container(
       child: Center(
         child: Text(
           '$number',
-          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
+          style: TextStyle(fontSize: Platform.isIOS ? 9 : 13, fontWeight: FontWeight.bold, color: Colors.white),
         ),
       ),
     );

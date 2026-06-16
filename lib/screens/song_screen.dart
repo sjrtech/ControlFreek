@@ -244,7 +244,7 @@ class _SongScreenState extends State<SongScreen> with SingleTickerProviderStateM
                                   border: Border.all(color: Colors.grey.shade500.withValues(alpha: 0.4), width: 0.5),
                                 ),
                                 child: Row(mainAxisSize: MainAxisSize.min, children: [
-                                  Text('ADVANCED', style: TextStyle(fontSize: 16, letterSpacing: 2, color: Colors.black, fontWeight: FontWeight.bold)),
+                                  Text('ADVANCED', style: TextStyle(fontSize: Platform.isIOS ? 14 : 16, letterSpacing: 2, color: Colors.black, fontWeight: FontWeight.bold)),
                                   const SizedBox(width: 6),
                                   AnimatedRotation(
                                     turns: _showAdvanced ? 0.5 : 0,
@@ -334,7 +334,7 @@ class _SongScreenState extends State<SongScreen> with SingleTickerProviderStateM
                         icon: const Icon(Icons.arrow_back),
                         label: const Text('Prev'),
                         style: OutlinedButton.styleFrom(
-                          textStyle: TextStyle(fontSize: Platform.isIOS ? 10 : 14),
+                          textStyle: TextStyle(fontSize: Platform.isIOS ? 8 : 14),
                         ),
                         onPressed: p.isConnected ? () async {
                           if (_hasUnsavedChanges) {
@@ -379,7 +379,7 @@ class _SongScreenState extends State<SongScreen> with SingleTickerProviderStateM
                         icon: const Icon(Icons.arrow_forward),
                         label: const Text('Next'),
                         style: OutlinedButton.styleFrom(
-                          textStyle: TextStyle(fontSize: Platform.isIOS ? 10 : 14),
+                          textStyle: TextStyle(fontSize: Platform.isIOS ? 8 : 14),
                         ),
                         onPressed: p.isConnected ? () async {
                           if (_hasUnsavedChanges) {
@@ -524,8 +524,8 @@ Widget _dividerSection(String title, {double topPadding = 14}) => Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: Text(
               title,
-              style: const TextStyle(
-                fontSize: 22,
+              style: TextStyle(
+                fontSize: Platform.isIOS ? 20 : 22,
                 fontWeight: FontWeight.bold,
                 color: Colors.grey,
                 letterSpacing: 6,
@@ -623,7 +623,7 @@ class _NameFieldsBox extends StatelessWidget {
                     ),
                     // "- CONTROL FREEK -" label
                     Positioned(
-                      top: rowHeight * 0.05 + 10,
+                      top: rowHeight * 0.05 + (Platform.isIOS ? 4 : 10),
                       left: 8,
                       right: 8,
                       child: AnimatedOpacity(
@@ -632,7 +632,7 @@ class _NameFieldsBox extends StatelessWidget {
                         child: Text(
                           '- CONTROL FREEK -',
                           style: TextStyle(
-                            fontSize: rowHeight * 0.261,
+                            fontSize: rowHeight * (Platform.isIOS ? 0.21 : 0.261),
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
                             height: 1.0,
@@ -1291,7 +1291,7 @@ class _FswRowState extends State<_FswRow> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(widget.names[i],
-                    style: const TextStyle(fontSize: 13, color: Colors.grey)),
+                    style: TextStyle(fontSize: Platform.isIOS ? 9 : 13, color: Colors.grey)),
                 Checkbox(
                   value: (_value >> i) & 1 == 1,
                   onChanged: (v) {

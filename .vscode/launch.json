@@ -1,0 +1,58 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "ControlFreek (Linux)",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main.dart",
+            "deviceId": "linux"
+        },
+        {
+            "name": "ControlFreek (macOS)",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main.dart",
+            "deviceId": "macos"
+        },
+        {
+            "name": "ControlFreek (iPhone)",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main.dart",
+            "deviceId": "00008120-00042CDE0C61A01E"
+        },
+        {
+            "name": "ControlFreek (Pixel 9)",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main.dart",
+            "deviceId": "47231FDAS006HT"
+        },
+        {
+            "name": "ControlFreek (SM X520)",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main.dart",
+            "deviceId": "R52YA0290TT"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "ControlFreek (SM X520 + Pixel 9)",
+            "configurations": ["ControlFreek (SM X520)", "ControlFreek (Pixel 9)"]
+        },
+        {
+            "name": "ControlFreek (SM X520 + iPhone)",
+            "configurations": ["ControlFreek (SM X520)", "ControlFreek (iPhone)"]
+        },
+        {
+            "name": "ControlFreek (Pixel 9 + iPhone)",
+            "configurations": ["ControlFreek (Pixel 9)", "ControlFreek (iPhone)"]
+        },
+        {
+            "name": "ControlFreek (X520 + Pixel9 + iPhone)",
+            "configurations": ["ControlFreek (SM X520)", "ControlFreek (Pixel 9)", "ControlFreek (iPhone)"]
+        }
+    ]
+}
