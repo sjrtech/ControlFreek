@@ -144,7 +144,7 @@ class _MainShellState extends State<_MainShell> {
           BottomNavigationBarItem(
               icon: Icon(Icons.bluetooth), label: 'Connect'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.settings), label: 'Settings'),
+              icon: Icon(Icons.settings), label: 'Setup'),
           BottomNavigationBarItem(
               icon: Icon(Icons.music_note), label: 'Song'),
         ],

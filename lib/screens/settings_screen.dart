@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -133,7 +134,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               focusNode: _focusNodes['fsw_$i']!,
               initialValue: s.getFswName(i),
               maxLength: 11,
-              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: Platform.isIOS ? 13 : 17, fontWeight: FontWeight.bold),
               decoration: const InputDecoration(
                 isDense: true,
                 counterText: '',
@@ -161,7 +162,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               focusNode: _focusNodes['aux_$i']!,
               initialValue: s.getAuxName(i),
               maxLength: 11,
-              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: Platform.isIOS ? 13 : 17, fontWeight: FontWeight.bold),
               decoration: const InputDecoration(
                 isDense: true,
                 counterText: '',
@@ -203,7 +204,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: appBarTitle('Breakout Setup', icon: Icons.settings_input_component),
+        title: appBarTitle('Setup', icon: Icons.settings_input_component),
         backgroundColor: const Color(0xFF1A3A7A),
         actions: bleAppBarActions(p, context),
       ),
@@ -283,7 +284,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                                 focusNode: _focusNodes['loop_$i']!,
                                                 initialValue: s.getLoopName(i),
                                                 maxLength: 11,
-                                                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                                style: TextStyle(fontSize: Platform.isIOS ? 10 : 14, fontWeight: FontWeight.bold),
                                                 decoration: const InputDecoration(
                                                   isDense: true,
                                                   counterText: '',
@@ -340,7 +341,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                                       focusNode: _focusNodes['loop_$i']!,
                                                       initialValue: s.getLoopName(i),
                                                       maxLength: 11,
-                                                      style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                                                      style: TextStyle(fontSize: Platform.isIOS ? 13 : 17, fontWeight: FontWeight.bold),
                                                       decoration: const InputDecoration(
                                                         isDense: true,
                                                         counterText: '',
@@ -706,8 +707,9 @@ class _UpdateButton extends StatelessWidget {
                       const Icon(Icons.settings_input_component, size: 18),
                       const SizedBox(width: 8),
                       Text(label,
-                          style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold)),
+                          style: TextStyle(
+                              fontSize: Platform.isIOS ? 16 : 18,
+                              fontWeight: Platform.isIOS ? FontWeight.normal : FontWeight.bold)),
                     ],
                   ),
                 ),

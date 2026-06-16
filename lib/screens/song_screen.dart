@@ -333,6 +333,9 @@ class _SongScreenState extends State<SongScreen> with SingleTickerProviderStateM
                       child: OutlinedButton.icon(
                         icon: const Icon(Icons.arrow_back),
                         label: const Text('Prev'),
+                        style: OutlinedButton.styleFrom(
+                          textStyle: TextStyle(fontSize: Platform.isIOS ? 10 : 14),
+                        ),
                         onPressed: p.isConnected ? () async {
                           if (_hasUnsavedChanges) {
                             final cont = await _showUnsavedChangesDialog(context);
@@ -359,13 +362,13 @@ class _SongScreenState extends State<SongScreen> with SingleTickerProviderStateM
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8)),
                         ),
-                        child: const Row(
+                        child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(Icons.settings_input_component, size: 18),
                             SizedBox(width: 8),
                             Text('Update Song',
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                                style: TextStyle(fontSize: Platform.isIOS ? 16 : 18, fontWeight: Platform.isIOS ? FontWeight.normal : FontWeight.bold)),
                           ],
                         ),
                       ),
@@ -375,6 +378,9 @@ class _SongScreenState extends State<SongScreen> with SingleTickerProviderStateM
                       child: OutlinedButton.icon(
                         icon: const Icon(Icons.arrow_forward),
                         label: const Text('Next'),
+                        style: OutlinedButton.styleFrom(
+                          textStyle: TextStyle(fontSize: Platform.isIOS ? 10 : 14),
+                        ),
                         onPressed: p.isConnected ? () async {
                           if (_hasUnsavedChanges) {
                             final cont = await _showUnsavedChangesDialog(context);
@@ -606,7 +612,7 @@ class _NameFieldsBox extends StatelessWidget {
                           child: Text(
                             '$songNumber',
                             style: TextStyle(
-                              fontSize: 128 * scale,
+                              fontSize: 128 * scale - (Platform.isIOS ? 6 : 0),
                               fontWeight: FontWeight.bold,
                               color: Colors.black.withValues(alpha: 0.16),
                               height: 1,
@@ -680,7 +686,7 @@ class _NameFieldsBox extends StatelessWidget {
           child: TextFormField(
             initialValue: value.toUpperCase(),
             maxLength: 31,
-            style: TextStyle(fontSize: rowHeight * 0.668, fontWeight: FontWeight.bold, color: Colors.black),
+            style: TextStyle(fontSize: rowHeight * 0.668 - (Platform.isIOS ? 6 : 0), fontWeight: Platform.isIOS ? FontWeight.normal : FontWeight.bold, color: Colors.black),
             cursorColor: Colors.black,
             textAlign: TextAlign.left,
             textAlignVertical: TextAlignVertical.top,

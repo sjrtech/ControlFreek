@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
@@ -142,9 +143,15 @@ class BleService {
     _polling = false;
     _notifySub?.cancel();
     _notifySub = null;
+    final addr = _device?.remoteId.str;
     try {
       await _device?.disconnect();
     } catch (_) {}
+    if (Platform.isLinux && addr != null) {
+      try {
+        await Process.run('bluetoothctl', ['remove', addr]);
+      } catch (_) {}
+    }
     _device = null;
     _readChar = null;
     _writeChar = null;
