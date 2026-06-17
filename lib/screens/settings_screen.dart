@@ -480,7 +480,7 @@ class _BreakoutImage extends StatelessWidget {
 
     Widget dot(double ox, double oy, String text, {double yLift = 0}) => Positioned(
       left: ox * scale - r,
-      top: oy * scale - r - yLift,
+      top: oy * scale - r - yLift - (Platform.isIOS ? 2.0 : 0),
       child: SizedBox(
         width: r * 2,
         height: r * 2,

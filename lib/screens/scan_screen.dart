@@ -201,7 +201,7 @@ class _ScanScreenState extends State<ScanScreen> {
                 : p.scanResults.isEmpty
                 ? const Center(
                     child: Text(
-                      'No devices found.\nMake sure the Stompbox is powered on.',
+                      'No devices found.',
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.grey),
                     ),

@@ -612,7 +612,7 @@ class _NameFieldsBox extends StatelessWidget {
                           child: Text(
                             '$songNumber',
                             style: TextStyle(
-                              fontSize: 128 * scale - (Platform.isIOS ? 14 : 0),
+                              fontSize: 128 * scale - (Platform.isIOS ? (isLandscape ? -12 : 26) : 0),
                               fontWeight: FontWeight.bold,
                               color: Colors.black.withValues(alpha: 0.16),
                               height: 1,
