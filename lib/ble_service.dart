@@ -3,6 +3,8 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
+class BluetoothUnavailableException implements Exception {}
+
 /// BLE device info wrapper for the scan list.
 class BleDeviceInfo {
   final BluetoothDevice device;
@@ -62,6 +64,15 @@ class BleService {
   // ─── Scanning ────────────────────────────────────────────────────────────────
 
   Future<void> startScan() async {
+    // Wait for BT adapter to be ready — required on iOS at cold start
+    try {
+      await FlutterBluePlus.adapterState
+          .where((s) => s == BluetoothAdapterState.on)
+          .first
+          .timeout(const Duration(seconds: 10));
+    } catch (_) {
+      throw BluetoothUnavailableException();
+    }
     _seen.clear();
     await FlutterBluePlus.startScan(timeout: const Duration(seconds: 30));
     _scanSub?.cancel();

@@ -17,6 +17,7 @@ enum BleState { disconnected, scanning, connecting, connected }
 /// the UI via ChangeNotifier (replaces Q_PROPERTY / signals+slots).
 class DeviceProvider extends ChangeNotifier {
   final _ble = BleService();
+  String? pendingAlert;
   late final Protocol _proto;
 
   BleState bleState = BleState.disconnected;
@@ -110,6 +111,13 @@ class DeviceProvider extends ChangeNotifier {
 
     try {
       await _ble.startScan();
+    } on BluetoothUnavailableException {
+      _autoConnectTimer?.cancel();
+      _retryTimer?.cancel();
+      bleState = BleState.disconnected;
+      statusMessage = 'Bluetooth unavailable';
+      pendingAlert = 'Cannot verify Bluetooth is ON.  Check Bluetooth settings.';
+      notifyListeners();
     } catch (e) {
       _autoConnectTimer?.cancel();
       bleState = BleState.disconnected;

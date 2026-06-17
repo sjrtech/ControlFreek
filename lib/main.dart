@@ -118,6 +118,27 @@ class _MainShellState extends State<_MainShell> with WindowListener {
       _lastSongLoadCount = p.songLoadCount;
       _setTab(2);
     }
+    if (p.pendingAlert != null) {
+      final msg = p.pendingAlert!;
+      p.pendingAlert = null;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (_) => AlertDialog(
+            title: const Text('Bluetooth'),
+            content: Text(msg),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      });
+    }
   }
 
   void _setTab(int index) {
