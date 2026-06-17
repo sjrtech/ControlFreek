@@ -120,7 +120,7 @@ List<Widget> bleAppBarActions(DeviceProvider p, BuildContext context) {
     // BLE action button
     if (connected)
       IconButton(
-        icon: const Icon(Icons.bluetooth_disabled),
+        icon: const Icon(Icons.bluetooth_connected),
         tooltip: 'Disconnect',
         onPressed: p.disconnect,
       )
@@ -132,7 +132,7 @@ List<Widget> bleAppBarActions(DeviceProvider p, BuildContext context) {
       )
     else
       IconButton(
-        icon: const Icon(Icons.bluetooth_searching),
+        icon: const Icon(Icons.bluetooth_disabled),
         tooltip: 'Scan',
         onPressed: p.startScan,
       ),

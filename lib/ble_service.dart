@@ -44,6 +44,21 @@ class BleService {
 
   final Map<String, BleDeviceInfo> _seen = {};
 
+  // ─── Linux BlueZ cache cleanup ───────────────────────────────────────────────
+
+  static Future<void> clearLinuxBleCache() async {
+    if (!Platform.isLinux) return;
+    try {
+      final result = await Process.run('bluetoothctl', ['devices']);
+      final re = RegExp(r'^Device\s+([0-9A-Fa-f:]{17})\s+(BRKv\d{1,3}|BRK_v\d{1,3})', multiLine: true);
+      for (final m in re.allMatches(result.stdout as String)) {
+        try {
+          await Process.run('bluetoothctl', ['remove', m.group(1)!]);
+        } catch (_) {}
+      }
+    } catch (_) {}
+  }
+
   // ─── Scanning ────────────────────────────────────────────────────────────────
 
   Future<void> startScan() async {

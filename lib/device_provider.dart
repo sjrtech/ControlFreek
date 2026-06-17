@@ -82,8 +82,9 @@ class DeviceProvider extends ChangeNotifier {
     });
 
     // Kick off initial scan on app start, and load cached data for demo use
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       _loadCache();
+      await BleService.clearLinuxBleCache();
       startScan();
     });
   }

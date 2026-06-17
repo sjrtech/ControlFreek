@@ -7,6 +7,7 @@ import 'scan_screen.dart';
 
 const double _imgW = 314;
 const double _imgH = 219;
+const double _iosAuxFswYLift = 2.0; // image-coord units; bump this each tweak
 
 enum _PortType { main, aux, fsw, loopSend, loopReturn }
 
@@ -459,12 +460,14 @@ class _BreakoutImage extends StatelessWidget {
   }
 
   List<Widget> _buildLabels(double scale) {
-    const entries = [
+    const auxFswEntries = [
       (109.0, 73.0,  '1'), (109.0, 105.0, '2'), // AUX 1-2
       (141.0, 72.0,  '3'), (140.0, 105.0, '4'), // AUX 3-4
       (189.0, 73.0,  '1'), (189.0, 105.0, '2'), // FSW 1-2
       (221.0, 73.0,  '3'), (221.0, 105.0, '4'), // FSW 3-4
       (253.0, 73.0,  '5'), (253.0, 105.0, '6'), // FSW 5-6
+    ];
+    const loopEntries = [
       // Loop numbers midway between row 3 (y≈139) and row 4 (y≈172)
       ( 60.5, 155.5, '1'), ( 91.5, 155.5, '2'), (124.0, 155.5, '3'),
       (156.5, 155.5, '4'), (188.0, 155.5, '5'), (221.0, 155.5, '6'),
@@ -473,28 +476,31 @@ class _BreakoutImage extends StatelessWidget {
 
     final r = 9.0 * scale;
     final fontSize = (13.0 * scale).clamp(10.0, 18.0);
+    final iosLift = Platform.isIOS ? _iosAuxFswYLift * scale : 0.0;
 
-    return [
-      for (final (ox, oy, text) in entries)
-        Positioned(
-          left: ox * scale - r,
-          top: oy * scale - r,
-          child: SizedBox(
-            width: r * 2,
-            height: r * 2,
-            child: Center(
-              child: Text(
-                text,
-                style: TextStyle(
-                  fontSize: fontSize,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  shadows: const [Shadow(color: Colors.black, blurRadius: 3)],
-                ),
-              ),
+    Widget dot(double ox, double oy, String text, {double yLift = 0}) => Positioned(
+      left: ox * scale - r,
+      top: oy * scale - r - yLift,
+      child: SizedBox(
+        width: r * 2,
+        height: r * 2,
+        child: Center(
+          child: Text(
+            text,
+            style: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+              shadows: const [Shadow(color: Colors.black, blurRadius: 3)],
             ),
           ),
         ),
+      ),
+    );
+
+    return [
+      for (final (ox, oy, text) in auxFswEntries) dot(ox, oy, text, yLift: iosLift),
+      for (final (ox, oy, text) in loopEntries)   dot(ox, oy, text),
     ];
   }
 
@@ -509,9 +515,10 @@ class _BreakoutImage extends StatelessWidget {
 
     // AUX ports at x=109,141 → center x=125; FSW ports at x=189,221,253 → center x=221
     // Positioned above row 1 (y=73), label top at y≈53 in original coords
+    final iosLift = Platform.isIOS ? _iosAuxFswYLift * scale : 0.0;
     Widget label(double cx, String text) => Positioned(
       left: (cx - 30) * scale,
-      top: 40.0 * scale,
+      top: 40.0 * scale - iosLift,
       child: SizedBox(
         width: 60.0 * scale,
         child: Text(text, textAlign: TextAlign.center, style: style),
